@@ -1,0 +1,141 @@
+// TERRAIN
+
+Thick variation grass to use on the light grass type
+x2 Tree trunk for resource
+
+// INTERIOR
+
+Need a school entrance area with a reception desk.
+haunted classroom tilesets (Create a classroom map theme first)
+librarians desk
+writing on the chalkboard
+
+
+#MATH CLASS - SET
+	- calculus (reference img (http://tinyurl.com/yy3yxgn5)
+	- compass (reference img (http://tinyurl.com/yymv2svu)
+	- chalkboard with calculations on it
+
+#SCIENCE CLASS - SET
+	- science beakers (small & large)
+	- chemical sets
+	- human skeleton
+	- poster with vitruvian man
+	- generic “science device” (fit for table or desk)
+	- microscope (fit for table or desk)
+	- model planes/ships/vehicles
+	- cabinet with insects/minerals
+	
+#MARTIAL ARTS CLASS - SET
+	- punching bag (large)
+	- yoga matt (single frame 32x32)
+	- maybe a boxing ring
+	- jumping ropes 
+	- dumbbells 
+	- boxing gloves
+	
+#HISTORY CLASS - SET
+	- more history related items
+	- floor standing globe
+	- more books (open & closed)
+	- human bust (fit for table or desk)
+	- set of japanese armor/weapons
+	- compass
+
+#CULTIST CLASS - SET
+	- floor pentagram
+	- dark altar
+	- black candles (fit for table or desk)
+	- cobwebs & dust
+	- floor standing coat hanger
+	- crystal ball (fit on a table or desk)
+	
+#SHINTO TEMPLE INSIDE - SET
+	- wood plank floor (single frame 32x32) (maybe an autotile)
+	- medium shinto wall lamps - (http://visit-miyajima-japan.com/en/assets/images/shintoisme-big.jpg)
+	
+#SHINTO TEMPLE OUTSIDE - SET
+	(finished)	- outside reference img (https://i.stack.imgur.com/dv5IM.jpg)
+	(finished)	- outside yard statues reference img (https://blog.sakugabooru.com/wp-content/uploads/2016/11/vlcsnap-2016-11-26-16h35m03s14.png)
+	(finished)	- outside entrance gate reference img (https://www.animenation.net/blog/wp-content/uploads/Kami-sama_Hajimemashita_2_-_01.png)
+	(finished)	- outside gravestones (x2 different variations x1 large angel gravestone for my grandmother)
+	
+
+//SPRITE
+
+
+//PAPERDOLLS
+
+female cloth & hair overlay without having to redesign the base
+student backpack
+
+
+
+//NPC
+
+#ANIMALS
+	- small mouse
+	(finished)	- birds 
+	(finished)	- cat and/or dog 
+
+#GENERAL
+	- male npc riding a bike (4 directional frame)
+	- large ancient owl (keeper of the library)
+	- female leaning against the wall (smoking) facing camera (single frame)
+	- shinto priest (single frame - on knees facing camera) (4 directional frame - walking with hands together)
+	- student mid-training
+	- student studying 
+	- sleeping student (on desk)
+
+
+
+		#TEACHER NPCS
+			- school principal (male)
+			- math teacher (male)
+			- science teacher (female)
+			- martial arts teacher (male)
+			- history teacher (female)
+			- cultist class (female)
+			- secretary/vice principal (female) 
+			- janitor (male)
+			- “peacekeepers” (NPC’s that protect school grounds)
+
+#GLOBAL ENEMIES
+	
+
+
+//SCHOOLYARD
+
+schoolyard track area
+anime style train station
+arena with seats for spectators
+various courts for different sports (baseball, tennis, basketball, etc.)
+
+
+//SKILL ICONS
+
+
+
+//UI ICONS
+
+Inventory
+Spell Book
+Character Info
+Quest Log
+Friends
+Party
+Options
+Exit Game
+
+
+//OTHER
+
+Some classrooms can act like mini dungeons, if completed in a certain manner than the player can get awesome loots.
+If possible, a extremely rare item that can change the color/looks of standard skills when equipped. 
+
+
+
+
+
+
+
