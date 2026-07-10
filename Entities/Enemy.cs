@@ -176,7 +176,14 @@ namespace TravelTour.Entities
                 int qty = rng.Next(d.Min, d.Max + 1);
                 if (qty > 0) OnMaterialDrop?.Invoke(d.Material, qty);
             }
-            if (FruitDrop != null && rng.NextDouble() < FruitDropChance) OnFruitDrop?.Invoke(FruitDrop);
+            if (FruitDrop != null)
+            {
+                TravelTour.Core.PlayerSave.IncrementBossKill(FruitDrop);
+                int kills = TravelTour.Core.PlayerSave.GetBossKills(FruitDrop);
+                if (kills >= TravelTour.Core.PlayerSave.BossKillsRequired
+                    && rng.NextDouble() < FruitDropChance)
+                    OnFruitDrop?.Invoke(FruitDrop);
+            }
         }
 
         // ─────────────────────────────────────────────────────────────────────

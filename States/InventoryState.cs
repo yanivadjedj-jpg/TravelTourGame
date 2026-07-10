@@ -16,11 +16,11 @@ namespace TravelTour.States
         SpriteFontBase _font = null!, _bigFont = null!;
         UIButton _backBtn = null!;
 
-        // Tabs: 0=Persos 1=Armes 2=Véhicules 3=Fruits 4=Capacités 5=Matériaux
+        // Tabs: 0=Persos 1=Armes 2=Véhicules 3=Fruits 4=Capacités 5=Matériaux 6=Artefacts
         int _tab = 0;
         List<UIButton> _tabBtns = new();
 
-        static readonly string[] TabNames  = { "👤 Persos", "⚔️ Armes", "🚗 Véhicules", "🍎 Fruits", "✨ Capacités", "🔮 Matériaux" };
+        static readonly string[] TabNames  = { "👤 Persos", "⚔️ Armes", "🚗 Véhicules", "🍎 Fruits", "✨ Capacités", "🔮 Matériaux", "🏺 Artefacts" };
         static readonly Color[]  TabColors = {
             new Color(240,192,64),  // gold
             new Color(200,80,80),   // red
@@ -28,6 +28,7 @@ namespace TravelTour.States
             new Color(200,80,255),  // purple
             new Color(80,230,180),  // cyan
             new Color(160,120,80),  // brown
+            new Color(255,165,0),   // orange
         };
 
         // Scroll
@@ -115,6 +116,7 @@ namespace TravelTour.States
                 case 3: DrawFruits(sb, W, H, contentY); break;
                 case 4: DrawAbilities(sb, W, H, contentY); break;
                 case 5: DrawMaterials(sb, W, H, contentY); break;
+                case 6: DrawArtifacts(sb, W, H, contentY); break;
             }
 
             // Toast
@@ -361,8 +363,28 @@ namespace TravelTour.States
                 2 => $"{Catalog.Vehicles.Count(v => v.IsOwned)}/{Catalog.Vehicles.Count} véhicules",
                 3 => $"{Catalog.Fruits.Count(f => f.IsOwned)}/{Catalog.Fruits.Count} fruits",
                 4 => $"{Catalog.Abilities.Count(a => a.IsOwned)}/{Catalog.Abilities.Count} capacités",
+                6 => $"{Catalog.Artifacts.Count(a => a.IsOwned)}/{Catalog.Artifacts.Count} artefacts",
                 _ => $"{PlayerSave.Materials.Count(kv => kv.Value > 0)} types"
             };
+        }
+
+        void DrawArtifacts(SpriteBatch sb, int W, int H, int y0)
+        {
+            // Redirige vers la page Artefacts dédiée
+            UIHelper.DrawCenteredText(sb, _font,
+                "Page dédiée aux artefacts →",
+                new Rectangle(0, y0 + 30, W, 30), UIHelper.TextDim, 0.85f);
+            int bx = W / 2 - 120, by = y0 + 70;
+            var bounds = new Rectangle(bx, by, 240, 42);
+            bool hov = bounds.Contains(_curMs.Position);
+            bool clk = hov && _curMs.LeftButton == ButtonState.Released && _prevMs.LeftButton == ButtonState.Pressed;
+            UIHelper.DrawBox(sb, _pixel, bounds, hov ? new Color(40,25,5) : UIHelper.CardBg, new Color(255,165,0)*0.7f, 2);
+            UIHelper.DrawCenteredText(sb, _font, "🏺  Ouvrir Artefacts", bounds, new Color(255,165,0), 0.85f);
+            if (clk)
+            {
+                // On ne peut pas appeler ChangeState depuis ici directement, mais via une action différée
+                Toast("Retourne au menu → ARTEFACTS", new Color(255,165,0));
+            }
         }
 
         public void Dispose() { }

@@ -110,7 +110,8 @@ namespace TravelTour.States
                 new("🏰", "ENTRAÎNEMENT", "Améliore tes compétences",      GameState.Training,   new Color(240, 80,  96)),
                 new("📖", "HISTOIRE",     "Suis la trame narrative",       GameState.Story,      new Color(64, 224, 160)),
                 new("🍎", "FRUITS",       "Mange un fruit du démon",       GameState.Fruits,     new Color(255, 80, 180)),
-                new("🃏", "JEU DE CARTES","L'histoire en cartes TCG",      GameState.CardGame,   new Color(255, 215, 0)),
+                new("📋", "QUÊTES",       "Missions & récompenses",         GameState.Quest,      new Color(255, 200, 60)),
+                new("🏺", "ARTEFACTS",    "Chapeaux & équipements passifs", GameState.Artifact,   new Color(255, 165, 0)),
                 new("🌌", "ARRIÈRE PLAN", "Personnalise ton univers",      GameState.Background, new Color(0, 224, 204)),
             };
             _hovered = new bool[_cardDefs.Length];
@@ -126,27 +127,39 @@ namespace TravelTour.States
         }
 
         // ─────────────────────────────────────────────────────────────────────────
+        // Disposition en losange : lignes avec décalage central
+        static readonly int[] DiamondRowCounts = { 2, 3, 3, 2, 2 };
+
         void BuildButtons(int W, int H)
         {
-            int startY = H / 2 + 10;
-            int cardW = 340, cardH = 110, gap = 16;
-            int cols = 2;
+            int cardW = 240, cardH = 78, gap = 10;
+            int rowH = cardH + gap;
+            int totalRows = DiamondRowCounts.Length;
+            int totalH = totalRows * rowH - gap;
+            int startY = H / 2 - totalH / 2 + 50;
 
-            for (int i = 0; i < _cardDefs.Length; i++)
+            int idx = 0;
+            for (int r = 0; r < DiamondRowCounts.Length && idx < _cardDefs.Length; r++)
             {
-                int col = i % cols;
-                int row = i / cols;
-                int x   = W / 2 - cols * (cardW + gap) / 2 + col * (cardW + gap);
-                int y   = startY + row * (cardH + gap);
-                var d   = _cardDefs[i];
+                int cnt = System.Math.Min(DiamondRowCounts[r], _cardDefs.Length - idx);
+                int rowW = cnt * (cardW + gap) - gap;
+                int rowX = W / 2 - rowW / 2;
+                int y    = startY + r * rowH;
 
-                _buttons.Add(new UIButton(
-                    new Rectangle(x, y, cardW, cardH),
-                    "",          // we draw custom content, label handled in Draw
-                    () => _game.ChangeState(d.State),
-                    UIHelper.CardBg,
-                    new Color(d.Col.R / 6, d.Col.G / 6, d.Col.B / 6)
-                ) { TextColor = d.Col });
+                for (int c = 0; c < cnt && idx < _cardDefs.Length; c++)
+                {
+                    int x   = rowX + c * (cardW + gap);
+                    var d   = _cardDefs[idx];
+
+                    _buttons.Add(new UIButton(
+                        new Rectangle(x, y, cardW, cardH),
+                        "",
+                        () => _game.ChangeState(d.State),
+                        UIHelper.CardBg,
+                        new Color(d.Col.R / 6, d.Col.G / 6, d.Col.B / 6)
+                    ) { TextColor = d.Col });
+                    idx++;
+                }
             }
 
             // Bouton Plein écran (coin bas gauche)
@@ -570,84 +583,43 @@ namespace TravelTour.States
                 }
             }
 
-            // ── Number badge (circle top-left) ──
-            int badgeR = 18;
-            int bx = r.X + 10;
-            int by = r.Y + 10;
-            DrawCircle(sb, bx, by, badgeR, def.Col * 0.25f, def.Col);
-            string numStr = (idx + 1).ToString();
-            Vector2 numSz = _font.MeasureString(numStr);
-            sb.DrawString(_font, numStr,
-                new Vector2(bx - numSz.X / 2f + 1, by - numSz.Y / 2f),
-                def.Col);
+            // ── Barre couleur gauche (remplace le badge) ──
+            sb.Draw(_pixel, new Rectangle(r.X, r.Y, 3, r.Height), def.Col * 0.8f);
 
-            // ── Image de carte (droite) ──
+            // ── Image de carte (droite, réduite) ──
             string stateKey = def.State.ToString();
             var cardImg = TravelTour.Core.SpriteLoader.MenuCard(stateKey);
-            int imgW = 140, imgH = r.Height - 8;
-            int imgX = r.Right - imgW - 4;
-            int imgY = r.Y + 4;
+            int imgW = 80, imgH = r.Height - 6;
+            int imgX = r.Right - imgW - 3;
+            int imgY = r.Y + 3;
             if (cardImg != null)
             {
-                // Clip visuellement dans la carte (masque sombre sur les bords)
                 sb.Draw(cardImg, new Rectangle(imgX, imgY, imgW, imgH),
-                    Color.White * (hov ? 0.95f : 0.75f));
-                // Fondu à gauche pour transition douce
-                for (int fx = 0; fx < 24; fx++)
+                    Color.White * (hov ? 0.9f : 0.65f));
+                for (int fx = 0; fx < 16; fx++)
                     sb.Draw(_pixel, new Rectangle(imgX + fx, imgY, 1, imgH),
-                        new Color(14, 16, 30) * (1f - fx / 24f));
-                // Bordure droite de la carte déjà dessinée
-            }
-            else
-            {
-                // Fallback : grand emoji centré à droite
-                int iconX2 = imgX + imgW / 2;
-                int iconY2 = r.Y + r.Height / 2 - 10;
-                Vector2 iconSz2 = _bigFont.MeasureString(def.Icon);
-                sb.DrawString(_bigFont, def.Icon,
-                    new Vector2(iconX2 - iconSz2.X / 2f, iconY2 - iconSz2.Y / 2f),
-                    def.Col * (hov ? 0.9f : 0.6f));
+                        new Color(14, 16, 30) * (1f - fx / 16f));
             }
 
-            // ── Grand emoji (superposé sur l'image, semi-transparent) ──
+            // ── Emoji (à droite, sur l'image) ──
             int iconX = imgX + imgW / 2;
-            int iconY = r.Y + r.Height / 2 - 10;
+            int iconY = r.Y + r.Height / 2 - 8;
             Vector2 iconSz = _bigFont.MeasureString(def.Icon);
             sb.DrawString(_bigFont, def.Icon,
                 new Vector2(iconX - iconSz.X / 2f, iconY - iconSz.Y / 2f),
-                Color.White * (hov ? 1f : 0.7f));
+                Color.White * (hov ? 1f : 0.75f));
 
-            // ── Title text (gauche) ──
-            Vector2 lblSz = _font.MeasureString(def.Label);
-            float lblY    = r.Y + 14;
+            // ── Titre (gauche) ──
             sb.DrawString(_font, def.Label,
-                new Vector2(r.X + 36, lblY),
+                new Vector2(r.X + 26, r.Y + 10),
                 def.Col);
 
-            // ── Description text (gauche, sous le titre) ──
-            float descY = lblY + lblSz.Y + 6;
-            // Wrap si trop long
+            // ── Description courte (gauche, une ligne) ──
             string desc = def.Desc;
-            if (_font.MeasureString(desc).X > imgX - r.X - 40)
-            {
-                int mid = desc.Length / 2;
-                int sp = desc.LastIndexOf(' ', mid);
-                if (sp > 0)
-                {
-                    sb.DrawString(_font, desc.Substring(0, sp),
-                        new Vector2(r.X + 36, descY),
-                        UIHelper.TextDim * (hov ? 1f : 0.7f));
-                    sb.DrawString(_font, desc.Substring(sp + 1),
-                        new Vector2(r.X + 36, descY + 18),
-                        UIHelper.TextDim * (hov ? 1f : 0.7f));
-                }
-                else
-                    sb.DrawString(_font, desc, new Vector2(r.X + 36, descY),
-                        UIHelper.TextDim * (hov ? 1f : 0.7f));
-            }
-            else
-                sb.DrawString(_font, desc, new Vector2(r.X + 36, descY),
-                    UIHelper.TextDim * (hov ? 1f : 0.7f));
+            float descScale = 0.72f;
+            sb.DrawString(_font, desc,
+                new Vector2(r.X + 26, r.Y + 28),
+                UIHelper.TextDim * (hov ? 0.9f : 0.65f));
         }
 
         // ─────────────────────────────────────────────────────────────────────────

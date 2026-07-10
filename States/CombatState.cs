@@ -158,11 +158,15 @@ namespace TravelTour.States
                 int xpGain = 5 + (_dungeon != null ? (int)_dungeon.Difficulty * 3 : 0) + _wave * 2;
                 e.OnGoldDrop = (g, pos) =>
                 {
-                    PlayerSave.AddGold(g);
+                    int reduced = System.Math.Max(1, g / 2); // or réduit de moitié
+                    PlayerSave.AddGold(reduced);
+                    PlayerSave.TotalGoldEarned += reduced;
                     bool rankedUp = PlayerSave.AddXp(xpGain);
                     SpawnHitBurst(pos, UIHelper.Gold);
-                    ShowToast($"+{g}💰  +{xpGain}XP", UIHelper.Gold);
+                    ShowToast($"+{reduced}💰  +{xpGain}XP", UIHelper.Gold);
                     if (rankedUp) ShowToast($"⬆ RANG {PlayerSave.GetRank()} !", new Color(255,200,0));
+                    PlayerSave.EnemiesKilled++;
+                    foreach (var q in Catalog.Quests) q.CheckCompleted();
                 };
                 e.OnMaterialDrop = (m, q) => PlayerSave.AddMaterial(m, q);
                 if (_dungeon != null)
@@ -234,7 +238,14 @@ namespace TravelTour.States
             boss.WeaponIcon = weapon.Icon;
             boss.WeaponKind = weapon.Kind;
             boss.WeaponDmg  = weapon.DmgBonus;
-            boss.OnGoldDrop = (g, pos) => { PlayerSave.AddGold(g); ShowToast($"+{g} 💰 BOSS!", UIHelper.Gold); };
+            boss.OnGoldDrop = (g, pos) => {
+                int reduced = System.Math.Max(1, g / 2);
+                PlayerSave.AddGold(reduced);
+                PlayerSave.TotalGoldEarned += reduced;
+                PlayerSave.BossesDefeated++;
+                foreach (var q in Catalog.Quests) q.CheckCompleted();
+                ShowToast($"+{reduced} 💰 BOSS!", UIHelper.Gold);
+            };
             boss.OnFruitDrop = (fn) =>
             {
                 var f = Catalog.Fruits.Find(fr => fr.Name == fn);
@@ -408,10 +419,13 @@ namespace TravelTour.States
             _victory = true;
             if (_dungeon != null)
             {
-                PlayerSave.AddGold(_dungeon.GoldReward);
-                // Bonus XP for completing the dungeon
-                int bonusXp = _dungeon.GoldReward / 5;
+                int reward = _dungeon.GoldReward / 2; // or réduit de moitié
+                PlayerSave.AddGold(reward);
+                PlayerSave.TotalGoldEarned += reward;
+                int bonusXp = reward / 5;
                 PlayerSave.AddXp(bonusXp);
+                PlayerSave.DungeonsCompleted++;
+                foreach (var q in Catalog.Quests) q.CheckCompleted();
             }
             ShowToast("VICTOIRE! 🏆", UIHelper.Gold);
             // Donjon de classe → sélection de classe

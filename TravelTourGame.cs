@@ -28,6 +28,8 @@ namespace TravelTour
 
         bool _isPaused = false;
         bool _prevF11  = false;
+        bool _prevF12  = false;
+        bool _screenshotPending = false;
 
         public void ToggleFullscreen()
         {
@@ -181,7 +183,8 @@ namespace TravelTour
                 GameState.Fruits     => new FruitState(this),
                 GameState.Wallet     => new WalletState(this),
                 GameState.Inventory  => new InventoryState(this),
-                GameState.CardGame   => new CardGameState(this),
+                GameState.Quest      => new QuestState(this),
+                GameState.Artifact   => new ArtifactState(this),
                 _                    => new MainMenuState(this)
             };
 
@@ -207,7 +210,8 @@ namespace TravelTour
                 case FruitState      fr: fr.Load(_pixel, _font, _bigFont); break;
                 case WalletState     wa: wa.Load(_pixel, _font, _bigFont); break;
                 case InventoryState  iv: iv.Load(_pixel, _font, _bigFont); break;
-                case CardGameState   cg: cg.Load(_pixel, _font, _bigFont); break;
+                case QuestState      qs: qs.Load(_pixel, _font, _bigFont); break;
+                case ArtifactState   ar: ar.Load(_pixel, _font, _bigFont); break;
             }
             _currentState = next;
         }
@@ -228,6 +232,11 @@ namespace TravelTour
             bool f11 = Keyboard.GetState().IsKeyDown(Keys.F11);
             if (f11 && !_prevF11) ToggleFullscreen();
             _prevF11 = f11;
+
+            // F12 → screenshot
+            bool f12 = Keyboard.GetState().IsKeyDown(Keys.F12);
+            if (f12 && !_prevF12) _screenshotPending = true;
+            _prevF12 = f12;
 
             if (_changeRequested) { DoChangeState(); _changeRequested = false; }
             if (_nextState == GameState.MainMenu && Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -262,6 +271,24 @@ namespace TravelTour
             base.Update(gt);
         }
 
+        void SaveScreenshot()
+        {
+            int W = GraphicsDevice.Viewport.Width;
+            int H = GraphicsDevice.Viewport.Height;
+            var colors = new Color[W * H];
+            GraphicsDevice.GetBackBufferData(colors);
+            using var tex = new Texture2D(GraphicsDevice, W, H);
+            tex.SetData(colors);
+            string dir = System.IO.Path.Combine(
+                System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
+                "TravelTour_Screenshots");
+            System.IO.Directory.CreateDirectory(dir);
+            string path = System.IO.Path.Combine(dir, $"screenshot_{System.DateTime.Now:yyyyMMdd_HHmmss}.png");
+            using var stream = System.IO.File.OpenWrite(path);
+            tex.SaveAsPng(stream, W, H);
+            PlayerSave.Popups.Enqueue($"📸 Screenshot : {System.IO.Path.GetFileName(path)}");
+        }
+
         protected override void Draw(GameTime gt)
         {
             DrawGradientBg();
@@ -280,6 +307,9 @@ namespace TravelTour
                     new Rectangle(0, H/2 + 30, W, 30), new Color(150, 150, 200), 0.8f);
             }
             _sb.End();
+
+            if (_screenshotPending) { SaveScreenshot(); _screenshotPending = false; }
+
             base.Draw(gt);
         }
 

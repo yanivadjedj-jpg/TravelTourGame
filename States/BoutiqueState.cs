@@ -24,17 +24,19 @@ namespace TravelTour.States
                          // Shop: 0=Armes 1=Skins 2=Véhicules
 
         string _toast = ""; float _toastTimer; Color _toastColor;
+        MouseState _prevMs;
 
         // Tuto Fruits
         bool _fruitTutoSeen  = false;
         bool _fruitTutoShown = false;  // true quand l'overlay est visible
         UIButton _fruitTutoBtn = null!;
 
-        readonly string[] _tabNames    = { "⚡ Capacités & Améliorations", "🛒 Armes, Skins & Véhicules", "🍎 Fruits du Démon" };
+        readonly string[] _tabNames    = { "⚡ Capacités & Améliorations", "🛒 Armes, Skins & Véhicules", "🍎 Fruits du Démon", "💰 Vente de Matériaux" };
         readonly string[][] _subNames  = {
             new[]{ "🗡️ Armes", "👘 Skins", "🚗 Véhicules", "✨ Capacités" },
             new[]{ "🗡️ Armes", "👘 Skins", "🚗 Véhicules" },
-            new[]{ "🌿 Naturel", "⚡ Élémentaire", "🐉 Bête" }
+            new[]{ "🌿 Naturel", "⚡ Élémentaire", "🐉 Bête" },
+            System.Array.Empty<string>()
         };
 
         public BoutiqueState(TravelTourGame game) => _game = game;
@@ -62,11 +64,13 @@ namespace TravelTour.States
 
             // Main tabs
             _tabBtns.Clear();
+            int tabW = 228, tabGap = 8;
+            int tabsTotalW = _tabNames.Length * tabW + (_tabNames.Length - 1) * tabGap;
             for (int i = 0; i < _tabNames.Length; i++)
             {
                 int idx = i;
                 _tabBtns.Add(new UIButton(
-                    new Rectangle(W / 2 - 450 + i * 305, 70, 295, 34),
+                    new Rectangle(W / 2 - tabsTotalW / 2 + i * (tabW + tabGap), 70, tabW, 34),
                     _tabNames[i],
                     () => { _tab = idx; _subTab = 0; RebuildSubTabs(); RebuildItems(); }));
             }
@@ -256,10 +260,14 @@ namespace TravelTour.States
             ShowToast($"⚡ {v.Name} → Niv. {v.Level}!", UIHelper.Blue);
         }
 
+        MouseState _curMs;
+
         public void Update(GameTime gt)
         {
             _toastTimer -= (float)gt.ElapsedGameTime.TotalSeconds;
-            var ms = Mouse.GetState();
+            _prevMs = _curMs;
+            _curMs  = Mouse.GetState();
+            var ms  = _curMs;
 
             // Déclenche le tuto Fruits la première fois
             if (_tab == 2 && !_fruitTutoSeen && !_fruitTutoShown)
@@ -447,17 +455,23 @@ namespace TravelTour.States
                 }
             }
 
-            // Materials summary
-            int mx = W - 200, my = 160;
-            UIHelper.DrawBox(sb, _pixel, new Rectangle(mx, my, 180, 200), UIHelper.Dark2, UIHelper.TextDim * 0.3f, 1);
-            sb.DrawString(_font, "MATÉRIAUX", new Vector2(mx + 10, my + 8), UIHelper.TextDim);
-            int mi = 0;
-            foreach (var kv in PlayerSave.Materials)
+            // Onglet vente de matériaux
+            if (_tab == 3)
+                DrawSellTab(sb, W, H);
+
+            // Materials summary (seulement sur les autres onglets)
+            if (_tab != 3)
             {
-                sb.DrawString(_font, $"{kv.Key}: {kv.Value}",
-                    new Vector2(mx + 10, my + 28 + mi * 18),
-                    UIHelper.TextMain);
-                mi++;
+                int mx = W - 200, my = 160;
+                UIHelper.DrawBox(sb, _pixel, new Rectangle(mx, my, 180, 200), UIHelper.Dark2, UIHelper.TextDim * 0.3f, 1);
+                sb.DrawString(_font, "MATÉRIAUX", new Vector2(mx + 10, my + 8), UIHelper.TextDim);
+                int mi = 0;
+                foreach (var kv in PlayerSave.Materials)
+                {
+                    sb.DrawString(_font, $"{MaterialInfo.GetIcon(kv.Key)} {kv.Value}",
+                        new Vector2(mx + 10, my + 28 + mi * 18), UIHelper.TextMain);
+                    mi++;
+                }
             }
 
             DrawToast(sb, W, H);
@@ -540,6 +554,88 @@ namespace TravelTour.States
                 new Rectangle((int)(W / 2f - ts.X / 2f - 16), H - 60, (int)ts.X + 32, 36),
                 UIHelper.Dark2, _toastColor, 1);
             sb.DrawString(_font, _toast, new Vector2(W / 2f - ts.X / 2f, H - 52), _toastColor);
+        }
+
+        // ── Onglet Vente de Matériaux ──────────────────────────────
+        void DrawSellTab(SpriteBatch sb, int W, int H)
+        {
+            UIHelper.DrawCenteredText(sb, _font,
+                "Vends tes matériaux contre de l'or",
+                new Rectangle(0, 152, W, 22), UIHelper.TextDim, 0.82f);
+
+            var mats = MaterialInfo.Data;
+            int cols = 4, cw = 260, ch = 100, gap = 12;
+            int startX = W / 2 - (cols * (cw + gap)) / 2;
+            int startY = 180;
+            int idx = 0;
+
+            foreach (var kv in mats)
+            {
+                string key   = kv.Key;
+                var    info  = kv.Value;
+                int qty = PlayerSave.Materials.TryGetValue(key, out int q) ? q : 0;
+                int sellPrice = MaterialInfo.SellPrice(key);
+
+                int col = idx % cols, row = idx / cols;
+                int x = startX + col * (cw + gap);
+                int y = startY + row * (ch + gap);
+
+                Color rc = UIHelper.RarityColors[(int)info.Rarity];
+
+                // Fond carte
+                UIHelper.DrawBox(sb, _pixel, new Rectangle(x, y, cw, ch), UIHelper.CardBg, rc * 0.5f, 2);
+
+                // Icône + nom
+                UIHelper.DrawCenteredText(sb, _bigFont, info.Icon,
+                    new Rectangle(x + 4, y + 8, 52, 52), Color.White, 0.75f);
+                sb.DrawString(_font, info.Label,
+                    new Vector2(x + 62, y + 10), UIHelper.TextMain);
+                sb.DrawString(_font, $"Rareté : {UIHelper.RarityNames[(int)info.Rarity]}",
+                    new Vector2(x + 62, y + 28), rc * 0.8f);
+                sb.DrawString(_font, $"Stock : {qty}",
+                    new Vector2(x + 62, y + 44), qty > 0 ? UIHelper.Gold : UIHelper.TextDim);
+                sb.DrawString(_font, $"{sellPrice} 💰 / unité",
+                    new Vector2(x + 62, y + 60), UIHelper.Gold * 0.8f);
+
+                // Bouton Vendre 1
+                int bx1 = x + 4, by = y + ch - 26, bw1 = (cw - 16) / 2;
+                var r1 = new Rectangle(bx1, by, bw1, 22);
+                bool hov1 = r1.Contains(_curMs.Position) && qty > 0;
+                bool click1 = hov1 && _curMs.LeftButton == ButtonState.Released
+                              && _prevMs.LeftButton == ButtonState.Pressed;
+                sb.Draw(_pixel, r1, hov1 && qty > 0 ? new Color(40,80,20) : new Color(20,40,10));
+                UIHelper.DrawBox(sb, _pixel, r1, Color.Transparent,
+                    qty > 0 ? new Color(80,180,40) * 0.7f : UIHelper.TextDim * 0.3f, 1);
+                UIHelper.DrawCenteredText(sb, _font, "Vendre 1", r1,
+                    qty > 0 ? new Color(120,230,60) : UIHelper.TextDim * 0.4f, 0.72f);
+                if (click1 && qty > 0)
+                {
+                    PlayerSave.ConsumeMaterial(key, 1);
+                    PlayerSave.AddGold(sellPrice);
+                    ShowToast($"+{sellPrice} 💰  (vendu 1 {info.Icon} {info.Label})", UIHelper.Gold);
+                }
+
+                // Bouton Vendre Tout
+                int bx2 = bx1 + bw1 + 8;
+                var r2 = new Rectangle(bx2, by, bw1, 22);
+                bool hov2 = r2.Contains(_curMs.Position) && qty > 0;
+                bool click2 = hov2 && _curMs.LeftButton == ButtonState.Released
+                              && _prevMs.LeftButton == ButtonState.Pressed;
+                sb.Draw(_pixel, r2, hov2 && qty > 0 ? new Color(80,40,10) : new Color(40,20,5));
+                UIHelper.DrawBox(sb, _pixel, r2, Color.Transparent,
+                    qty > 0 ? UIHelper.Gold * 0.7f : UIHelper.TextDim * 0.3f, 1);
+                UIHelper.DrawCenteredText(sb, _font, $"Vendre {qty}", r2,
+                    qty > 0 ? UIHelper.Gold : UIHelper.TextDim * 0.4f, 0.72f);
+                if (click2 && qty > 0)
+                {
+                    int total = sellPrice * qty;
+                    PlayerSave.ConsumeMaterial(key, qty);
+                    PlayerSave.AddGold(total);
+                    ShowToast($"+{total} 💰  (vendu {qty}× {info.Icon} {info.Label})", UIHelper.Gold);
+                }
+
+                idx++;
+            }
         }
 
         void ShowToast(string m, Color c) { _toast = m; _toastColor = c; _toastTimer = 2.5f; }

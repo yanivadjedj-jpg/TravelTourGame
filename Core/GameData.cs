@@ -4,9 +4,12 @@ namespace TravelTour.Core
 {
     // ── Enums ──────────────────────────────────────────────
     public enum Rarity      { Common, Rare, Epic, Legendary, Mythical }
-    public enum GameState   { MainMenu, Crosspark, Team, Boutique, Training, Story, Background, Combat, Tutorial, Wallet, Fruits, Inventory, CardGame }
+    public enum GameState   { MainMenu, Crosspark, Team, Boutique, Training, Story, Background, Combat, Tutorial, Wallet, Fruits, Inventory, Quest, Artifact }
     public enum AbilityType { DomainMonarque, FruitGolem, RasenganDimensionnel, FrappeSérieuse, HakiRois }
     public enum WeaponType  { Sword, Shield, Bow, Staff, Gauntlet, Scythe }
+    public enum ArtifactEffect { HpBoost, AtkBoost, DefBoost, SpeedBoost, XpBoost, GoldBoost, CooldownReduce, FruitDmgBoost, SwordDmgBoost, MeleeDmgBoost }
+    public enum ArtifactSlot   { Chapeau, Amulette, Bague, Cape }
+    public enum QuestObjectiveType { KillEnemies, KillBosses, CompleteDungeons, EarnGold, ReachLevel, ReachRank, OwnWeapons, OwnFruits, DoCombo }
     public enum DifficultyLevel { Easy, Medium, Hard, Boss, Legendary }
     public enum FruitType   { Naturel, Élémentaire, Bête }   // Paramecia / Logia / Zoan
 
@@ -156,6 +159,81 @@ namespace TravelTour.Core
         public float  Difficulty;
     }
 
+    public class QuestReward
+    {
+        public string RewardType = "gold";  // "gold", "material", "xp"
+        public string Key        = "";
+        public int    Amount;
+    }
+
+    public class QuestData
+    {
+        public string              Name, Description, Icon, Category;
+        public QuestObjectiveType  Objective;
+        public int                 Target;
+        public bool                IsCompleted;
+        public bool                RewardClaimed;
+        public QuestReward[]       Rewards = System.Array.Empty<QuestReward>();
+
+        public int GetProgress() => Objective switch {
+            QuestObjectiveType.KillEnemies      => PlayerSave.EnemiesKilled,
+            QuestObjectiveType.KillBosses       => PlayerSave.BossesDefeated,
+            QuestObjectiveType.CompleteDungeons => PlayerSave.DungeonsCompleted,
+            QuestObjectiveType.EarnGold         => PlayerSave.Gold,
+            QuestObjectiveType.ReachLevel       => PlayerSave.PlayerLevel,
+            QuestObjectiveType.ReachRank        => PlayerSave.Rank,
+            QuestObjectiveType.OwnWeapons       => Catalog.Weapons.FindAll(w => w.IsOwned).Count,
+            QuestObjectiveType.OwnFruits        => Catalog.Fruits.FindAll(f => f.IsOwned).Count,
+            QuestObjectiveType.DoCombo          => PlayerSave.MaxComboReached,
+            _                                   => 0
+        };
+
+        public float ProgressPct() => System.Math.Clamp((float)GetProgress() / System.Math.Max(1, Target), 0f, 1f);
+
+        public bool CheckCompleted()
+        {
+            if (IsCompleted) return true;
+            if (GetProgress() >= Target) { IsCompleted = true; SaveSystem.Save(); return true; }
+            return false;
+        }
+    }
+
+    public class ArtifactData
+    {
+        public string         Name, Icon, Description;
+        public Rarity         Rarity;
+        public ArtifactSlot   Slot;
+        public ArtifactEffect Effect;
+        public float          Value;      // % bonus ex: 0.20 = +20%
+        public bool           IsOwned;
+        public bool           IsEquipped;
+        public int            BuyPrice;
+
+        public string SlotLabel() => Slot switch {
+            ArtifactSlot.Chapeau  => "🎩 Chapeau",
+            ArtifactSlot.Amulette => "📿 Amulette",
+            ArtifactSlot.Bague    => "💍 Bague",
+            ArtifactSlot.Cape     => "🧣 Cape",
+            _                     => "❓"
+        };
+
+        public string EffectLabel() => Effect switch {
+            ArtifactEffect.HpBoost         => $"+{Value*100:F0}% HP max",
+            ArtifactEffect.AtkBoost        => $"+{Value*100:F0}% ATK",
+            ArtifactEffect.DefBoost        => $"+{Value*100:F0}% DEF",
+            ArtifactEffect.SpeedBoost      => $"+{Value*100:F0}% Vitesse",
+            ArtifactEffect.XpBoost         => $"+{Value*100:F0}% XP",
+            ArtifactEffect.GoldBoost       => $"+{Value*100:F0}% Or",
+            ArtifactEffect.CooldownReduce  => $"-{Value*100:F0}% Recharge",
+            ArtifactEffect.FruitDmgBoost   => $"+{Value*100:F0}% Dégâts Fruit",
+            ArtifactEffect.SwordDmgBoost   => $"+{Value*100:F0}% Dégâts Épée",
+            ArtifactEffect.MeleeDmgBoost   => $"+{Value*100:F0}% Mêlée",
+            _                              => ""
+        };
+
+        public float Multiplier() => 1f + Value;
+    }
+
     // ── Material metadata ──────────────────────────────────
     public static class MaterialInfo
     {
@@ -173,6 +251,19 @@ namespace TravelTour.Core
 
         public static string GetIcon(string mat) => Data.TryGetValue(mat, out var d) ? d.Icon : "❓";
         public static string GetLabel(string mat) => Data.TryGetValue(mat, out var d) ? d.Label : mat;
+
+        // Prix de vente par matériau
+        public static int SellPrice(string mat)
+        {
+            if (!Data.TryGetValue(mat, out var d)) return 10;
+            return d.Rarity switch {
+                Rarity.Common    => 50,
+                Rarity.Rare      => 150,
+                Rarity.Epic      => 400,
+                Rarity.Legendary => 1000,
+                _                => 10,
+            };
+        }
     }
 
     // ── Singleton save/runtime store ───────────────────────
@@ -313,6 +404,66 @@ namespace TravelTour.Core
         public static List<string> OwnedVehicles  = new() { "Tommy Mayo" };
         public static List<string> OwnedFruits    = new() { "Fruit du Golem" };  // fruits possédés
         public static bool[]       StoryProgress  = new bool[50];  // 50 chapitres
+
+        // ── Statistiques globales pour les quêtes ─────────────────
+        public static int EnemiesKilled    = 0;
+        public static int BossesDefeated   = 0;
+        public static int DungeonsCompleted= 0;
+        public static int MaxComboReached  = 0;
+        public static int TotalGoldEarned  = 0;
+
+        // ── Kills boss pour débloquer les fruits ──────────────────
+        public const  int BossKillsRequired = 3;  // 3 kills pour obtenir le fruit
+        public static Dictionary<string, int> BossKillCounts = new();
+
+        public static int GetBossKills(string fruitName) =>
+            BossKillCounts.TryGetValue(fruitName, out int v) ? v : 0;
+
+        public static void IncrementBossKill(string fruitName)
+        {
+            if (!BossKillCounts.ContainsKey(fruitName)) BossKillCounts[fruitName] = 0;
+            BossKillCounts[fruitName]++;
+            SaveSystem.Save();
+        }
+
+        // ── Artefacts équipés — 1 par slot ───────────────────────
+        public static Dictionary<string, string> EquippedArtifactBySlot = new(); // "Chapeau" → nom artefact
+        [System.Obsolete] public static List<string> EquippedArtifacts = new(); // legacy, plus utilisé
+
+        public static void EquipArtifact(ArtifactData a)
+        {
+            string slot = a.Slot.ToString();
+            // Déséquipe l'ancien du même slot
+            if (EquippedArtifactBySlot.TryGetValue(slot, out var old))
+            {
+                var prev = Catalog.Artifacts.Find(x => x.Name == old);
+                if (prev != null) prev.IsEquipped = false;
+            }
+            EquippedArtifactBySlot[slot] = a.Name;
+            a.IsEquipped = true;
+            SaveSystem.Save();
+        }
+
+        public static void UnequipArtifact(ArtifactData a)
+        {
+            string slot = a.Slot.ToString();
+            if (EquippedArtifactBySlot.TryGetValue(slot, out var cur) && cur == a.Name)
+                EquippedArtifactBySlot.Remove(slot);
+            a.IsEquipped = false;
+            SaveSystem.Save();
+        }
+
+        public static float GetArtifactBonus(ArtifactEffect effect)
+        {
+            float total = 0f;
+            foreach (var name in EquippedArtifactBySlot.Values)
+            {
+                var a = Catalog.Artifacts.Find(x => x.Name == name);
+                if (a != null && a.Effect == effect) total += a.Value;
+            }
+            return total;
+        }
+        public static float ArtifactMult(ArtifactEffect effect) => 1f + GetArtifactBonus(effect);
 
         public static Dictionary<string, int> Materials = new()
         {
@@ -661,6 +812,62 @@ namespace TravelTour.Core
                     M("Singularité",   "Trou noir géant qui dévaste la zone.",190,90,14f,200,"C","🕳️"),
                     M("Néant Absolu",  "Efface tout dans un rayon massif — dégâts ultimes.",280,170,40f,400,"F","💀"),
                 }},
+        };
+
+        static QuestReward G(int amt) => new(){ RewardType="gold", Amount=amt };
+        static QuestReward M(string mat, int amt) => new(){ RewardType="material", Key=mat, Amount=amt };
+        static QuestReward X(int amt) => new(){ RewardType="xp", Amount=amt };
+
+        public static List<QuestData> Quests = new()
+        {
+            // ── DÉBUTANT ──────────────────────────────────────────
+            new(){ Name="Premiers Pas",         Icon="👣", Category="Débutant",   Objective=QuestObjectiveType.KillEnemies,      Target=10,   Description="Vaincre 10 ennemis",                 Rewards=new[]{ G(300),  X(80) } },
+            new(){ Name="Guerrier en Herbe",    Icon="⚔️", Category="Débutant",   Objective=QuestObjectiveType.KillEnemies,      Target=50,   Description="Vaincre 50 ennemis",                 Rewards=new[]{ G(800),  M("CristalFeu",3) } },
+            new(){ Name="Premier Donjon",       Icon="🏰", Category="Débutant",   Objective=QuestObjectiveType.CompleteDungeons, Target=1,    Description="Terminer un donjon",                 Rewards=new[]{ G(500),  X(100) } },
+            new(){ Name="Collectionneur",       Icon="🗡️", Category="Débutant",   Objective=QuestObjectiveType.OwnWeapons,       Target=3,    Description="Posséder 3 armes",                   Rewards=new[]{ G(600),  M("EclatFoudre",3) } },
+            new(){ Name="Combo Débutant",       Icon="💥", Category="Débutant",   Objective=QuestObjectiveType.DoCombo,          Target=3,    Description="Réaliser un combo x3",               Rewards=new[]{ G(400),  M("CristalFeu",2) } },
+            // ── COMBAT ────────────────────────────────────────────
+            new(){ Name="Chasseur de Donjons",  Icon="🗺️", Category="Combat",     Objective=QuestObjectiveType.CompleteDungeons, Target=5,    Description="Terminer 5 donjons",                 Rewards=new[]{ G(1200), M("LarmePhoenix",3) } },
+            new(){ Name="Briseur de Boss",      Icon="👹", Category="Combat",     Objective=QuestObjectiveType.KillBosses,       Target=1,    Description="Vaincre un boss",                    Rewards=new[]{ G(1000), M("EssenceOmbres",3) } },
+            new(){ Name="Exterminateur",        Icon="💀", Category="Combat",     Objective=QuestObjectiveType.KillEnemies,      Target=200,  Description="Vaincre 200 ennemis",                Rewards=new[]{ G(2500), M("CristalNoir",2) } },
+            new(){ Name="Chasseur de Boss",     Icon="🌑", Category="Combat",     Objective=QuestObjectiveType.KillBosses,       Target=5,    Description="Vaincre 5 boss",                     Rewards=new[]{ G(3000), M("AmeDechue",1) } },
+            new(){ Name="Maître des Combos",    Icon="🌀", Category="Combat",     Objective=QuestObjectiveType.DoCombo,          Target=5,    Description="Réaliser un combo x5",               Rewards=new[]{ G(1500), M("PierreCeleste",2) } },
+            // ── EXPLORATION ───────────────────────────────────────
+            new(){ Name="Grand Explorateur",    Icon="🌍", Category="Exploration", Objective=QuestObjectiveType.CompleteDungeons,Target=10,   Description="Terminer 10 donjons",                Rewards=new[]{ G(2000), M("PierreCeleste",3) } },
+            new(){ Name="Rang D",               Icon="🏅", Category="Exploration", Objective=QuestObjectiveType.ReachRank,        Target=1,    Description="Atteindre le rang D",                Rewards=new[]{ G(800),  X(200) } },
+            new(){ Name="Rang C",               Icon="🥈", Category="Exploration", Objective=QuestObjectiveType.ReachRank,        Target=2,    Description="Atteindre le rang C",                Rewards=new[]{ G(1500), M("GemmeLunaire",3) } },
+            new(){ Name="Rang B",               Icon="🥇", Category="Exploration", Objective=QuestObjectiveType.ReachRank,        Target=3,    Description="Atteindre le rang B",                Rewards=new[]{ G(3000), M("CristalNoir",3) } },
+            new(){ Name="Collectionneur Fruits",Icon="🍎", Category="Exploration", Objective=QuestObjectiveType.OwnFruits,        Target=3,    Description="Posséder 3 fruits du démon",         Rewards=new[]{ G(2000), M("AmeDechue",1) } },
+            // ── MAÎTRISE ──────────────────────────────────────────
+            new(){ Name="Guerrier Confirmé",    Icon="⭐", Category="Maîtrise",   Objective=QuestObjectiveType.ReachLevel,       Target=20,   Description="Atteindre le niveau 20",             Rewards=new[]{ G(3000), M("PierreCeleste",4), X(500) } },
+            new(){ Name="Champion",             Icon="👑", Category="Maîtrise",   Objective=QuestObjectiveType.ReachLevel,       Target=50,   Description="Atteindre le niveau 50",             Rewards=new[]{ G(8000), M("AmeDechue",3) } },
+            new(){ Name="Rang A",               Icon="💎", Category="Maîtrise",   Objective=QuestObjectiveType.ReachRank,        Target=4,    Description="Atteindre le rang A",                Rewards=new[]{ G(6000), M("AmeDechue",2) } },
+            new(){ Name="Gauntlet Maître",      Icon="🔥", Category="Maîtrise",   Objective=QuestObjectiveType.KillBosses,       Target=20,   Description="Vaincre 20 boss",                    Rewards=new[]{ G(10000), M("AmeDechue",5) } },
+            new(){ Name="Légende",              Icon="🌌", Category="Maîtrise",   Objective=QuestObjectiveType.KillEnemies,      Target=1000, Description="Vaincre 1000 ennemis",               Rewards=new[]{ G(20000), M("AmeDechue",5), X(2000) } },
+        };
+
+        public static List<ArtifactData> Artifacts = new()
+        {
+            // ── CHAPEAUX 🎩 ───────────────────────────────────────
+            new(){ Name="Casquette de Rue",       Icon="🧢", Slot=ArtifactSlot.Chapeau,  Rarity=Rarity.Common,    Effect=ArtifactEffect.SpeedBoost,    Value=0.08f, BuyPrice=1200,  IsOwned=false, Description="Une casquette streetwear légère — boost de mobilité." },
+            new(){ Name="Chapeau du Capitaine",   Icon="🎩", Slot=ArtifactSlot.Chapeau,  Rarity=Rarity.Rare,      Effect=ArtifactEffect.GoldBoost,     Value=0.20f, BuyPrice=5000,  IsOwned=false, Description="Chapeau de pirate dimensionnel — attire l'or des ennemis." },
+            new(){ Name="Turban de Foudre",       Icon="⚡", Slot=ArtifactSlot.Chapeau,  Rarity=Rarity.Epic,      Effect=ArtifactEffect.CooldownReduce,Value=0.25f, BuyPrice=13000, IsOwned=false, Description="Turban chargé d'éclairs — réduit les temps de recharge." },
+            new(){ Name="Couronne de l'Absolu",   Icon="👑", Slot=ArtifactSlot.Chapeau,  Rarity=Rarity.Legendary, Effect=ArtifactEffect.AtkBoost,      Value=0.35f, BuyPrice=40000, IsOwned=false, Description="Couronne forgée dans la dimension zéro. Puissance absolue." },
+            // ── AMULETTES 📿 ──────────────────────────────────────
+            new(){ Name="Amulette de Pierre",     Icon="🪨", Slot=ArtifactSlot.Amulette, Rarity=Rarity.Common,    Effect=ArtifactEffect.HpBoost,       Value=0.10f, BuyPrice=1500,  IsOwned=false, Description="Fragment de roc dimensionnel — renforce la vitalité." },
+            new(){ Name="Pendentif des Ombres",   Icon="🌑", Slot=ArtifactSlot.Amulette, Rarity=Rarity.Rare,      Effect=ArtifactEffect.MeleeDmgBoost, Value=0.18f, BuyPrice=5500,  IsOwned=false, Description="Extrait des ombres d'un boss — amplifie les frappes." },
+            new(){ Name="Cœur du Phénix",         Icon="🔥", Slot=ArtifactSlot.Amulette, Rarity=Rarity.Epic,      Effect=ArtifactEffect.FruitDmgBoost, Value=0.28f, BuyPrice=15000, IsOwned=false, Description="Larme cristallisée — décuple la puissance des fruits." },
+            new(){ Name="Cristal de l'Absolu",    Icon="💎", Slot=ArtifactSlot.Amulette, Rarity=Rarity.Legendary, Effect=ArtifactEffect.HpBoost,       Value=0.45f, BuyPrice=38000, IsOwned=false, Description="Fragment de l'armure de l'Absolu. Résistance transcendante." },
+            // ── BAGUES 💍 ─────────────────────────────────────────
+            new(){ Name="Bague de Feu",           Icon="🔴", Slot=ArtifactSlot.Bague,    Rarity=Rarity.Common,    Effect=ArtifactEffect.AtkBoost,      Value=0.08f, BuyPrice=1500,  IsOwned=false, Description="Cristal volcanique — enflamme les attaques." },
+            new(){ Name="Sceau de l'Éclair",      Icon="💍", Slot=ArtifactSlot.Bague,    Rarity=Rarity.Rare,      Effect=ArtifactEffect.SwordDmgBoost, Value=0.20f, BuyPrice=6000,  IsOwned=false, Description="Bague électrique — booste les attaques d'épée." },
+            new(){ Name="Pierre Céleste",         Icon="⭐", Slot=ArtifactSlot.Bague,    Rarity=Rarity.Epic,      Effect=ArtifactEffect.XpBoost,       Value=0.30f, BuyPrice=12000, IsOwned=false, Description="Minéral céleste — accélère la progression." },
+            new(){ Name="Anneau des Rois",        Icon="🌌", Slot=ArtifactSlot.Bague,    Rarity=Rarity.Legendary, Effect=ArtifactEffect.MeleeDmgBoost, Value=0.38f, BuyPrice=42000, IsOwned=false, Description="Forgé dans la dimension zéro — dégâts de mêlée transcendants." },
+            // ── CAPES 🧣 ──────────────────────────────────────────
+            new(){ Name="Cape du Voyageur",       Icon="🧣", Slot=ArtifactSlot.Cape,     Rarity=Rarity.Common,    Effect=ArtifactEffect.DefBoost,      Value=0.10f, BuyPrice=1200,  IsOwned=false, Description="Cape légère — absorbe les coups faibles." },
+            new(){ Name="Talisman Lunaire",       Icon="🌙", Slot=ArtifactSlot.Cape,     Rarity=Rarity.Rare,      Effect=ArtifactEffect.XpBoost,       Value=0.22f, BuyPrice=5000,  IsOwned=false, Description="Gemme lunaire — collecte l'XP ambiante en marchant." },
+            new(){ Name="Manteau de l'Ombre",     Icon="🌑", Slot=ArtifactSlot.Cape,     Rarity=Rarity.Epic,      Effect=ArtifactEffect.DefBoost,      Value=0.28f, BuyPrice=14000, IsOwned=false, Description="Tissu des ombres — immunité partielle aux dégâts." },
+            new(){ Name="Rune du Grand Tour",     Icon="🌊", Slot=ArtifactSlot.Cape,     Rarity=Rarity.Legendary, Effect=ArtifactEffect.GoldBoost,     Value=0.50f, BuyPrice=45000, IsOwned=false, Description="Cape runique du Tommy Mayo — or doublé dans tous les combats." },
         };
 
         public static List<string> Backgrounds = new()

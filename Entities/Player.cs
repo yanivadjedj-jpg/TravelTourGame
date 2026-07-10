@@ -64,20 +64,28 @@ namespace TravelTour.Entities
         const float DASH_DURATION = 0.15f;
         const float DASH_CD       = 0.8f;
         const float ATK_CD        = 0.30f;
-        const float PLAYER_DMG    = 0.35f;  // multiplicateur global dégâts joueur
+        const float PLAYER_DMG    = 0.35f;  // multiplicateur dégâts attaques normales
+        const float ABILITY_DMG   = 0.20f;  // multiplicateur dégâts capacités/fruits
 
         // ── Init ──────────────────────────────────────────
         public void Init(CharacterData c)
         {
             MaxHP = MaxChakra = 0;
-            // Base stats + bonus du niveau du joueur
-            MaxHP     = (c.ScaledHP()  + TravelTour.Core.PlayerSave.LevelHpBonus())  * TravelTour.Core.PlayerSave.DefenseBonus();
+            MaxHP     = (c.ScaledHP()  + TravelTour.Core.PlayerSave.LevelHpBonus())
+                        * TravelTour.Core.PlayerSave.DefenseBonus()
+                        * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.HpBoost);
             CurrentHP = MaxHP;
             MaxChakra = c.MaxChakra;
             CurrentChakra = MaxChakra;
-            BaseAtk = (c.ScaledAtk() + TravelTour.Core.PlayerSave.LevelAtkBonus()) * TravelTour.Core.PlayerSave.MeleeDmgBonus();
-            BaseDef = (c.ScaledDef() + TravelTour.Core.PlayerSave.LevelDefBonus()) * TravelTour.Core.PlayerSave.DefenseBonus();
-            Speed   = c.BaseSpeed * 60f * TravelTour.Core.PlayerSave.SpeedBonus();
+            BaseAtk = (c.ScaledAtk() + TravelTour.Core.PlayerSave.LevelAtkBonus())
+                      * TravelTour.Core.PlayerSave.MeleeDmgBonus()
+                      * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.AtkBoost);
+            BaseDef = (c.ScaledDef() + TravelTour.Core.PlayerSave.LevelDefBonus())
+                      * TravelTour.Core.PlayerSave.DefenseBonus()
+                      * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.DefBoost);
+            Speed   = c.BaseSpeed * 60f
+                      * TravelTour.Core.PlayerSave.SpeedBonus()
+                      * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.SpeedBoost);
         }
 
         // ── Update ────────────────────────────────────────
@@ -215,6 +223,8 @@ namespace TravelTour.Entities
                 float dmg = BaseAtk * (ComboCount >= 3 ? 1.3f : 1f) * TravelTour.Core.PlayerSave.MeleeDmgBonus() * PLAYER_DMG;
                 TriggerAttack(dmg, 60, ATK_CD);
                 if (ComboCount >= 3) ShowToast?.Invoke($"x{ComboCount} COMBO!", UIHelper.Gold);
+                if (ComboCount > TravelTour.Core.PlayerSave.MaxComboReached)
+                    TravelTour.Core.PlayerSave.MaxComboReached = ComboCount;
             }
             _prevLight = la;
 
@@ -275,7 +285,7 @@ namespace TravelTour.Entities
                 FruitMoveCd[i] = move.Cooldown;
 
                 // Appliquer l'effet du move
-                float dmg = move.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * PLAYER_DMG;
+                float dmg = move.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * ABILITY_DMG;
                 if (dmg > 0)
                 {
                     AttackDamage  = dmg;
@@ -320,7 +330,7 @@ namespace TravelTour.Entities
             }
             CurrentChakra -= ab.ChakraCost;
             _abilityCd[idx] = ab.Cooldown;
-            AttackDamage = ab.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * PLAYER_DMG;
+            AttackDamage = ab.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * ABILITY_DMG;
             AttackActive = true;
             _attackBoxTimer = ab.Duration > 0 ? Math.Min(ab.Duration, 1f) : 0.3f;
             AttackBox = new Rectangle((int)Position.X - 150, (int)Position.Y - 150, 300 + 48, 300 + 72);
