@@ -403,7 +403,7 @@ namespace TravelTour.Core
         public static List<string> OwnedChars     = new() { "Jimmy", "Kaito Shadow", "Ryo Thunder" };
         public static List<string> OwnedVehicles  = new() { "Tommy Mayo" };
         public static List<string> OwnedFruits    = new() { "Fruit du Golem" };  // fruits possédés
-        public static bool[]       StoryProgress  = new bool[50];  // 50 chapitres
+        public static bool[]       StoryProgress  = new bool[52];  // 52 chapitres
 
         // ── Statistiques globales pour les quêtes ─────────────────
         public static int EnemiesKilled    = 0;
@@ -534,6 +534,7 @@ namespace TravelTour.Core
             new(){ Name="Dragon Fist",   Rarity=Rarity.Epic,      MaxHP=125, BaseAtk=26, BaseDef=8, BaseSpeed=9, MaxChakra=200, IsOwned=false, BuyPrice=11000, Icon="🐉" },
             new(){ Name="Zephyr Storm",  Rarity=Rarity.Legendary, MaxHP=150, BaseAtk=22, BaseDef=10, BaseSpeed=12, MaxChakra=260, IsOwned=false, BuyPrice=17000, Icon="🌪️" },
             new(){ Name="Eclipse",       Rarity=Rarity.Epic,      MaxHP=140, BaseAtk=30, BaseDef=9,  BaseSpeed=10, MaxChakra=240, IsOwned=false, BuyPrice=14000, Icon="🌒" },
+            new(){ Name="Kira Void",     Rarity=Rarity.Legendary, MaxHP=170, BaseAtk=30, BaseDef=13, BaseSpeed=11, MaxChakra=270, IsOwned=false, BuyPrice=19000, Icon="🌀" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -559,6 +560,8 @@ namespace TravelTour.Core
             new(){ Name="Lame du Chaos",          Type=WeaponType.Sword,    BaseDamage=110, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000, Icon="🗡️",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=5}, new(){Material="CristalNoir",   Quantity=3} } },
             new(){ Name="Lance du Dragon",        Type=WeaponType.Staff,    BaseDamage=100, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=18000, Icon="🐉",  Costs=new(){ new(){Material="AmeDechue",     Quantity=2}, new(){Material="PierreCeleste", Quantity=3} } },
             new(){ Name="Faux Dimensionnelle",    Type=WeaponType.Scythe,   BaseDamage=125, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000, Icon="☠️",  Costs=new(){ new(){Material="AmeDechue",     Quantity=3}, new(){Material="CristalNoir",   Quantity=4} } },
+            new(){ Name="Arc du Crépuscule",      Type=WeaponType.Bow,      BaseDamage=62,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6000,  Icon="🌙",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=2}, new(){Material="GemmeLunaire",  Quantity=2} } },
+            new(){ Name="Gantelets Stellaires",   Type=WeaponType.Gauntlet, BaseDamage=88,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=13000, Icon="⭐",  Costs=new(){ new(){Material="PierreCeleste", Quantity=4}, new(){Material="EclatFoudre",   Quantity=3} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -593,6 +596,7 @@ namespace TravelTour.Core
             new(){ Name="Phoenix Rider",       Icon="🚀", Speed=22, Acceleration=16, TrickBonus=1.5f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=16000 },
             new(){ Name="Vaisseau Céleste",    Icon="🛸", Speed=25, Acceleration=18, TrickBonus=1.8f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000 },
             new(){ Name="Loup des Steppes",    Icon="🐺", Speed=15, Acceleration=10, TrickBonus=0.9f, Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7000  },
+            new(){ Name="Comète Noire",        Icon="☄️", Speed=21, Acceleration=15, TrickBonus=1.4f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -629,6 +633,9 @@ namespace TravelTour.Core
             new(){ Name="Porte de la Destinée",  Icon="🌀", Difficulty=DifficultyLevel.Boss,
                    RequiredLevel=30, IsClassDungeon=true, EnemyCount=8, GoldReward=0,
                    Rewards=new() },
+            // ── NOUVEAUX DONJONS ──────────────────────────────────
+            new(){ Name="Grotte du Cristal Maudit", Icon="💎", Difficulty=DifficultyLevel.Easy,   RequiredRank=0, EnemyCount=6,  GoldReward=130,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
+            new(){ Name="Forteresse de l'Aube Noire",Icon="🌑",Difficulty=DifficultyLevel.Hard,   RequiredRank=4, EnemyCount=14, GoldReward=450,  Rewards=new(){ new(){Material="EssenceOmbres", Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
