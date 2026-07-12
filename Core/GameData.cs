@@ -535,6 +535,7 @@ namespace TravelTour.Core
             new(){ Name="Zephyr Storm",  Rarity=Rarity.Legendary, MaxHP=150, BaseAtk=22, BaseDef=10, BaseSpeed=12, MaxChakra=260, IsOwned=false, BuyPrice=17000, Icon="🌪️" },
             new(){ Name="Eclipse",       Rarity=Rarity.Epic,      MaxHP=140, BaseAtk=30, BaseDef=9,  BaseSpeed=10, MaxChakra=240, IsOwned=false, BuyPrice=14000, Icon="🌒" },
             new(){ Name="Kira Void",     Rarity=Rarity.Legendary, MaxHP=170, BaseAtk=30, BaseDef=13, BaseSpeed=11, MaxChakra=270, IsOwned=false, BuyPrice=19000, Icon="🌀" },
+            new(){ Name="Tsuki Eclipse", Rarity=Rarity.Legendary, MaxHP=175, BaseAtk=33, BaseDef=13, BaseSpeed=10, MaxChakra=285, IsOwned=false, BuyPrice=21000, Icon="🌙" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -562,6 +563,8 @@ namespace TravelTour.Core
             new(){ Name="Faux Dimensionnelle",    Type=WeaponType.Scythe,   BaseDamage=125, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000, Icon="☠️",  Costs=new(){ new(){Material="AmeDechue",     Quantity=3}, new(){Material="CristalNoir",   Quantity=4} } },
             new(){ Name="Arc du Crépuscule",      Type=WeaponType.Bow,      BaseDamage=62,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6000,  Icon="🌙",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=2}, new(){Material="GemmeLunaire",  Quantity=2} } },
             new(){ Name="Gantelets Stellaires",   Type=WeaponType.Gauntlet, BaseDamage=88,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=13000, Icon="⭐",  Costs=new(){ new(){Material="PierreCeleste", Quantity=4}, new(){Material="EclatFoudre",   Quantity=3} } },
+            new(){ Name="Lame de Givre",           Type=WeaponType.Sword,    BaseDamage=63,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=5800,  Icon="❄️",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=2}, new(){Material="GemmeLunaire",  Quantity=2} } },
+            new(){ Name="Lame Lunaire",             Type=WeaponType.Sword,    BaseDamage=82,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12500, Icon="🌙",  Costs=new(){ new(){Material="GemmeLunaire",  Quantity=4}, new(){Material="EssenceOmbres", Quantity=3} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -597,6 +600,7 @@ namespace TravelTour.Core
             new(){ Name="Vaisseau Céleste",    Icon="🛸", Speed=25, Acceleration=18, TrickBonus=1.8f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000 },
             new(){ Name="Loup des Steppes",    Icon="🐺", Speed=15, Acceleration=10, TrickBonus=0.9f, Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7000  },
             new(){ Name="Comète Noire",        Icon="☄️", Speed=21, Acceleration=15, TrickBonus=1.4f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12000 },
+            new(){ Name="Dragon Volant",        Icon="🐲", Speed=20, Acceleration=14, TrickBonus=1.3f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=14000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -636,6 +640,8 @@ namespace TravelTour.Core
             // ── NOUVEAUX DONJONS ──────────────────────────────────
             new(){ Name="Grotte du Cristal Maudit", Icon="💎", Difficulty=DifficultyLevel.Easy,   RequiredRank=0, EnemyCount=6,  GoldReward=130,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
             new(){ Name="Forteresse de l'Aube Noire",Icon="🌑",Difficulty=DifficultyLevel.Hard,   RequiredRank=4, EnemyCount=14, GoldReward=450,  Rewards=new(){ new(){Material="EssenceOmbres", Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
+            new(){ Name="Crypte des Éclairs Dormants", Icon="⚡", Difficulty=DifficultyLevel.Medium, RequiredRank=2, EnemyCount=10, GoldReward=200, Rewards=new(){ new(){Material="EclatFoudre",   Min=1, Max=3}, new(){Material="CristalFeu",    Min=1, Max=2} } },
+            new(){ Name="Caverne du Phénix Noir",      Icon="🔥", Difficulty=DifficultyLevel.Boss,   RequiredRank=4, EnemyCount=8,  GoldReward=520, Rewards=new(){ new(){Material="LarmePhoenix",  Min=2, Max=4}, new(){Material="EssenceOmbres", Min=1, Max=3} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
