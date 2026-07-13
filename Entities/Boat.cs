@@ -13,10 +13,10 @@ namespace TravelTour.Entities
 
         public Rectangle Bounds => new((int)Position.X - 32, (int)Position.Y - 20, 64, 40);
 
-        const float ACCEL      = 260f;
-        const float MAX_SPEED  = 260f;
-        const float TURN_SPEED = 2.6f;   // rad/s
-        const float DRAG       = 0.90f;  // inertie par frame (appliqué en dt)
+        const float ACCEL      = 620f;
+        const float MAX_SPEED  = 520f;
+        const float TURN_SPEED = 3.0f;   // rad/s
+        const float DRAG       = 0.985f; // inertie par frame (appliqué en dt) — proche de 1 = peu de friction
 
         public void Update(KeyboardState kb, float dt)
         {

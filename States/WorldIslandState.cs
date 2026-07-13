@@ -17,6 +17,7 @@ namespace TravelTour.States
         readonly TravelTourGame _game;
         Texture2D _pixel = null!; SpriteFontBase _font = null!, _bigFont = null!;
         UIButton _backBtn = null!;
+        UIButton _questBtn = null!;
 
         IslandData _island = null!;
         WorldCamera _camera = new();
@@ -30,6 +31,10 @@ namespace TravelTour.States
 
         string _toast = ""; float _toastTimer; Color _toastColor;
 
+        // ── Marchand de fruits aléatoire (façon "Blox Fruit Dealer") ──
+        FruitData? _vendorOffer;
+        bool _vendorShowingOffer;
+
         public WorldIslandState(TravelTourGame game) => _game = game;
 
         public void SetIsland(IslandData island) => _island = island;
@@ -41,17 +46,34 @@ namespace TravelTour.States
 
             _backBtn = new UIButton(new Rectangle(16, 16, 140, 36), "⛵ Retour au bateau",
                 () => _game.ChangeState(GameState.WorldSea));
+            _questBtn = new UIButton(new Rectangle(164, 16, 130, 36), "📋 Quêtes",
+                () => _game.OpenQuest(GameState.WorldIsland, _island));
 
             _playerPos = new Vector2(200, 500);
             _camera.Position = _playerPos;
 
             PlayerSave.VisitIsland(_island.Name);
             foreach (var q in Catalog.Quests) q.CheckCompleted();
+
+            var unowned = Catalog.Fruits.Where(f => !f.IsOwned).ToList();
+            _vendorOffer = unowned.Count > 0 ? unowned[new Random().Next(unowned.Count)] : null;
+            _vendorShowingOffer = false;
         }
 
         void ShowToast(string m, Color c) { _toast = m; _toastColor = c; _toastTimer = 2.5f; }
 
-        Vector2 NpcPos => new Vector2(250, 350);
+        Vector2 NpcPos    => new Vector2(250, 350);
+        Vector2 VendorPos => new Vector2(450, 350);
+
+        static int VendorPrice(FruitData f) => f.BuyPrice > 0 ? f.BuyPrice : f.Rarity switch
+        {
+            Rarity.Common    => 3000,
+            Rarity.Rare      => 8000,
+            Rarity.Epic      => 20000,
+            Rarity.Legendary => 45000,
+            Rarity.Mythical  => 90000,
+            _ => 3000
+        };
 
         public void Update(GameTime gt)
         {
@@ -59,6 +81,7 @@ namespace TravelTour.States
             var kb = Keyboard.GetState();
             var ms = Mouse.GetState();
             _backBtn.Update(ms);
+            _questBtn.Update(ms);
             _toastTimer -= dt;
 
             var move = Vector2.Zero;
@@ -83,12 +106,39 @@ namespace TravelTour.States
                 {
                     PlayerSave.TalkToNpc(_npcId);
                     foreach (var q in Catalog.Quests) q.CheckCompleted();
-                    ShowToast("💬 PNJ rencontré ! Consultez vos quêtes.", UIHelper.Blue);
+                    _game.OpenQuest(GameState.WorldIsland, _island);
                 }
                 // Zone de pêche
                 else if (_island.HasFishingSpot && Vector2.Distance(_playerPos, _island.FishingSpotPosition) <= INTERACT_RADIUS)
                 {
                     _game.EnterFishing(_island);
+                }
+                // Marchand de fruits aléatoire
+                else if (Vector2.Distance(_playerPos, VendorPos) <= INTERACT_RADIUS)
+                {
+                    if (_vendorOffer == null)
+                        ShowToast("🛒 Le marchand n'a rien à vendre pour l'instant.", UIHelper.TextDim);
+                    else if (!_vendorShowingOffer)
+                    {
+                        _vendorShowingOffer = true;
+                    }
+                    else
+                    {
+                        int price = VendorPrice(_vendorOffer);
+                        if (PlayerSave.SpendGold(price))
+                        {
+                            _vendorOffer.IsOwned = true;
+                            if (!PlayerSave.OwnedFruits.Contains(_vendorOffer.Name)) PlayerSave.OwnedFruits.Add(_vendorOffer.Name);
+                            ShowToast($"✅ {_vendorOffer.Icon} {_vendorOffer.Name} acheté au marchand !", Color.Green);
+                            foreach (var q in Catalog.Quests) q.CheckCompleted();
+                            _vendorOffer = null;
+                            _vendorShowingOffer = false;
+                        }
+                        else
+                        {
+                            ShowToast($"Or insuffisant ! ({price:N0} requis, tu as {PlayerSave.Gold:N0})", Color.Red);
+                        }
+                    }
                 }
                 else
                 {
@@ -98,7 +148,7 @@ namespace TravelTour.States
                         if (Vector2.Distance(_playerPos, spawn.Position) <= INTERACT_RADIUS)
                         {
                             var dungeon = Catalog.Dungeons.Find(d => d.Name == _island.LinkedDungeonName);
-                            if (dungeon != null) _game.StartDungeon(dungeon);
+                            if (dungeon != null) _game.StartIslandDungeon(dungeon, _island);
                             break;
                         }
                     }
@@ -144,6 +194,9 @@ namespace TravelTour.States
             if (_island.HasFishingSpot)
                 DrawMarker(sb, _island.FishingSpotPosition, "🎣", "Pêche", new Color(80, 180, 220));
 
+            // Marchand de fruits aléatoire
+            DrawMarker(sb, VendorPos, "🛍️", "Marchand", new Color(220, 170, 40));
+
             // Mobs
             foreach (var spawn in _island.MobSpawns)
                 DrawMarker(sb, spawn.Position, spawn.IsBoss ? "👹" : "👺", spawn.EnemyName, spawn.IsBoss ? Color.OrangeRed : new Color(200, 90, 90));
@@ -157,6 +210,7 @@ namespace TravelTour.States
             sb.Begin(samplerState: SamplerState.PointClamp);
 
             _backBtn.Draw(sb, _pixel, _font);
+            _questBtn.Draw(sb, _pixel, _font);
             UIHelper.DrawCenteredText(sb, _bigFont, $"{_island.Icon} {_island.Name}",
                 new Rectangle(0, 16, W, 36), UIHelper.Gold, 0.8f);
 
@@ -167,6 +221,18 @@ namespace TravelTour.States
                 UIHelper.DrawBox(sb, _pixel, new Rectangle(W / 2 - (int)ts.X / 2 - 12, H - 100, (int)ts.X + 24, 30),
                     UIHelper.Dark2 * alpha, _toastColor * alpha, 1);
                 sb.DrawString(_font, _toast, new Vector2(W / 2f - ts.X / 2f, H - 92), _toastColor * alpha);
+            }
+
+            if (_vendorShowingOffer && _vendorOffer != null)
+            {
+                Color rc = UIHelper.RarityColors[(int)_vendorOffer.Rarity];
+                int price = VendorPrice(_vendorOffer);
+                var panel = new Rectangle(W / 2 - 170, H - 200, 340, 90);
+                UIHelper.DrawBox(sb, _pixel, panel, UIHelper.CardBg, rc, 2);
+                sb.DrawString(_bigFont, _vendorOffer.Icon, new Vector2(panel.X + 10, panel.Y + 8), Color.White);
+                sb.DrawString(_font, $"{_vendorOffer.Name}", new Vector2(panel.X + 60, panel.Y + 10), UIHelper.TextMain);
+                sb.DrawString(_font, UIHelper.RarityNames[(int)_vendorOffer.Rarity], new Vector2(panel.X + 60, panel.Y + 30), rc);
+                sb.DrawString(_font, $"{price:N0} 💰 — [E] pour acheter", new Vector2(panel.X + 60, panel.Y + 50), UIHelper.Gold);
             }
 
             UIHelper.DrawCenteredText(sb, _font, "WASD/Flèches : se déplacer  —  E : interagir  —  Échap : retour au bateau",

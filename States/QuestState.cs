@@ -41,8 +41,8 @@ namespace TravelTour.States
             _pixel = pixel; _font = font; _bigFont = bigFont;
             int W = _game.GraphicsDevice.Viewport.Width;
 
-            _backBtn = new UIButton(new Rectangle(16, 16, 110, 36), "← Menu",
-                () => _game.ChangeState(GameState.MainMenu));
+            _backBtn = new UIButton(new Rectangle(16, 16, 110, 36), "← Retour",
+                () => _game.ExitQuest());
 
             _catBtns.Clear();
             int tw = 130, tgap = 8;
@@ -72,7 +72,7 @@ namespace TravelTour.States
 
             _backBtn.Update(_curMs);
             foreach (var b in _catBtns) b.Update(_curMs);
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape)) _game.ChangeState(GameState.MainMenu);
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape)) _game.ExitQuest();
         }
 
         public void Draw(SpriteBatch sb)

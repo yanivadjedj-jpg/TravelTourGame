@@ -17,6 +17,7 @@ namespace TravelTour.States
         readonly TravelTourGame _game;
         Texture2D _pixel = null!; SpriteFontBase _font = null!, _bigFont = null!;
         UIButton _backBtn = null!;
+        UIButton _questBtn = null!;
 
         Boat _boat = new();
         WorldCamera _camera = new();
@@ -39,6 +40,8 @@ namespace TravelTour.States
 
             _backBtn = new UIButton(new Rectangle(16, 16, 100, 36), "← Menu",
                 () => _game.ChangeState(GameState.MainMenu));
+            _questBtn = new UIButton(new Rectangle(124, 16, 130, 36), "📋 Quêtes",
+                () => _game.OpenQuest(GameState.WorldSea));
 
             WORLD_W = 4000; WORLD_H = 1100;
             _boat.Position = new Vector2(200, 700);
@@ -55,6 +58,7 @@ namespace TravelTour.States
             var kb = Keyboard.GetState();
             var ms = Mouse.GetState();
             _backBtn.Update(ms);
+            _questBtn.Update(ms);
             _toastTimer -= dt;
 
             _boat.Update(kb, dt);
@@ -126,10 +130,25 @@ namespace TravelTour.States
                 };
                 Color tint = unlocked ? Color.White : Color.Gray * 0.6f;
                 int r = 46;
-                sb.Draw(_pixel, new Rectangle((int)pos.X - r, (int)pos.Y - r, r * 2, r * 2), (unlocked ? themeColor : Color.DimGray) * 0.85f);
-                string label = unlocked ? isl.Icon : "🔒";
-                var lsz = _bigFont.MeasureString(label);
-                sb.DrawString(_bigFont, label, new Vector2(pos.X - lsz.X / 2f, pos.Y - lsz.Y / 2f), tint);
+                var mapIcon = SpriteLoader.IslandTerrain(isl.MapIconKey);
+                if (mapIcon != null)
+                {
+                    int iw = r * 3, ih = r * 3;
+                    sb.Draw(mapIcon, new Rectangle((int)pos.X - iw / 2, (int)pos.Y - ih / 2, iw, ih), null,
+                        tint, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+                    if (!unlocked)
+                    {
+                        var lockSz = _bigFont.MeasureString("🔒");
+                        sb.DrawString(_bigFont, "🔒", new Vector2(pos.X - lockSz.X / 2f, pos.Y - lockSz.Y / 2f), Color.White);
+                    }
+                }
+                else
+                {
+                    sb.Draw(_pixel, new Rectangle((int)pos.X - r, (int)pos.Y - r, r * 2, r * 2), (unlocked ? themeColor : Color.DimGray) * 0.85f);
+                    string label = unlocked ? isl.Icon : "🔒";
+                    var lsz = _bigFont.MeasureString(label);
+                    sb.DrawString(_bigFont, label, new Vector2(pos.X - lsz.X / 2f, pos.Y - lsz.Y / 2f), tint);
+                }
                 var nsz = _font.MeasureString(isl.Name);
                 sb.DrawString(_font, isl.Name, new Vector2(pos.X - nsz.X / 2f, pos.Y + r + 4), UIHelper.TextMain * (unlocked ? 1f : 0.6f));
             }
@@ -154,6 +173,7 @@ namespace TravelTour.States
 
             // HUD
             _backBtn.Draw(sb, _pixel, _font);
+            _questBtn.Draw(sb, _pixel, _font);
             UIHelper.DrawCenteredText(sb, _bigFont, "🌍 Événement Monde",
                 new Rectangle(0, 16, W, 36), UIHelper.Gold, 0.8f);
 

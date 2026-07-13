@@ -74,6 +74,13 @@ namespace TravelTour.Core
                 sb.AppendLine($"fishcaught={PlayerSave.FishCaught}");
                 sb.AppendLine($"legendaryfish={PlayerSave.LegendaryFishCaught}");
                 sb.AppendLine($"absoludefeated={PlayerSave.AbsoluDefeated}");
+                // Compteurs de progression des quêtes
+                sb.AppendLine($"enemieskilled={PlayerSave.EnemiesKilled}");
+                sb.AppendLine($"bossesdefeated={PlayerSave.BossesDefeated}");
+                sb.AppendLine($"dungeonscompleted={PlayerSave.DungeonsCompleted}");
+                sb.AppendLine($"maxcombo={PlayerSave.MaxComboReached}");
+                sb.AppendLine($"totalgoldearned={PlayerSave.TotalGoldEarned}");
+                sb.AppendLine($"mageskilled={PlayerSave.MagesKilled}");
                 foreach (var r in PlayerSave.OwnedFishingRods)
                     sb.AppendLine($"rod:{r}");
                 if (PlayerSave.EquippedFishingRod != null)
@@ -174,6 +181,12 @@ namespace TravelTour.Core
                     else if (line.StartsWith("fishcaught="))    PlayerSave.FishCaught = int.Parse(line[11..]);
                     else if (line.StartsWith("legendaryfish=")) PlayerSave.LegendaryFishCaught = int.Parse(line[14..]);
                     else if (line.StartsWith("absoludefeated=")) PlayerSave.AbsoluDefeated = line[15..] == "True";
+                    else if (line.StartsWith("enemieskilled="))     PlayerSave.EnemiesKilled      = int.Parse(line[14..]);
+                    else if (line.StartsWith("bossesdefeated="))    PlayerSave.BossesDefeated     = int.Parse(line[15..]);
+                    else if (line.StartsWith("dungeonscompleted=")) PlayerSave.DungeonsCompleted  = int.Parse(line[18..]);
+                    else if (line.StartsWith("maxcombo="))          PlayerSave.MaxComboReached    = int.Parse(line[9..]);
+                    else if (line.StartsWith("totalgoldearned="))   PlayerSave.TotalGoldEarned    = int.Parse(line[16..]);
+                    else if (line.StartsWith("mageskilled="))       PlayerSave.MagesKilled        = int.Parse(line[12..]);
                     else if (line.StartsWith("rod:"))
                     {
                         var n = line[4..];

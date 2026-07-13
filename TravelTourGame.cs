@@ -133,6 +133,14 @@ namespace TravelTour
             ChangeState(GameState.Combat);
         }
 
+        IslandData? _pendingReturnIsland;
+        public void StartIslandDungeon(DungeonData d, IslandData island)
+        {
+            _pendingDungeon = d;
+            _pendingReturnIsland = island;
+            ChangeState(GameState.Combat);
+        }
+
         int _storyChapterIndex = -1;
         public void StartStoryDungeon(DungeonData d, int chapterIdx)
         {
@@ -165,6 +173,22 @@ namespace TravelTour
         {
             _pendingFishingIsland = island;
             ChangeState(GameState.Fishing);
+        }
+
+        // Permet d'ouvrir l'écran des quêtes depuis n'importe où (menu, mer, île)
+        // et d'y revenir correctement en sortant.
+        public GameState  QuestReturnState  { get; private set; } = GameState.MainMenu;
+        public IslandData? QuestReturnIsland { get; private set; }
+        public void OpenQuest(GameState returnState, IslandData? returnIsland = null)
+        {
+            QuestReturnState  = returnState;
+            QuestReturnIsland = returnIsland;
+            ChangeState(GameState.Quest);
+        }
+        public void ExitQuest()
+        {
+            if (QuestReturnIsland != null) EnterIsland(QuestReturnIsland);
+            else ChangeState(QuestReturnState);
         }
 
         static bool PlayerPrefs_GetBool(string key) =>
@@ -211,6 +235,11 @@ namespace TravelTour
                 cs.SetDungeon(_pendingDungeon);
                 cs.IsStoryDungeon = (_storyChapterIndex >= 0);
                 _pendingDungeon = null;
+                if (_pendingReturnIsland != null)
+                {
+                    cs.ReturnToIsland = _pendingReturnIsland;
+                    _pendingReturnIsland = null;
+                }
             }
 
             if (next is WorldIslandState wis && _pendingIsland != null)

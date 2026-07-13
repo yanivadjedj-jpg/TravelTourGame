@@ -31,6 +31,10 @@ namespace TravelTour.Core
         public Vector2          SeaPosition;             // position du dock sur la carte WorldSea
         public string?          NativeFruitName;         // fruit natif, drop sur l'élite de l'île
         public string           LinkedDungeonName = "";   // DungeonData jumelle pour le calcul de combat
+
+        // Icône façon carte au trésor illustrée, utilisée sur WorldSeaState (dock).
+        // Dérivée du fond de l'île : "island_hunter1_bg" -> "island_hunter1_map".
+        public string MapIconKey => BgSpriteKey.Replace("_bg", "_map");
     }
 
     public static class WorldEventCatalog
@@ -49,7 +53,7 @@ namespace TravelTour.Core
                     new MobSpawn{ EnemyName="Chasseur Rang E Corrompu",  SpriteKey="island_hunter1_mob_chasseur", Position=new(700,500) },
                 },
                 QuestIds = new() { "Nettoyeur de Faille", "Éclaireur de la Porte" },
-                SeaPosition = new(150, 150), DockPoint = new(200, 500),
+                SeaPosition = new(100, 100), DockPoint = new(200, 500),
                 LinkedDungeonName = "Faille du Chasseur E",
             },
             new IslandData {
@@ -64,7 +68,7 @@ namespace TravelTour.Core
                 },
                 QuestIds = new() { "Purge du Sanctuaire", "Le Pacte Brisé" },
                 HasFishingSpot = true, FishingSpotPosition = new(900, 520),
-                SeaPosition = new(250, 220), DockPoint = new(200, 500),
+                SeaPosition = new(242, 267), DockPoint = new(200, 500),
                 LinkedDungeonName = "Sanctuaire Gris",
             },
             new IslandData {
@@ -79,7 +83,7 @@ namespace TravelTour.Core
                 },
                 QuestIds = new() { "Le Gardien Muet", "Éclat du Monarque" },
                 NativeFruitName = "Fruit de l'Ombre Monarque",
-                SeaPosition = new(320, 300), DockPoint = new(200, 500),
+                SeaPosition = new(383, 100), DockPoint = new(200, 500),
                 LinkedDungeonName = "Abîme du Monarque",
             },
 
@@ -96,7 +100,7 @@ namespace TravelTour.Core
                 },
                 QuestIds = new() { "Pilleur de Récif", "Rencontre au Port" },
                 HasFishingSpot = true, FishingSpotPosition = new(950, 500),
-                SeaPosition = new(600, 150), DockPoint = new(200, 500),
+                SeaPosition = new(525, 267), DockPoint = new(200, 500),
                 LinkedDungeonName = "Récif Pirate",
             },
             new IslandData {
@@ -111,7 +115,7 @@ namespace TravelTour.Core
                 },
                 QuestIds = new() { "Chasse à la Tempête", "Le Journal du Naufragé" },
                 HasFishingSpot = true, FishingSpotPosition = new(950, 500),
-                SeaPosition = new(700, 220), DockPoint = new(200, 500),
+                SeaPosition = new(667, 100), DockPoint = new(200, 500),
                 LinkedDungeonName = "Archipel Tempête",
             },
             new IslandData {
@@ -127,7 +131,7 @@ namespace TravelTour.Core
                 QuestIds = new() { "L'Amiral Fantôme", "Trésor du Roi Englouti" },
                 NativeFruitName = "Fruit du Roi des Mers",
                 HasFishingSpot = true, FishingSpotPosition = new(950, 500),
-                SeaPosition = new(780, 300), DockPoint = new(200, 500),
+                SeaPosition = new(808, 267), DockPoint = new(200, 500),
                 LinkedDungeonName = "Baie du Roi Naufragé",
             },
 
@@ -143,7 +147,7 @@ namespace TravelTour.Core
                     new MobSpawn{ EnemyName="Chien-Ninja Invocateur",  SpriteKey="island_ninja1_mob_chien", Position=new(700,500) },
                 },
                 QuestIds = new() { "Chasse aux Renégats", "Le Message du Village" },
-                SeaPosition = new(1050, 150), DockPoint = new(200, 500),
+                SeaPosition = new(950, 100), DockPoint = new(200, 500),
                 LinkedDungeonName = "Feuille Grise",
             },
             new IslandData {
@@ -158,7 +162,7 @@ namespace TravelTour.Core
                 },
                 QuestIds = new() { "Brouillard Interdit", "Pêcheur du Village" },
                 HasFishingSpot = true, FishingSpotPosition = new(950, 500),
-                SeaPosition = new(1150, 220), DockPoint = new(200, 500),
+                SeaPosition = new(1092, 267), DockPoint = new(200, 500),
                 LinkedDungeonName = "Brume Rouge",
             },
             new IslandData {
@@ -173,7 +177,7 @@ namespace TravelTour.Core
                 },
                 QuestIds = new() { "Le Sceau Interdit", "Chakra du Temple" },
                 NativeFruitName = "Fruit du Sage des Six Voies",
-                SeaPosition = new(1250, 300), DockPoint = new(200, 500),
+                SeaPosition = new(1233, 100), DockPoint = new(200, 500),
                 LinkedDungeonName = "Sceau Ancestral",
             },
         };

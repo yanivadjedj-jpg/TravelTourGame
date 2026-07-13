@@ -9,7 +9,7 @@ namespace TravelTour.Core
     public enum WeaponType  { Sword, Shield, Bow, Staff, Gauntlet, Scythe }
     public enum ArtifactEffect { HpBoost, AtkBoost, DefBoost, SpeedBoost, XpBoost, GoldBoost, CooldownReduce, FruitDmgBoost, SwordDmgBoost, MeleeDmgBoost }
     public enum ArtifactSlot   { Chapeau, Amulette, Bague, Cape }
-    public enum QuestObjectiveType { KillEnemies, KillBosses, CompleteDungeons, EarnGold, ReachLevel, ReachRank, OwnWeapons, OwnFruits, DoCombo, ExploreIsland, CatchFish, TalkToNpc, DefeatAbsolu }
+    public enum QuestObjectiveType { KillEnemies, KillBosses, CompleteDungeons, EarnGold, ReachLevel, ReachRank, OwnWeapons, OwnFruits, DoCombo, ExploreIsland, CatchFish, TalkToNpc, DefeatAbsolu, KillMages }
     public enum DifficultyLevel { Easy, Medium, Hard, Boss, Legendary }
     public enum FruitType   { Naturel, Élémentaire, Bête }   // Paramecia / Logia / Zoan
 
@@ -207,6 +207,7 @@ namespace TravelTour.Core
             QuestObjectiveType.CatchFish        => PlayerSave.FishCaught,
             QuestObjectiveType.TalkToNpc        => PlayerSave.NpcsMet.Count,
             QuestObjectiveType.DefeatAbsolu      => PlayerSave.AbsoluDefeated ? 1 : 0,
+            QuestObjectiveType.KillMages         => PlayerSave.MagesKilled,
             _                                   => 0
         };
 
@@ -496,6 +497,7 @@ namespace TravelTour.Core
         public static int DungeonsCompleted= 0;
         public static int MaxComboReached  = 0;
         public static int TotalGoldEarned  = 0;
+        public static int MagesKilled      = 0;
 
         // ── Événement Monde : îles, PNJ, pêche ────────────────────
         public static HashSet<string> VisitedIslands = new();
@@ -1049,6 +1051,8 @@ namespace TravelTour.Core
             new(){ Name="Exterminateur",        Icon="💀", Category="Combat",     Objective=QuestObjectiveType.KillEnemies,      Target=200,  Description="Vaincre 200 ennemis",                Rewards=new[]{ G(2500), M("CristalNoir",2) } },
             new(){ Name="Chasseur de Boss",     Icon="🌑", Category="Combat",     Objective=QuestObjectiveType.KillBosses,       Target=5,    Description="Vaincre 5 boss",                     Rewards=new[]{ G(3000), M("AmeDechue",1) } },
             new(){ Name="Maître des Combos",    Icon="🌀", Category="Combat",     Objective=QuestObjectiveType.DoCombo,          Target=5,    Description="Réaliser un combo x5",               Rewards=new[]{ G(1500), M("PierreCeleste",2) } },
+            new(){ Name="Chasseur de Magiciens",Icon="🧙", Category="Combat",     Objective=QuestObjectiveType.KillMages,        Target=9,    Description="Vaincre 9 magiciens",                Rewards=new[]{ G(1400), M("GemmeLunaire",3) } },
+            new(){ Name="Fléau des Mages",      Icon="🔮", Category="Maîtrise",   Objective=QuestObjectiveType.KillMages,        Target=30,   Description="Vaincre 30 magiciens",               Rewards=new[]{ G(5000), M("CristalNoir",3), X(500) } },
             // ── EXPLORATION ───────────────────────────────────────
             new(){ Name="Grand Explorateur",    Icon="🌍", Category="Exploration", Objective=QuestObjectiveType.CompleteDungeons,Target=10,   Description="Terminer 10 donjons",                Rewards=new[]{ G(2000), M("PierreCeleste",3) } },
             new(){ Name="Rang D",               Icon="🏅", Category="Exploration", Objective=QuestObjectiveType.ReachRank,        Target=1,    Description="Atteindre le rang D",                Rewards=new[]{ G(800),  X(200) } },

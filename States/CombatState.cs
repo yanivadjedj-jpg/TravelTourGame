@@ -83,6 +83,15 @@ namespace TravelTour.States
 
         public void SetDungeon(DungeonData d) => _dungeon = d;
 
+        // Si défini, le combat a été lancé depuis une île de l'Événement Monde :
+        // retour direct sur l'île (pas le menu) pour enchaîner plusieurs combats.
+        public IslandData? ReturnToIsland;
+        void ExitCombat()
+        {
+            if (ReturnToIsland != null) _game.EnterIsland(ReturnToIsland);
+            else _game.ChangeState(GameState.MainMenu);
+        }
+
         public void Load(Texture2D pixel, SpriteFontBase font, SpriteFontBase bigFont)
         {
             _pixel = pixel; _font = font; _bigFont = bigFont;
@@ -91,7 +100,7 @@ namespace TravelTour.States
 
             _world = new Rectangle(0, 0, W * 3, H);
             _backBtn = new UIButton(new Rectangle(16, 16, 100, 36), "← Menu",
-                () => _game.ChangeState(GameState.MainMenu));
+                () => ExitCombat());
 
             // Platforms
             _platforms.Add(new Rectangle(0, H - 60, W * 3, 60));           // ground
@@ -125,11 +134,11 @@ namespace TravelTour.States
 
         static readonly string[][] _enemySpritePools =
         {
-            new[]{ "enemy_basic",   "enemy_soldier" },   // diff 0 Easy
-            new[]{ "enemy_soldier", "enemy_ninja"   },   // diff 1 Medium
-            new[]{ "enemy_ninja",   "enemy_demon"   },   // diff 2 Hard
-            new[]{ "enemy_demon",   "enemy_ghost"   },   // diff 3 Boss
-            new[]{ "enemy_ghost",   "enemy_demon"   },   // diff 4 Legendary
+            new[]{ "enemy_basic",   "enemy_soldier", "enemy_skeleton", "enemy_wolf"    },   // diff 0 Easy
+            new[]{ "enemy_soldier", "enemy_ninja",   "enemy_wolf",     "enemy_witch"   },   // diff 1 Medium
+            new[]{ "enemy_ninja",   "enemy_demon",   "enemy_knight",   "enemy_witch"   },   // diff 2 Hard
+            new[]{ "enemy_demon",   "enemy_ghost",   "enemy_knight",   "enemy_golem"   },   // diff 3 Boss
+            new[]{ "enemy_ghost",   "enemy_demon",   "enemy_golem",    "enemy_wraith"  },   // diff 4 Legendary
         };
 
         void SpawnWave()
@@ -160,7 +169,7 @@ namespace TravelTour.States
                 e.Init(new Vector2(x, H - 200),
                     hp:  (int)((100 + diff * 30 + _wave * 35) * actMult),
                     atk: (int)((12  + diff * 5  + _wave * 5)  * actMult),
-                    spd: (int)((60  + diff * 12 + _wave * 8)  * actMult),
+                    spd: (int)((95  + diff * 16 + _wave * 10) * actMult),
                     gold: 3 + diff * 2 + _wave * 2);
                 int xpGain = 5 + (_dungeon != null ? (int)_dungeon.Difficulty * 3 : 0) + _wave * 2;
                 e.OnGoldDrop = (g, pos) =>
@@ -173,6 +182,7 @@ namespace TravelTour.States
                     ShowToast($"+{reduced}💰  +{xpGain}XP", UIHelper.Gold);
                     if (rankedUp) ShowToast($"⬆ RANG {PlayerSave.GetRank()} !", new Color(255,200,0));
                     PlayerSave.EnemiesKilled++;
+                    if (e.IsRanged) PlayerSave.MagesKilled++;
                     foreach (var q in Catalog.Quests) q.CheckCompleted();
                     if (_player.Character != null) PlayerSave.AddCharacterMastery(_player.Character.Name, 3);
                 };
@@ -189,15 +199,32 @@ namespace TravelTour.States
                 }
                 else e.Drops = Array.Empty<MaterialReward>();
 
-                // 1 ennemi sur 3 est un mage attaquant à distance
-                if (i % 3 == 0)
+                // Les squelettes sont toujours des archers à distance (flèches)
+                bool isSkeletonArcher = e.SpriteKey == "enemy_skeleton";
+                // Sinon, 1 ennemi sur 3 est un mage attaquant à distance
+                if (isSkeletonArcher || i % 3 == 0)
                 {
                     e.IsRanged     = true;
-                    e.SpriteKey    = "enemy_ghost";
-                    e.AttackDamage *= 0.5f;  // mages moins punitifs qu'un ennemi au corps-à-corps
+                    if (!isSkeletonArcher) e.SpriteKey = "enemy_ghost";
+                    e.AttackDamage *= 0.5f;  // ennemis à distance moins punitifs qu'un ennemi au corps-à-corps
+                    Color projColor = isSkeletonArcher ? new Color(200, 180, 120) : new Color(180, 100, 255);
+                    int   projSize  = isSkeletonArcher ? 7 : 12;
                     e.OnRangedAttack = (pos, dir, dmg) => _enemyProjectiles.Add(
                         new EnemyProjectile(pos, dir * PROJECTILE_SPEED, dmg, PROJECTILE_LIFE,
-                            new Color(180, 100, 255), 12));
+                            projColor, projSize));
+                }
+
+                // Certains ennemis (élites ou 1 sur 4) ont une attaque spéciale à longue portée
+                bool isEliteType = e.SpriteKey is "enemy_knight" or "enemy_witch" or "enemy_golem" or "enemy_wraith";
+                if (isEliteType || i % 4 == 3)
+                {
+                    e.HasUltimate = true;
+                    e.OnUltimateAttack = (pos, dir, dmg) =>
+                    {
+                        _enemyProjectiles.Add(new EnemyProjectile(pos, dir * PROJECTILE_SPEED * 1.2f, dmg,
+                            PROJECTILE_LIFE, new Color(255, 160, 40), 15));
+                        ShowToast("💥 ATTAQUE SPÉCIALE !", new Color(255, 160, 40));
+                    };
                 }
 
                 _enemies.Add(e);
@@ -466,7 +493,7 @@ namespace TravelTour.States
             }
 
             // ESC
-            if (kb.IsKeyDown(Keys.Escape)) _game.ChangeState(GameState.MainMenu);
+            if (kb.IsKeyDown(Keys.Escape)) ExitCombat();
         }
 
         // Set this to return to Story after a story dungeon win
