@@ -202,7 +202,8 @@ namespace TravelTour.States
 
             // Mobs
             foreach (var spawn in _island.MobSpawns)
-                DrawMarker(sb, spawn.Position, spawn.IsBoss ? "👹" : "👺", spawn.EnemyName, spawn.IsBoss ? Color.OrangeRed : new Color(200, 90, 90));
+                DrawMarker(sb, spawn.Position, spawn.IsBoss ? "👹" : "👺", spawn.EnemyName,
+                    spawn.IsBoss ? Color.OrangeRed : new Color(200, 90, 90), spawn.SpriteKey);
 
             // Joueur — sprite du perso/skin réellement équipé, mis à l'échelle selon la profondeur
             float depthScale = WorldCamera.DepthScaleFor(_playerPos.Y, 0, WORLD_H);
@@ -253,9 +254,16 @@ namespace TravelTour.States
                 new Rectangle(0, H - 26, W, 22), UIHelper.TextDim, 0.75f);
         }
 
-        void DrawMarker(SpriteBatch sb, Vector2 pos, string icon, string label, Color color)
+        void DrawMarker(SpriteBatch sb, Vector2 pos, string icon, string label, Color color, string? spriteKey = null)
         {
             float depthScale = WorldCamera.DepthScaleFor(pos.Y, 0, WORLD_H);
+            var sprite = spriteKey != null ? SpriteLoader.IslandMob(spriteKey) : null;
+            if (sprite != null)
+            {
+                int sw = (int)(80 * depthScale), sh = (int)(100 * depthScale);
+                sb.Draw(sprite, new Rectangle((int)pos.X - sw / 2, (int)pos.Y - sh, sw, sh), Color.White);
+                return;
+            }
             int r = (int)(30 * depthScale);
             sb.Draw(_pixel, new Rectangle((int)pos.X - r, (int)pos.Y - r, r * 2, r * 2), color * 0.8f);
             var sz = _bigFont.MeasureString(icon);

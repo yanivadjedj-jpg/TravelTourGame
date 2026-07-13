@@ -159,7 +159,10 @@ namespace TravelTour.States
             for (int i = 0; i < count; i++)
             {
                 var e = new Enemy();
-                e.SpriteKey = spritePool[i % spritePool.Length];
+                var islandMobs = ReturnToIsland?.MobSpawns.Where(m => !m.IsBoss).ToList();
+                e.SpriteKey = islandMobs != null && islandMobs.Count > 0
+                    ? islandMobs[i % islandMobs.Count].SpriteKey
+                    : spritePool[i % spritePool.Length];
                 float x = baseX + i * 140f + rng.Next(-30, 30);
                 x = Math.Clamp(x, 100, _world.Width - 100);
                 // Multiplicateur d'acte : Acte 1=×1.0  Acte 2=×1.4  Acte 3=×1.9  Acte 4=×2.5  Acte 5=×3.2
@@ -267,7 +270,7 @@ namespace TravelTour.States
             int H = _game.GraphicsDevice.Viewport.Height;
             int diff = _dungeon != null ? (int)_dungeon.Difficulty : 0;
             int fruitIdx = (diff * 2 + _wave) % _bossFruits.Length;
-            string fruitName = _bossFruits[fruitIdx];
+            string fruitName = !string.IsNullOrEmpty(ReturnToIsland?.NativeFruitName) ? ReturnToIsland!.NativeFruitName! : _bossFruits[fruitIdx];
 
             // Multiplicateur d'acte pour le boss
             float actMultBoss = _dungeon != null && _dungeon.StoryActIndex >= 0
@@ -285,6 +288,9 @@ namespace TravelTour.States
                 gold: 300);
             boss.FruitDrop  = fruitName;
             boss.IsBoss     = true;
+            var islandBossSpawn = ReturnToIsland?.MobSpawns.Find(m => m.IsBoss);
+            if (islandBossSpawn != null) boss.SpriteKey = islandBossSpawn.SpriteKey;
+            else if (!string.IsNullOrEmpty(ReturnToIsland?.EliteMobSpriteKey)) boss.SpriteKey = ReturnToIsland!.EliteMobSpriteKey;
             boss.WeaponName = weapon.Name;
             boss.WeaponIcon = weapon.Icon;
             boss.WeaponKind = weapon.Kind;
