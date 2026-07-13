@@ -16,11 +16,11 @@ namespace TravelTour.States
         SpriteFontBase _font = null!, _bigFont = null!;
         UIButton _backBtn = null!;
 
-        // Tabs: 0=Persos 1=Armes 2=Véhicules 3=Fruits 4=Capacités 5=Matériaux 6=Artefacts
+        // Tabs: 0=Persos 1=Armes 2=Véhicules 3=Fruits 4=Capacités 5=Matériaux 6=Artefacts 7=Maîtrise
         int _tab = 0;
         List<UIButton> _tabBtns = new();
 
-        static readonly string[] TabNames  = { "👤 Persos", "⚔️ Armes", "🚗 Véhicules", "🍎 Fruits", "✨ Capacités", "🔮 Matériaux", "🏺 Artefacts" };
+        static readonly string[] TabNames  = { "👤 Persos", "⚔️ Armes", "🚗 Véhicules", "🍎 Fruits", "✨ Capacités", "🔮 Matériaux", "🏺 Artefacts", "🎖️ Maîtrise" };
         static readonly Color[]  TabColors = {
             new Color(240,192,64),  // gold
             new Color(200,80,80),   // red
@@ -29,6 +29,7 @@ namespace TravelTour.States
             new Color(80,230,180),  // cyan
             new Color(160,120,80),  // brown
             new Color(255,165,0),   // orange
+            new Color(120,220,255), // mastery cyan-blue
         };
 
         // Scroll
@@ -51,7 +52,7 @@ namespace TravelTour.States
                 () => _game.ChangeState(GameState.MainMenu));
 
             _tabBtns.Clear();
-            int tw = 155, tgap = 8;
+            int tw = 148, tgap = 6;
             int tStartX = W / 2 - (TabNames.Length * (tw + tgap)) / 2;
             for (int i = 0; i < TabNames.Length; i++)
             {
@@ -117,6 +118,7 @@ namespace TravelTour.States
                 case 4: DrawAbilities(sb, W, H, contentY); break;
                 case 5: DrawMaterials(sb, W, H, contentY); break;
                 case 6: DrawArtifacts(sb, W, H, contentY); break;
+                case 7: DrawMasteries(sb, W, H, contentY); break;
             }
 
             // Toast
@@ -385,6 +387,33 @@ namespace TravelTour.States
                 // On ne peut pas appeler ChangeState depuis ici directement, mais via une action différée
                 Toast("Retourne au menu → ARTEFACTS", new Color(255,165,0));
             }
+        }
+
+        void DrawMasteries(SpriteBatch sb, int W, int H, int y0)
+        {
+            var owned = Catalog.Characters.Where(c => c.IsOwned).ToList();
+            if (owned.Count == 0) { DrawEmpty(sb, W, y0, "Aucun personnage possédé"); return; }
+            UIHelper.DrawCenteredText(sb, _font, "Éliminez des ennemis pour faire progresser la maîtrise de votre perso actif",
+                new Rectangle(0, y0, W, 22), UIHelper.TextDim, 0.72f);
+            GridLayout(sb, W, 3, 290, 112, 12, y0 + 28, (i, x, y) =>
+            {
+                var c = owned[i];
+                Color tierCol = c.Mastery >= 450 ? new Color(180, 220, 255)
+                              : c.Mastery >= 250 ? UIHelper.Gold
+                              : c.Mastery >= 100 ? new Color(200, 200, 200)
+                              : new Color(150, 100, 60);
+                UIHelper.DrawBox(sb, _pixel, new Rectangle(x, y, 290, 112), UIHelper.CardBg, tierCol * 0.6f, 2);
+                UIHelper.DrawCenteredText(sb, _bigFont, c.Icon, new Rectangle(x + 4, y + 4, 54, 54), Color.White, 0.7f);
+                sb.DrawString(_font, c.Name, new Vector2(x + 64, y + 6), UIHelper.TextMain);
+                sb.DrawString(_font, $"Maîtrise {c.MasteryTier()}", new Vector2(x + 64, y + 26), tierCol);
+                UIHelper.DrawProgressBar(sb, _pixel, new Rectangle(x + 64, y + 48, 214, 8), c.MasteryPct(), tierCol, new Color(20, 20, 30));
+                sb.DrawString(_font, $"{c.Mastery}/600", new Vector2(x + 64, y + 58), UIHelper.TextDim * 0.8f);
+                string ultStatus = c.MasteryUltimateUnlocked
+                    ? $"⚡ {c.MasteryUltimateName} (touche C)"
+                    : "🔒 Ultime débloquée à 450 de maîtrise";
+                sb.DrawString(_font, ultStatus, new Vector2(x + 8, y + 86),
+                    c.MasteryUltimateUnlocked ? new Color(255, 215, 0) : UIHelper.TextDim * 0.6f);
+            }, owned.Count);
         }
 
         public void Dispose() { }

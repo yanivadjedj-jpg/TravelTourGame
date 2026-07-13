@@ -30,10 +30,24 @@ namespace TravelTour.Entities
         public string?       FruitDrop;          // nom du fruit droppé (boss only)
         public float         FruitDropChance = 0.25f;  // 25% de chance de drop
 
+        // Ennemi à distance (mage)
+        public bool IsRanged = false;
+
+        // Ultime longue distance + burst de vitesse (boss)
+        public bool  HasUltimate       = false;
+        public float UltimateDamageMult = 1.8f;
+        float _ultimateTimer;
+        float _speedBurstTimer;
+        const float ULTIMATE_CD          = 5f;
+        const float SPEED_BURST_DURATION = 0.8f;
+        const float SPEED_BURST_MULT     = 1.9f;
+
         // Events
         public Action<int, Vector2>?  OnGoldDrop;
         public Action<string, int>?   OnMaterialDrop;
         public Action<string>?        OnFruitDrop;
+        public Action<Vector2, Vector2, float>? OnRangedAttack;  // (position départ, direction, dégâts) — mages
+        public Action<Vector2, Vector2, float>? OnUltimateAttack; // (position départ, direction, dégâts) — boss
 
         Vector2  _velocity;
         Vector2  _patrolOrigin;
@@ -51,6 +65,8 @@ namespace TravelTour.Entities
         const float DETECT_R   = 380f;
         const float ATTACK_R   = 65f;
         const float ATTACK_CD  = 1.1f;
+        const float RANGED_ATTACK_R  = 320f;
+        const float RANGED_ATTACK_CD = 1.6f;
 
         public void Init(Vector2 pos, float hp = 120f, float atk = 20f, float spd = 80f, int gold = 50)
         {
@@ -78,6 +94,7 @@ namespace TravelTour.Entities
             _attackTimer -= dt;
             _flashTimer  -= dt;
             AttackActive  = false;
+            if (_speedBurstTimer > 0) _speedBurstTimer -= dt;
 
             if (State == EnemyState.Stunned)
             {
@@ -87,9 +104,25 @@ namespace TravelTour.Entities
                 return;
             }
 
+            // Ultime longue distance : indépendant de l'état (mêlée + distance)
+            if (HasUltimate)
+            {
+                _ultimateTimer -= dt;
+                if (_ultimateTimer <= 0f)
+                {
+                    _ultimateTimer = ULTIMATE_CD;
+                    Vector2 origin = Position + new Vector2(22, 20);
+                    Vector2 dir    = playerPos - origin;
+                    dir = dir.LengthSquared() > 0.01f ? Vector2.Normalize(dir) : new Vector2(_patrolDir, 0);
+                    OnUltimateAttack?.Invoke(origin, dir, AttackDamage * UltimateDamageMult);
+                    _speedBurstTimer = SPEED_BURST_DURATION;
+                }
+            }
+
             float dist = Vector2.Distance(Position, playerPos);
-            var newState = dist < ATTACK_R  ? EnemyState.Attack
-                         : dist < DETECT_R  ? EnemyState.Chase
+            float attackRange = IsRanged ? RANGED_ATTACK_R : ATTACK_R;
+            var newState = dist < attackRange ? EnemyState.Attack
+                         : dist < DETECT_R    ? EnemyState.Chase
                          : EnemyState.Patrol;
             if (newState != _prevState) { _stateTime = 0f; _prevState = newState; }
             State = newState;
@@ -115,15 +148,27 @@ namespace TravelTour.Entities
         void DoChase(float dt, Vector2 target)
         {
             _patrolDir  = target.X > Position.X ? 1f : -1f;
-            _velocity.X = _patrolDir * MoveSpeed;
+            float mult  = _speedBurstTimer > 0 ? SPEED_BURST_MULT : 1f;
+            _velocity.X = _patrolDir * MoveSpeed * mult;
         }
 
         void DoAttack(float dt, Vector2 target)
         {
             _velocity.X = 0;
             if (_attackTimer > 0) return;
-            _attackTimer = ATTACK_CD;
             AttackActive = true;
+
+            if (IsRanged)
+            {
+                _attackTimer = RANGED_ATTACK_CD;
+                Vector2 origin = Position + new Vector2(22, 30);
+                Vector2 dir    = target - origin;
+                dir = dir.LengthSquared() > 0.01f ? Vector2.Normalize(dir) : new Vector2(_patrolDir, 0);
+                OnRangedAttack?.Invoke(origin, dir, AttackDamage);
+                return;
+            }
+
+            _attackTimer = ATTACK_CD;
             AttackBox = new Rectangle(
                 (int)Position.X - 20, (int)Position.Y + 10,
                 44 + 40, 40);
@@ -238,6 +283,8 @@ namespace TravelTour.Entities
                 int sy = (int)Position.Y - (sh - 60) / 2;
 
                 Color tint = _flashTimer > 0 ? new Color(255, 80, 80) :
+                             IsRanged && State == EnemyState.Attack ? new Color(190, 130, 255) :
+                             IsRanged ? new Color(150, 110, 230) :
                              State == EnemyState.Attack ? new Color(255, 200, 200) :
                              Color.White;
 
@@ -253,6 +300,10 @@ namespace TravelTour.Entities
                 // Arme du boss
                 if (IsBoss && WeaponName != "")
                     DrawBossWeapon(sb, pixel, sx, sy, sw, sh, facingLeft);
+
+                // Orbe du mage
+                if (IsRanged && !IsBoss)
+                    DrawMageOrb(sb, pixel, sx, sy, sw, facingLeft);
 
                 // Barre HP au-dessus
                 DrawHealthBar(sb, pixel, sx, sy - 10, sw);
@@ -483,6 +534,20 @@ namespace TravelTour.Entities
                     sb.Draw(pixel, new Rectangle(wx + 4, wy + 4, 4, 16), Color.White * 0.3f);
                     break;
             }
+        }
+
+        void DrawMageOrb(SpriteBatch sb, Texture2D pixel, int sx, int sy, int sw, bool facingLeft)
+        {
+            int ox = facingLeft ? sx - 10 : sx + sw + 2;
+            int oy = sy + 14;
+            float pulse = (float)Math.Abs(Math.Sin(_stateTime * 5.0));
+            Color glow = new Color(180, 100, 255);
+
+            if (State == EnemyState.Attack)
+                sb.Draw(pixel, new Rectangle(ox - 6, oy - 6, 24, 24), glow * (0.25f + pulse * 0.25f));
+
+            sb.Draw(pixel, new Rectangle(ox, oy, 12, 12), glow);
+            sb.Draw(pixel, new Rectangle(ox + 3, oy + 3, 6, 6), new Color(230, 200, 255));
         }
 
         void DrawHealthBar(SpriteBatch sb, Texture2D pixel, int x, int y, int w)

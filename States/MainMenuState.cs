@@ -71,6 +71,11 @@ namespace TravelTour.States
         UIButton _resetBtn      = null!;
         UIButton _fullscreenBtn = null!;
 
+        // ── Mise à l'échelle des cartes selon la résolution (plein écran) ───────
+        const int BaseW = 1280, BaseH = 720;
+        float _uiScale = 1f;
+        int _lastW, _lastH;
+
         public MainMenuState(TravelTourGame game) => _game = game;
 
         // ═════════════════════════════════════════════════════════════════════════
@@ -132,7 +137,11 @@ namespace TravelTour.States
 
         void BuildButtons(int W, int H)
         {
-            int cardW = 240, cardH = 78, gap = 10;
+            _lastW = W; _lastH = H;
+            _uiScale = Math.Max(1f, Math.Min((float)W / BaseW, (float)H / BaseH));
+
+            int cardW = (int)(240 * _uiScale), cardH = (int)(78 * _uiScale), gap = (int)(10 * _uiScale);
+            _buttons.Clear();
             int rowH = cardH + gap;
             int totalRows = DiamondRowCounts.Length;
             int totalH = totalRows * rowH - gap;
@@ -213,6 +222,15 @@ namespace TravelTour.States
                     _introTimer -= IntroChrDt;
                     _introCharsVisible++;
                 }
+            }
+
+            // Reconstruit les cartes si la résolution a changé (bascule plein écran)
+            int curW = _game.GraphicsDevice.Viewport.Width;
+            int curH = _game.GraphicsDevice.Viewport.Height;
+            if (curW != _lastW || curH != _lastH)
+            {
+                BuildButtons(curW, curH);
+                _hovered = new bool[_cardDefs.Length];
             }
 
             // Mouse
@@ -589,7 +607,7 @@ namespace TravelTour.States
             // ── Image de carte (droite, réduite) ──
             string stateKey = def.State.ToString();
             var cardImg = TravelTour.Core.SpriteLoader.MenuCard(stateKey);
-            int imgW = 80, imgH = r.Height - 6;
+            int imgW = (int)(80 * _uiScale), imgH = r.Height - 6;
             int imgX = r.Right - imgW - 3;
             int imgY = r.Y + 3;
             if (cardImg != null)
@@ -611,14 +629,13 @@ namespace TravelTour.States
 
             // ── Titre (gauche) ──
             sb.DrawString(_font, def.Label,
-                new Vector2(r.X + 26, r.Y + 10),
+                new Vector2(r.X + 26 * _uiScale, r.Y + 10 * _uiScale),
                 def.Col);
 
             // ── Description courte (gauche, une ligne) ──
             string desc = def.Desc;
-            float descScale = 0.72f;
             sb.DrawString(_font, desc,
-                new Vector2(r.X + 26, r.Y + 28),
+                new Vector2(r.X + 26 * _uiScale, r.Y + 28 * _uiScale),
                 UIHelper.TextDim * (hov ? 0.9f : 0.65f));
         }
 

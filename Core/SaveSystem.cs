@@ -43,10 +43,16 @@ namespace TravelTour.Core
                 // Fruits possédés + équipé
                 foreach (var f in Catalog.Fruits)
                     if (f.IsOwned) sb.AppendLine($"fruit:{f.Name}");
+                // Maîtrise des fruits et des personnages
+                foreach (var f in Catalog.Fruits)
+                    if (f.Mastery > 0) sb.AppendLine($"fruitmastery:{f.Name}={f.Mastery}");
+                foreach (var c in Catalog.Characters)
+                    if (c.Mastery > 0) sb.AppendLine($"charmastery:{c.Name}={c.Mastery}");
                 if (PlayerSave.EquippedFruitName != null)
                     sb.AppendLine($"equip_fruit={PlayerSave.EquippedFruitName}");
                 for (int i = 0; i < PlayerSave.StoryProgress.Length; i++)
                     sb.AppendLine($"story:{i}={PlayerSave.StoryProgress[i]}");
+                sb.AppendLine($"lastchapter={PlayerSave.LastChapterIndex}");
                 File.WriteAllText(SavePath, sb.ToString());
             }
             catch { /* Silently fail if can't write */ }
@@ -89,6 +95,20 @@ namespace TravelTour.Core
                     else if (line.StartsWith("char:"))        PlayerSave.OwnedChars.Add(line[5..]);
                     else if (line.StartsWith("vehicle:"))     PlayerSave.OwnedVehicles.Add(line[8..]);
                     else if (line.StartsWith("fruit:"))       PlayerSave.OwnedFruits.Add(line[6..]);
+                    else if (line.StartsWith("fruitmastery:"))
+                    {
+                        var eq = line.IndexOf('=');
+                        var name = line[13..eq];
+                        var f = Catalog.Fruits.Find(fr => fr.Name == name);
+                        if (f != null) f.Mastery = int.Parse(line[(eq + 1)..]);
+                    }
+                    else if (line.StartsWith("charmastery:"))
+                    {
+                        var eq = line.IndexOf('=');
+                        var name = line[12..eq];
+                        var c = Catalog.Characters.Find(ch => ch.Name == name);
+                        if (c != null) c.Mastery = int.Parse(line[(eq + 1)..]);
+                    }
                     else if (line.StartsWith("equip_fruit=")) PlayerSave.EquippedFruitName = line[12..];
                     else if (line.StartsWith("story:"))
                     {
@@ -97,6 +117,7 @@ namespace TravelTour.Core
                         if (idx < PlayerSave.StoryProgress.Length)
                             PlayerSave.StoryProgress[idx] = line[(eq+1)..] == "True";
                     }
+                    else if (line.StartsWith("lastchapter=")) PlayerSave.LastChapterIndex = int.Parse(line[12..]);
                 }
                 // Sync story progress to StoryState
                 for (int i = 0; i < PlayerSave.StoryProgress.Length; i++)

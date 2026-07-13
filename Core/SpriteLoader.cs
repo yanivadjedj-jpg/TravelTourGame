@@ -75,6 +75,7 @@ namespace TravelTour.Core
             return Get(attacking ? "jimmy_attack" : "jimmy_idle");
         }
         public static Texture2D? Enemy(bool isBoss)     => Get(isBoss ? "boss_demon" : "enemy_ninja");
+        public static Texture2D? Effect(string key)     => Get("fx_orb_" + key);
         public static Texture2D? BgDungeon()            => Get("bg_combat") ?? Get("bg_dungeon");
         public static Texture2D? BgCity()               => Get("bg_menu") ?? Get("bg_city");
         public static Texture2D? Moto()                 => Get("moto_bike");

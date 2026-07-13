@@ -26,6 +26,12 @@ namespace TravelTour.States
         List<Enemy> _enemies = new();
         DungeonData _dungeon = null!;
 
+        // Projectiles ennemis (mages + ultimes de boss)
+        record struct EnemyProjectile(Vector2 Position, Vector2 Velocity, float Damage, float Life, Color Col, int Size);
+        List<EnemyProjectile> _enemyProjectiles = new();
+        const float PROJECTILE_SPEED = 420f;
+        const float PROJECTILE_LIFE  = 2.5f;
+
         // State
         int   _wave, _totalWaves = 3;
         bool  _bossWave, _victory, _defeat;
@@ -133,6 +139,7 @@ namespace TravelTour.States
             count = Math.Max(2, count);
 
             _enemies.Clear();
+            _enemyProjectiles.Clear();
             var rng = new Random();
             int H = _game.GraphicsDevice.Viewport.Height;
             float baseX = _player.Position.X + 250f;
@@ -167,6 +174,7 @@ namespace TravelTour.States
                     if (rankedUp) ShowToast($"⬆ RANG {PlayerSave.GetRank()} !", new Color(255,200,0));
                     PlayerSave.EnemiesKilled++;
                     foreach (var q in Catalog.Quests) q.CheckCompleted();
+                    if (_player.Character != null) PlayerSave.AddCharacterMastery(_player.Character.Name, 3);
                 };
                 e.OnMaterialDrop = (m, q) => PlayerSave.AddMaterial(m, q);
                 if (_dungeon != null)
@@ -180,6 +188,17 @@ namespace TravelTour.States
                     e.Drops = drops;
                 }
                 else e.Drops = Array.Empty<MaterialReward>();
+
+                // 1 ennemi sur 3 est un mage attaquant à distance
+                if (i % 3 == 0)
+                {
+                    e.IsRanged  = true;
+                    e.SpriteKey = "enemy_ghost";
+                    e.OnRangedAttack = (pos, dir, dmg) => _enemyProjectiles.Add(
+                        new EnemyProjectile(pos, dir * PROJECTILE_SPEED, dmg, PROJECTILE_LIFE,
+                            new Color(180, 100, 255), 12));
+                }
+
                 _enemies.Add(e);
             }
             _enemiesLeft = count;
@@ -245,6 +264,7 @@ namespace TravelTour.States
                 PlayerSave.BossesDefeated++;
                 foreach (var q in Catalog.Quests) q.CheckCompleted();
                 ShowToast($"+{reduced} 💰 BOSS!", UIHelper.Gold);
+                if (_player.Character != null) PlayerSave.AddCharacterMastery(_player.Character.Name, 20);
             };
             boss.OnFruitDrop = (fn) =>
             {
@@ -259,7 +279,18 @@ namespace TravelTour.States
                     ShowToast($"🍎 {fn} (déjà possédé)", UIHelper.Gold);
                 }
             };
+
+            // Ultime longue distance + burst de vitesse
+            boss.HasUltimate = true;
+            boss.OnUltimateAttack = (pos, dir, dmg) =>
+            {
+                _enemyProjectiles.Add(new EnemyProjectile(pos, dir * PROJECTILE_SPEED * 1.4f, dmg,
+                    PROJECTILE_LIFE, new Color(255, 90, 40), 20));
+                ShowToast("⚡ ATTAQUE ULTIME !", new Color(255, 90, 40));
+            };
+
             _enemies.Add(boss);
+            _enemyProjectiles.Clear();
             _enemiesLeft = 1;
             _bossActive = true;
             _bossFlashTimer = 1.2f;
@@ -322,9 +353,31 @@ namespace TravelTour.States
             {
                 e.Update(gt, _player.Position, _platforms, _world);
 
-                // Enemy hits player
-                if (e.AttackActive && e.AttackBox.Intersects(_player.Bounds))
+                // Enemy hits player (mêlée uniquement)
+                if (!e.IsRanged && e.AttackActive && e.AttackBox.Intersects(_player.Bounds))
                     _player.TakeDamage(e.AttackDamage);
+            }
+
+            // Update projectiles ennemis (mages + ultimes de boss)
+            for (int i = _enemyProjectiles.Count - 1; i >= 0; i--)
+            {
+                var p = _enemyProjectiles[i];
+                p.Position += p.Velocity * dt;
+                p.Life     -= dt;
+                var box = new Rectangle((int)p.Position.X - p.Size / 2, (int)p.Position.Y - p.Size / 2, p.Size, p.Size);
+                if (box.Intersects(_player.Bounds))
+                {
+                    _player.TakeDamage(p.Damage);
+                    SpawnHitBurst(p.Position, p.Col);
+                    _enemyProjectiles.RemoveAt(i);
+                    continue;
+                }
+                if (p.Life <= 0 || p.Position.X < _world.X - 60 || p.Position.X > _world.Right + 60)
+                {
+                    _enemyProjectiles.RemoveAt(i);
+                    continue;
+                }
+                _enemyProjectiles[i] = p;
             }
 
             // Player hits enemies
@@ -604,8 +657,17 @@ namespace TravelTour.States
             // Enemies
             foreach (var e in _enemies) e.Draw(sb, _pixel);
 
+            // Projectiles ennemis (mages + ultimes de boss)
+            foreach (var p in _enemyProjectiles)
+            {
+                int s = p.Size;
+                sb.Draw(_pixel, new Rectangle((int)p.Position.X - s, (int)p.Position.Y - s, s * 2, s * 2), p.Col * 0.25f);
+                sb.Draw(_pixel, new Rectangle((int)p.Position.X - s / 2, (int)p.Position.Y - s / 2, s, s), p.Col);
+            }
+
             // Player
             _player.Draw(sb, _pixel);
+            _player.DrawEffect(sb);
 
             // Particles
             foreach (var p in _particles)

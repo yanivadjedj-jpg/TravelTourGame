@@ -492,26 +492,24 @@ namespace TravelTour.States
                 ));
             }
 
-            // Ouvre directement au chapitre demandé (après victoire en donjon)
-            if (RequestedChapterIdx >= 0)
+            // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
+            int idx = System.Math.Clamp(
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 49);
+            for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
-                int idx = System.Math.Clamp(RequestedChapterIdx, 0, 49);
-                for (int a = 0; a < ActStartIndex.Length - 1; a++)
+                if (idx < ActStartIndex[a + 1])
                 {
-                    if (idx < ActStartIndex[a + 1])
-                    {
-                        _selectedAct          = a;
-                        _selectedChapterInAct = idx - ActStartIndex[a];
-                        break;
-                    }
+                    _selectedAct          = a;
+                    _selectedChapterInAct = idx - ActStartIndex[a];
+                    break;
                 }
-                if (idx >= ActStartIndex[ActStartIndex.Length - 1])
-                {
-                    _selectedAct          = ActStartIndex.Length - 1;
-                    _selectedChapterInAct = idx - ActStartIndex[_selectedAct];
-                }
-                RequestedChapterIdx = -1;
             }
+            if (idx >= ActStartIndex[ActStartIndex.Length - 1])
+            {
+                _selectedAct          = ActStartIndex.Length - 1;
+                _selectedChapterInAct = idx - ActStartIndex[_selectedAct];
+            }
+            RequestedChapterIdx = -1;
 
             RebuildNavButtons();
         }
@@ -528,6 +526,11 @@ namespace TravelTour.States
                 () => { if (_selectedChapterInAct < count - 1) { _selectedChapterInAct++; RebuildNavButtons(); } },
                 UIHelper.Dark2, new Color(30, 30, 60));
             int globalIdx = ActStartIndex[_selectedAct] + _selectedChapterInAct;
+            if (PlayerSave.LastChapterIndex != globalIdx)
+            {
+                PlayerSave.LastChapterIndex = globalIdx;
+                SaveSystem.Save();
+            }
             var ch = Chapters[globalIdx];
             bool done = ChaptersCompleted[globalIdx];
             _fightBtn = new UIButton(

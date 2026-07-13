@@ -46,6 +46,12 @@ namespace TravelTour.Core
         // Mastery thresholds
         public static readonly int[] MasteryLevels = { 0, 50, 120, 250 };
 
+        // ── Transformation (maîtrise 600 requise, touche V) ──
+        public bool   CanTransform      = false;
+        public string TransformAuraKey  = "";     // clé sprite (ex: "fx_aura_magma")
+        public float  TransformAtkMult   = 1f;
+        public float  TransformSpeedMult = 1f;
+
         public string GetRarityLabel() => Rarity switch {
             Rarity.Common    => "COMMUN",
             Rarity.Rare      => "RARE",
@@ -80,6 +86,16 @@ namespace TravelTour.Core
         public float ScaledHP()  => MaxHP   + (Level - 1) * 30f;
         public float ScaledAtk() => BaseAtk + (Level - 1) * 5f;
         public float ScaledDef() => BaseDef + (Level - 1) * 3f;
+
+        // ── Maîtrise du personnage (0-600, gagnée en éliminant des ennemis) ──
+        public int Mastery = 0;
+        public static readonly int[] MasteryLevels = { 0, 100, 250, 450 };
+
+        public string MasteryTier() => Mastery >= 450 ? "Platine" : Mastery >= 250 ? "Or" : Mastery >= 100 ? "Argent" : "Bronze";
+        public float  MasteryAtkMult() => 1f + (Mastery >= 450 ? 0.30f : Mastery >= 250 ? 0.18f : Mastery >= 100 ? 0.08f : 0f);
+        public float  MasteryPct() => System.Math.Clamp(Mastery / 600f, 0f, 1f);
+        public bool   MasteryUltimateUnlocked => Mastery >= 450;
+        public string MasteryUltimateName => $"Frappe Ultime de {Name}";
     }
 
     public class WeaponData
@@ -398,12 +414,27 @@ namespace TravelTour.Core
             SaveSystem.Save();
         }
 
+        public static void AddCharacterMastery(string charName, int amount)
+        {
+            var c = Catalog.Characters.Find(ch => ch.Name == charName);
+            if (c == null) return;
+            int old = c.Mastery;
+            c.Mastery = System.Math.Min(600, c.Mastery + amount);
+            foreach (var lvl in CharacterData.MasteryLevels)
+                if (old < lvl && c.Mastery >= lvl && lvl > 0)
+                    Popups.Enqueue($"🎖️ {c.Name} — Maîtrise {c.MasteryTier()} !");
+            if (old < 450 && c.Mastery >= 450)
+                Popups.Enqueue($"⚡ {c.Name} débloque {c.MasteryUltimateName} (touche C) !");
+            SaveSystem.Save();
+        }
+
         // Tracked separately for save/load
         public static List<string> OwnedWeapons   = new() { "Épée Six Seven", "Bouclier Trois Cieux" };
         public static List<string> OwnedChars     = new() { "Jimmy", "Kaito Shadow", "Ryo Thunder" };
         public static List<string> OwnedVehicles  = new() { "Tommy Mayo" };
         public static List<string> OwnedFruits    = new() { "Fruit du Golem" };  // fruits possédés
         public static bool[]       StoryProgress  = new bool[50];  // 50 chapitres
+        public static int          LastChapterIndex = 0;  // dernier chapitre consulté/joué
 
         // ── Statistiques globales pour les quêtes ─────────────────
         public static int EnemiesKilled    = 0;
@@ -760,7 +791,8 @@ namespace TravelTour.Core
                     M("Absorption",    "Aspire les ennemis proches.",85,40,5f,  100,"X","🕳️"),
                     M("Monde des Ombres","Plonge la zone dans l'obscurité.",120,70,10f,200,"C","🌑"),
                     M("Ultime Ténèbre","Libère un cataclysme de ténèbres.",200,120,30f,400,"F","💀"),
-                }},
+                },
+                CanTransform=true, TransformAuraKey="fx_aura_shadow", TransformAtkMult=1.7f, TransformSpeedMult=1.25f},
 
             new(){ Name="Fruit du Magma",      Icon="🌋", Type=FruitType.Élémentaire,
                 Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=28000, Mastery=0,
@@ -770,7 +802,8 @@ namespace TravelTour.Core
                     M("Volcan",       "Éruption de lave en zone.",100,45,5f, 100,"X","🌋"),
                     M("Déluge Magma", "Pluie de lave sur toute la zone.",145,75,12f,200,"C","☄️"),
                     M("Île de Feu",   "Transforme le sol en lave — dégâts continus.",0,130,28f,400,"F","🏝️"),
-                }},
+                },
+                CanTransform=true, TransformAuraKey="fx_aura_magma", TransformAtkMult=1.8f, TransformSpeedMult=1.15f},
 
             new(){ Name="Fruit de la Lumière", Icon="☀️", Type=FruitType.Élémentaire,
                 Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=30000, Mastery=0,
@@ -780,7 +813,8 @@ namespace TravelTour.Core
                     M("Mille Flèches","Pluie de flèches lumineuses.",110,45,5f,100,"X","✨"),
                     M("Tempête Solaire","Explosion de lumière aveuglante.",150,75,12f,200,"C","💫"),
                     M("Vitesse Absolue","Frappe tous les ennemis visibles en 0.5s.",180,140,30f,400,"F","⚡"),
-                }},
+                },
+                CanTransform=true, TransformAuraKey="fx_aura_light", TransformAtkMult=1.6f, TransformSpeedMult=1.5f},
 
             // ── MYTHIQUES ─────────────────────────────────────────
             new(){ Name="Sekai Sekai no Mi",   Icon="🌀", Type=FruitType.Naturel,

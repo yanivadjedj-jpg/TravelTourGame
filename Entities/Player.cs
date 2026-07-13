@@ -31,7 +31,24 @@ namespace TravelTour.Entities
         float _attackTimer;
         float _comboTimer;
         bool  _prevJump, _prevDash, _prevLight, _prevHeavy;
-        bool  _prevQ, _prevE;
+        bool  _prevQ, _prevE, _prevMastery, _prevTransform;
+        float _masteryCd;
+
+        public CharacterData? Character;
+
+        // ── Effet visuel des attaques spéciales (orbe d'énergie) ──
+        public string ActiveEffectKey = "";
+        float _effectTime;
+
+        // ── Transformation de fruit (sprite + puissance) ──
+        bool  _transformActive;
+        float _transformTimer;
+        float _transformCd;
+        const float TRANSFORM_DURATION = 12f;
+        const float TRANSFORM_CD       = 20f;
+
+        float TransformMult() => _transformActive
+            ? (TravelTour.Core.PlayerSave.GetEquippedFruit()?.TransformAtkMult ?? 1f) : 1f;
 
         // ── Abilities ──────────────────────────────────────
         public List<AbilityData> Abilities = new();
@@ -64,12 +81,13 @@ namespace TravelTour.Entities
         const float DASH_DURATION = 0.15f;
         const float DASH_CD       = 0.8f;
         const float ATK_CD        = 0.30f;
-        const float PLAYER_DMG    = 0.35f;  // multiplicateur dégâts attaques normales
+        const float PLAYER_DMG    = 0.22f;  // multiplicateur dégâts attaques normales
         const float ABILITY_DMG   = 0.20f;  // multiplicateur dégâts capacités/fruits
 
         // ── Init ──────────────────────────────────────────
         public void Init(CharacterData c)
         {
+            Character = c;
             MaxHP = MaxChakra = 0;
             MaxHP     = (c.ScaledHP()  + TravelTour.Core.PlayerSave.LevelHpBonus())
                         * TravelTour.Core.PlayerSave.DefenseBonus()
@@ -79,7 +97,8 @@ namespace TravelTour.Entities
             CurrentChakra = MaxChakra;
             BaseAtk = (c.ScaledAtk() + TravelTour.Core.PlayerSave.LevelAtkBonus())
                       * TravelTour.Core.PlayerSave.MeleeDmgBonus()
-                      * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.AtkBoost);
+                      * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.AtkBoost)
+                      * c.MasteryAtkMult();
             BaseDef = (c.ScaledDef() + TravelTour.Core.PlayerSave.LevelDefBonus())
                       * TravelTour.Core.PlayerSave.DefenseBonus()
                       * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.DefBoost);
@@ -99,10 +118,19 @@ namespace TravelTour.Entities
             _attackTimer  -= dt;
             _comboTimer   -= dt;
             _flashTimer   -= dt;
+            _masteryCd    -= dt;
+            _effectTime   += dt;
+            if (_transformActive)
+            {
+                _transformTimer -= dt;
+                if (_transformTimer <= 0f) { _transformActive = false; _transformCd = TRANSFORM_CD; }
+            }
+            else if (_transformCd > 0) _transformCd -= dt;
             _attackBoxTimer -= dt;
             _walkTimer    += dt;
             _particleFrame = (int)(_walkTimer * 10f) % 4;
             if (_attackBoxTimer <= 0) AttackActive = false;
+            if (!AttackActive) ActiveEffectKey = "";
             if (_comboTimer <= 0) ComboCount = 0;
 
             for (int i = 0; i < _abilityCd.Length; i++)
@@ -127,7 +155,9 @@ namespace TravelTour.Entities
             if (kb.IsKeyDown(Keys.A) || kb.IsKeyDown(Keys.Left))  dx = -1;
             if (kb.IsKeyDown(Keys.D) || kb.IsKeyDown(Keys.Right)) dx =  1;
 
-            Velocity.X = dx * Speed;
+            float spdMult = _transformActive
+                ? (TravelTour.Core.PlayerSave.GetEquippedFruit()?.TransformSpeedMult ?? 1f) : 1f;
+            Velocity.X = dx * Speed * spdMult;
             if (dx > 0) _facingRight = true;
             if (dx < 0) _facingRight = false;
 
@@ -220,7 +250,7 @@ namespace TravelTour.Entities
             {
                 ComboCount++;
                 _comboTimer = 1.2f;
-                float dmg = BaseAtk * (ComboCount >= 3 ? 1.3f : 1f) * TravelTour.Core.PlayerSave.MeleeDmgBonus() * PLAYER_DMG;
+                float dmg = BaseAtk * (ComboCount >= 3 ? 1.3f : 1f) * TravelTour.Core.PlayerSave.MeleeDmgBonus() * PLAYER_DMG * TransformMult();
                 TriggerAttack(dmg, 60, ATK_CD);
                 if (ComboCount >= 3) ShowToast?.Invoke($"x{ComboCount} COMBO!", UIHelper.Gold);
                 if (ComboCount > TravelTour.Core.PlayerSave.MaxComboReached)
@@ -232,7 +262,7 @@ namespace TravelTour.Entities
             bool ha = kb.IsKeyDown(Keys.X) || ms.RightButton == ButtonState.Pressed;
             if (ha && !_prevHeavy)
             {
-                float dmg = BaseAtk * 1.6f * TravelTour.Core.PlayerSave.SwordDmgBonus() * PLAYER_DMG;
+                float dmg = BaseAtk * 1.6f * TravelTour.Core.PlayerSave.SwordDmgBonus() * PLAYER_DMG * TransformMult();
                 TriggerAttack(dmg, 80, ATK_CD * 1.8f);
                 ComboCount = 0;
             }
@@ -250,6 +280,61 @@ namespace TravelTour.Entities
 
             // Fruit moves: R, T, F, G
             UseFruitMoves(kb);
+
+            // Ultime de maîtrise : C (débloqué à la maîtrise Platine du perso actif)
+            bool mc = kb.IsKeyDown(Keys.C);
+            if (mc && !_prevMastery) UseMasteryUltimate();
+            _prevMastery = mc;
+
+            // Transformation de fruit : V (nécessite maîtrise 600 du fruit équipé)
+            bool tv = kb.IsKeyDown(Keys.V);
+            if (tv && !_prevTransform) ToggleTransform();
+            _prevTransform = tv;
+        }
+
+        void ToggleTransform()
+        {
+            if (_transformActive) return;
+            var fruit = TravelTour.Core.PlayerSave.GetEquippedFruit();
+            if (fruit == null || !fruit.CanTransform)
+            {
+                ShowToast?.Invoke("Aucun fruit transformable équipé", Color.Gray);
+                return;
+            }
+            if (fruit.Mastery < 600)
+            {
+                ShowToast?.Invoke($"🔒 Maîtrise 600 requise pour {fruit.Name}", Color.Gray);
+                return;
+            }
+            if (_transformCd > 0)
+            {
+                ShowToast?.Invoke($"Transformation en recharge ({_transformCd:F0}s)", Color.Yellow);
+                return;
+            }
+            _transformActive = true;
+            _transformTimer  = TRANSFORM_DURATION;
+            ShowToast?.Invoke($"🔥 TRANSFORMATION : {fruit.Name} !", new Color(255, 120, 40));
+            OnAbilityUsed?.Invoke($"🔥 Transformation {fruit.Name}", new Color(255, 120, 40));
+        }
+
+        void UseMasteryUltimate()
+        {
+            if (Character == null || !Character.MasteryUltimateUnlocked) return;
+            if (_masteryCd > 0)
+            {
+                ShowToast?.Invoke($"{Character.MasteryUltimateName} en recharge ({_masteryCd:F0}s)", Color.Yellow);
+                return;
+            }
+            _masteryCd = 8f;
+            AttackDamage = BaseAtk * 2.2f * TravelTour.Core.PlayerSave.MeleeDmgBonus() * PLAYER_DMG * TransformMult();
+            AttackActive = true;
+            _attackBoxTimer = 0.4f;
+            AttackBox = new Rectangle((int)Position.X - 130, (int)Position.Y - 130, 300, 300);
+            ActiveEffectKey = "gold";
+            _effectTime = 0f;
+            Flash(new Color(255, 215, 0));
+            ShowToast?.Invoke($"⚡ {Character.MasteryUltimateName}!", new Color(255, 215, 0));
+            OnAbilityUsed?.Invoke($"⚡ {Character.MasteryUltimateName}", new Color(255, 215, 0));
         }
 
         void UseFruitMoves(KeyboardState kb)
@@ -285,7 +370,7 @@ namespace TravelTour.Entities
                 FruitMoveCd[i] = move.Cooldown;
 
                 // Appliquer l'effet du move
-                float dmg = move.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * ABILITY_DMG;
+                float dmg = move.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * ABILITY_DMG * TransformMult();
                 if (dmg > 0)
                 {
                     AttackDamage  = dmg;
@@ -293,9 +378,12 @@ namespace TravelTour.Entities
                     _attackBoxTimer = 0.4f;
                     AttackBox = new Rectangle((int)Position.X - 120, (int)Position.Y - 120, 290, 290);
                     Flash(new Color(255, 140, 0));
+                    ActiveEffectKey = "orange";
+                    _effectTime = 0f;
                 }
                 ShowToast?.Invoke($"{fruit.Icon} {move.Icon} {move.Name}!", new Color(255, 140, 0));
-                OnAbilityUsed?.Invoke($"{fruit.Icon} {move.Name}", new Color(255, 140, 0));
+                // Pas de gros plan caméra sur R (move de base, trop fréquent)
+                if (i > 0) OnAbilityUsed?.Invoke($"{fruit.Icon} {move.Name}", new Color(255, 140, 0));
                 TravelTour.Core.PlayerSave.AddFruitMastery(fruit.Name, 2);
             }
         }
@@ -330,12 +418,30 @@ namespace TravelTour.Entities
             }
             CurrentChakra -= ab.ChakraCost;
             _abilityCd[idx] = ab.Cooldown;
-            AttackDamage = ab.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * ABILITY_DMG;
+            AttackDamage = ab.Damage * TravelTour.Core.PlayerSave.FruitDmgBonus() * ABILITY_DMG * TransformMult();
             AttackActive = true;
             _attackBoxTimer = ab.Duration > 0 ? Math.Min(ab.Duration, 1f) : 0.3f;
             AttackBox = new Rectangle((int)Position.X - 150, (int)Position.Y - 150, 300 + 48, 300 + 72);
+            ActiveEffectKey = "purple";
+            _effectTime = 0f;
             ShowToast?.Invoke($"⚡ {ab.Name}!", UIHelper.Purple);
             OnAbilityUsed?.Invoke($"{ab.Icon} {ab.Name}", UIHelper.Purple);
+        }
+
+        public void DrawEffect(SpriteBatch sb)
+        {
+            if (!AttackActive || ActiveEffectKey == "") return;
+            var tex = TravelTour.Core.SpriteLoader.Effect(ActiveEffectKey);
+            if (tex == null) return;
+
+            float pulse = 1f + (float)Math.Sin(_effectTime * 14.0) * 0.08f;
+            float fade  = Math.Clamp(_attackBoxTimer / 0.2f, 0f, 1f);
+            int size = (int)(Math.Min(AttackBox.Width, AttackBox.Height) * 0.7f * pulse);
+            var dest = new Rectangle(
+                AttackBox.Center.X - size / 2,
+                AttackBox.Center.Y - size / 2,
+                size, size);
+            sb.Draw(tex, dest, Color.White * fade);
         }
 
         public void TakeDamage(float amount)
@@ -359,12 +465,27 @@ namespace TravelTour.Entities
             bool isAttacking = _flashTimer > 0 && _flashColor == Color.White;
             bool isDamaged   = _flashTimer > 0 && _flashColor == Color.Red;
 
+            // ── Aura de transformation (derrière le sprite) ──
+            if (_transformActive)
+            {
+                var fruit = TravelTour.Core.PlayerSave.GetEquippedFruit();
+                var aura  = fruit != null ? TravelTour.Core.SpriteLoader.Get(fruit.TransformAuraKey) : null;
+                if (aura != null)
+                {
+                    float apulse = 1f + (float)Math.Sin(_effectTime * 6.0) * 0.06f;
+                    int asize = (int)(96 * apulse);
+                    sb.Draw(aura, new Rectangle(px + 24 - asize / 2, py + 30 - asize / 2, asize, asize),
+                        Color.White * 0.85f);
+                }
+            }
+
             // ── Sprite ────────────────────────────────────
             var sprite = TravelTour.Core.SpriteLoader.Player(isAttacking);
             if (sprite != null)
             {
-                Color tint = isDamaged   ? new Color(255, 80, 80)   :
-                             isAttacking ? new Color(255, 255, 180)  :
+                Color tint = isDamaged      ? new Color(255, 80, 80)   :
+                             _transformActive ? new Color(255, 190, 120) :
+                             isAttacking    ? new Color(255, 255, 180)  :
                              Color.White;
                 var flip = _facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 sb.Draw(sprite, new Rectangle(px - 8, py - 8, 64, 88), null, tint, 0f, Vector2.Zero, flip, 0f);
