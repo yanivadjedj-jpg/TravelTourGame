@@ -767,7 +767,7 @@ namespace TravelTour.Core
                 }},
 
             new(){ Name="Fruit de la Fleur",  Icon="🌸", Type=FruitType.Naturel,
-                Rarity=Rarity.Common, IsOwned=false, BuyPrice=800, Mastery=0,
+                Rarity=Rarity.Common, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Contrôle les plantes et fleurs. Soins et pièges.",
                 Moves=new[]{
                     M("Épines","Lance des épines acérées.",20,8,0.4f,0,"Z","🌿"),
@@ -778,7 +778,7 @@ namespace TravelTour.Core
 
             // ── RARES ────────────────────────────────────────────
             new(){ Name="Fruit du Phénix",    Icon="🔥", Type=FruitType.Bête,
-                Rarity=Rarity.Rare, IsOwned=false, BuyPrice=3500, Mastery=0,
+                Rarity=Rarity.Rare, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Transformation en Phénix de feu. Régénération et flammes.",
                 Moves=new[]{
                     M("Plume de Feu","Lance des plumes enflammées.",35,12,0.5f,0,"Z","🪶"),
@@ -788,7 +788,7 @@ namespace TravelTour.Core
                 }},
 
             new(){ Name="Fruit Glace",         Icon="❄️", Type=FruitType.Élémentaire,
-                Rarity=Rarity.Rare, IsOwned=false, BuyPrice=4000, Mastery=0,
+                Rarity=Rarity.Rare, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Logia du froid absolu. Gèle les ennemis et crée des structures de glace.",
                 Moves=new[]{
                     M("Souffle Glacé","Projette un souffle de glace.",28,10,0.4f,0,"Z","🌬️"),
@@ -809,7 +809,7 @@ namespace TravelTour.Core
 
             // ── ÉPIQUES ──────────────────────────────────────────
             new(){ Name="Fruit de l'Éclair",   Icon="⚡", Type=FruitType.Élémentaire,
-                Rarity=Rarity.Epic, IsOwned=false, BuyPrice=9000, Mastery=0,
+                Rarity=Rarity.Epic, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Logia de la foudre. Vitesse absolue et attaques électriques.",
                 Moves=new[]{
                     M("Éclair Rapide","Coup de foudre instantané.",40,15,0.35f,0,"Z","⚡"),
@@ -819,7 +819,7 @@ namespace TravelTour.Core
                 }},
 
             new(){ Name="Fruit du Sphinx",     Icon="🦁", Type=FruitType.Bête,
-                Rarity=Rarity.Epic, IsOwned=false, BuyPrice=11000, Mastery=0,
+                Rarity=Rarity.Epic, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Transformation hybride lion-homme. Force brute et rugissement dévastateur.",
                 Moves=new[]{
                     M("Griffe Léonine","Griffe puissante à 3 coups.",38,12,0.4f,0,"Z","🐾"),
@@ -840,7 +840,7 @@ namespace TravelTour.Core
 
             // ── LÉGENDAIRES ───────────────────────────────────────
             new(){ Name="Fruit des Ombres",    Icon="🌑", Type=FruitType.Élémentaire,
-                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Mastery=0,
+                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Logia des ténèbres absolues. Absorption de la lumière et pouvoir des ombres.",
                 Moves=new[]{
                     M("Griffe d'Ombre","Griffe sortant de l'ombre.",50,15,0.4f,0,"Z","👤"),
@@ -851,7 +851,7 @@ namespace TravelTour.Core
                 CanTransform=true, TransformAuraKey="fx_aura_shadow", TransformAtkMult=1.7f, TransformSpeedMult=1.25f},
 
             new(){ Name="Fruit du Magma",      Icon="🌋", Type=FruitType.Élémentaire,
-                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=28000, Mastery=0,
+                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Logia de lave. Supérieur au feu — brûle même l'eau.",
                 Moves=new[]{
                     M("Poing Magma","Poing de lave en fusion.",55,15,0.4f,0,"Z","🔴"),
@@ -862,7 +862,7 @@ namespace TravelTour.Core
                 CanTransform=true, TransformAuraKey="fx_aura_magma", TransformAtkMult=1.8f, TransformSpeedMult=1.15f},
 
             new(){ Name="Fruit de la Lumière", Icon="☀️", Type=FruitType.Élémentaire,
-                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=30000, Mastery=0,
+                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Logia de lumière. Le plus rapide, laser et vitesse de la lumière.",
                 Moves=new[]{
                     M("Laser Solaire","Laser de lumière rapide.",45,14,0.3f,0,"Z","🔆"),
@@ -874,7 +874,7 @@ namespace TravelTour.Core
 
             // ── MYTHIQUES ─────────────────────────────────────────
             new(){ Name="Sekai Sekai no Mi",   Icon="🌀", Type=FruitType.Naturel,
-                Rarity=Rarity.Mythical, IsOwned=false, BuyPrice=80000, Mastery=0,
+                Rarity=Rarity.Mythical, IsOwned=false, BuyPrice=0, Mastery=0,
                 Description="Fruit du Monde. Ouvre des portails entre dimensions et contrôle l'espace-temps.",
                 Moves=new[]{
                     M("Portail Offensif","Envoie l'ennemi dans un micro-portail puis le projette.",60,20,0.5f,0,"Z","🌀"),
