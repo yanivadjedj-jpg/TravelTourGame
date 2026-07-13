@@ -21,10 +21,10 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[50];
+        public static readonly bool[] ChaptersCompleted = new bool[52];
         public static void MarkChapterCompleted(int chapterIndex)
         {
-            if (chapterIndex >= 0 && chapterIndex < 50)
+            if (chapterIndex >= 0 && chapterIndex < 52)
             {
                 ChaptersCompleted[chapterIndex] = true;
                 // Synchronise avec PlayerSave pour la persistance
@@ -458,11 +458,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Trône de l'Absolu Renaissant", Icon="👑",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=30, GoldReward=10000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="PierreCeleste",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=51, Title="Les Gardiens de l'Éternité", Tag="Grand Tour",
+                Summary="Après la renaissance de l'Absolu, Kai découvre qu'un dernier verrou protège la frontière entre les dimensions.\n"+
+                        "Sept Gardiens de l'Éternité, oubliés depuis l'aube des mondes, surgissent pour tester le successeur légitime.\n"+
+                        "L'équipage se sépare pour les affronter simultanément, avant que les portails ne se referment à jamais.",
+                Dungeon=new DungeonData{ Name="Nexus des Sept Gardiens", Icon="⚔️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=28, GoldReward=9000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=52, Title="Le Voyage Sans Fin", Tag="Grand Tour",
+                Summary="Kai, désormais Monarque Dimensionnel, comprend que chaque fin est un nouveau départ.\n"+
+                        "De nouvelles dimensions s'ouvrent — plus vastes, plus dangereuses, plus merveilleuses.\n"+
+                        "Le Tommy Mayo démarre une dernière fois. Le Grand Tour recommence, plus grand qu'avant.",
+                Dungeon=new DungeonData{ Name="Portail de l'Infini", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=35, GoldReward=12000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 10 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 12 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -494,7 +510,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 49);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 51);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
