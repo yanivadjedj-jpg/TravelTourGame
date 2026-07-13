@@ -191,6 +191,7 @@ namespace TravelTour.States
             if (!PlayerSave.SpendGold(w.BuyPrice)) { ShowToast("Or insuffisant!", Color.Red); return; }
             w.IsOwned = true;
             ShowToast($"✅ {w.Name} acheté!", Color.Green);
+            Sfx.Buy();
             RebuildItems();
         }
         void BuySkin(CharacterData c)
@@ -199,6 +200,7 @@ namespace TravelTour.States
             if (!PlayerSave.SpendGold(c.BuyPrice)) { ShowToast("Or insuffisant!", Color.Red); return; }
             c.IsOwned = true;
             ShowToast($"✅ {c.Name} acheté!", Color.Green);
+            Sfx.Buy();
             RebuildItems();
         }
         void BuyVehicle(VehicleData v)
@@ -207,6 +209,7 @@ namespace TravelTour.States
             if (!PlayerSave.SpendGold(v.BuyPrice)) { ShowToast("Or insuffisant!", Color.Red); return; }
             v.IsOwned = true;
             ShowToast($"✅ {v.Name} acheté!", Color.Green);
+            Sfx.Buy();
             RebuildItems();
         }
         void BuyAbility(AbilityData ab)
@@ -215,6 +218,7 @@ namespace TravelTour.States
             if (!PlayerSave.SpendGold(ab.BuyPrice)) { ShowToast("Or insuffisant!", Color.Red); return; }
             ab.IsOwned = true;
             ShowToast($"✅ {ab.Name} achetée!", Color.Green);
+            Sfx.Buy();
             RebuildItems();
         }
         void BuyOrEquipFruit(FruitData f)
@@ -234,6 +238,7 @@ namespace TravelTour.States
                 f.IsOwned = true;
                 if (!PlayerSave.OwnedFruits.Contains(f.Name)) PlayerSave.OwnedFruits.Add(f.Name);
                 ShowToast($"✅ {f.Icon} {f.Name} acheté !", Color.Green);
+                Sfx.Buy();
             }
             else if (f.IsEquipped)
             {
@@ -261,6 +266,7 @@ namespace TravelTour.States
                 r.IsOwned = true;
                 if (!PlayerSave.OwnedFishingRods.Contains(r.Name)) PlayerSave.OwnedFishingRods.Add(r.Name);
                 ShowToast($"✅ {r.Icon} {r.Name} achetée !", Color.Green);
+                Sfx.Buy();
             }
             else if (r.IsEquipped)
             {

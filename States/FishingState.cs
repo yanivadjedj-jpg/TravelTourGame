@@ -122,6 +122,7 @@ namespace TravelTour.States
                 _resultColor = UIHelper.TextDim;
                 _resultTimer = 2f;
                 _phase = Phase.Result;
+                Sfx.FishMiss();
                 return;
             }
 
@@ -154,6 +155,7 @@ namespace TravelTour.States
             _resultColor = UIHelper.RarityColors[(int)fish.Rarity];
             _resultTimer = 2.5f;
             _phase = Phase.Result;
+            Sfx.FishCatch();
         }
 
         public void Update(GameTime gt)

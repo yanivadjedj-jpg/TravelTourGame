@@ -54,6 +54,7 @@ namespace TravelTour.States
             _camera.Position = _playerPos;
 
             PlayerSave.VisitIsland(_island.Name);
+            Sfx.Dock();
             foreach (var q in Catalog.Quests) q.CheckCompleted();
 
             var unowned = Catalog.Fruits.Where(f => !f.IsOwned).ToList();
@@ -133,6 +134,7 @@ namespace TravelTour.States
                             _vendorOffer.IsOwned = true;
                             if (!PlayerSave.OwnedFruits.Contains(_vendorOffer.Name)) PlayerSave.OwnedFruits.Add(_vendorOffer.Name);
                             ShowToast($"✅ {_vendorOffer.Icon} {_vendorOffer.Name} acheté au marchand !", Color.Green);
+                            Sfx.Buy();
                             foreach (var q in Catalog.Quests) q.CheckCompleted();
                             _vendorOffer = null;
                             _vendorShowingOffer = false;

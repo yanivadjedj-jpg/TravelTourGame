@@ -224,6 +224,7 @@ namespace TravelTour.States
             SaveSystem.Save();
             string summary = goldEarned > 0 ? $"+{goldEarned}💰" : q.Rewards.Length > 0 ? "Récompenses reçues!" : "";
             ShowToast($"✨ {q.Name} — {summary}", UIHelper.Gold);
+            Sfx.QuestDone();
         }
 
         void DrawToast(SpriteBatch sb, int W, int H)

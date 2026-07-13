@@ -183,6 +183,8 @@ namespace TravelTour.States
                     bool rankedUp = PlayerSave.AddXp(xpGain);
                     SpawnHitBurst(pos, UIHelper.Gold);
                     ShowToast($"+{reduced}💰  +{xpGain}XP", UIHelper.Gold);
+                    Sfx.Gold();
+                    if (rankedUp) Sfx.LevelUp();
                     if (rankedUp) ShowToast($"⬆ RANG {PlayerSave.GetRank()} !", new Color(255,200,0));
                     PlayerSave.EnemiesKilled++;
                     if (e.IsRanged) PlayerSave.MagesKilled++;
@@ -431,6 +433,7 @@ namespace TravelTour.States
                         Vector2 hitPos = e.Position + new Vector2(22, 20);
                         SpawnHitBurst(hitPos, Color.OrangeRed);
                         SpawnDamageNumber(hitPos, $"-{dmg}", Color.Red, 1.2f);
+                        Sfx.Hit();
                     }
                 }
             }
@@ -520,6 +523,7 @@ namespace TravelTour.States
                 foreach (var q in Catalog.Quests) q.CheckCompleted();
             }
             ShowToast("VICTOIRE! 🏆", UIHelper.Gold);
+            Sfx.Victory();
             // Donjon de classe → sélection de classe
             if (_dungeon != null && _dungeon.IsClassDungeon && !PlayerSave.ClassDungeonDone)
             {
