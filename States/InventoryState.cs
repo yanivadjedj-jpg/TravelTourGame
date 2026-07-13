@@ -236,14 +236,17 @@ namespace TravelTour.States
         {
             var owned = Catalog.Weapons.Where(w => w.IsOwned).ToList();
             if (owned.Count == 0) { DrawEmpty(sb, W, y0, "Aucune arme possédée"); return; }
-            UIHelper.DrawCenteredText(sb, _font, $"{owned.Count} arme(s)",
+            UIHelper.DrawCenteredText(sb, _font, $"{owned.Count} arme(s)  —  équipée : {(PlayerSave.GetEquippedWeapon()?.Name ?? "aucune")}",
                 new Rectangle(0, y0, W, 22), UIHelper.TextDim, 0.8f);
             GridLayout(sb, W, 4, 220, 100, 12, y0 + 28, (i, x, y) =>
             {
                 var w = owned[i]; Color rc = UIHelper.RarityColors[(int)w.Rarity];
+                var ww = w;
                 DrawItemCard(sb, x, y, 220, w.Icon, w.Name,
-                    UIHelper.RarityNames[(int)w.Rarity], $"DMG {(int)w.GetDamage()}  Niv.{w.Level}",
-                    rc, false, null, null);
+                    UIHelper.RarityNames[(int)w.Rarity], $"+{(int)w.GetDamage()} DMG  Niv.{w.Level}",
+                    rc, w.IsEquipped,
+                    () => { PlayerSave.EquipWeapon(ww.Name); Toast($"⚔️ {ww.Name} équipée!", rc); },
+                    () => { PlayerSave.UnequipWeapon(); Toast("Arme retirée.", UIHelper.TextDim); });
             }, owned.Count);
         }
 

@@ -50,6 +50,8 @@ namespace TravelTour.Core
                     if (c.Mastery > 0) sb.AppendLine($"charmastery:{c.Name}={c.Mastery}");
                 if (PlayerSave.EquippedFruitName != null)
                     sb.AppendLine($"equip_fruit={PlayerSave.EquippedFruitName}");
+                if (PlayerSave.EquippedWeaponName != null)
+                    sb.AppendLine($"equip_weapon={PlayerSave.EquippedWeaponName}");
                 for (int i = 0; i < PlayerSave.StoryProgress.Length; i++)
                     sb.AppendLine($"story:{i}={PlayerSave.StoryProgress[i]}");
                 sb.AppendLine($"lastchapter={PlayerSave.LastChapterIndex}");
@@ -110,6 +112,7 @@ namespace TravelTour.Core
                         if (c != null) c.Mastery = int.Parse(line[(eq + 1)..]);
                     }
                     else if (line.StartsWith("equip_fruit=")) PlayerSave.EquippedFruitName = line[12..];
+                    else if (line.StartsWith("equip_weapon=")) PlayerSave.EquippedWeaponName = line[13..];
                     else if (line.StartsWith("story:"))
                     {
                         var eq = line.IndexOf('=');
@@ -147,6 +150,8 @@ namespace TravelTour.Core
                 }
                 if (PlayerSave.EquippedFruitName != null)
                     PlayerSave.EquipFruit(PlayerSave.EquippedFruitName);
+                if (PlayerSave.EquippedWeaponName != null)
+                    PlayerSave.EquipWeapon(PlayerSave.EquippedWeaponName);
             }
             catch { /* Corrupt save — ignore */ }
         }

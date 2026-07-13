@@ -106,6 +106,7 @@ namespace TravelTour.Core
         public Rarity     Rarity;
         public int        Level = 1, MaxLevel = 10;
         public bool       IsOwned;
+        public bool       IsEquipped;
         public int        BuyPrice;
         public List<UpgradeCost> Costs = new();
 
@@ -398,6 +399,30 @@ namespace TravelTour.Core
             foreach (var f in Catalog.Fruits) f.IsEquipped = false;
             EquippedFruitName = null;
             Popups.Enqueue("Fruit retiré.");
+            SaveSystem.Save();
+        }
+
+        // ── Arme système ──────────────────────────────────────
+        public static string? EquippedWeaponName = null;
+        public static WeaponData? GetEquippedWeapon() =>
+            EquippedWeaponName == null ? null :
+            Catalog.Weapons.Find(w => w.Name == EquippedWeaponName);
+
+        public static void EquipWeapon(string name)
+        {
+            foreach (var w in Catalog.Weapons) w.IsEquipped = false;
+            EquippedWeaponName = name;
+            var wp = Catalog.Weapons.Find(w => w.Name == name);
+            if (wp != null) wp.IsEquipped = true;
+            Popups.Enqueue($"⚔️ {name} équipée !");
+            SaveSystem.Save();
+        }
+
+        public static void UnequipWeapon()
+        {
+            foreach (var w in Catalog.Weapons) w.IsEquipped = false;
+            EquippedWeaponName = null;
+            Popups.Enqueue("Arme retirée.");
             SaveSystem.Save();
         }
 

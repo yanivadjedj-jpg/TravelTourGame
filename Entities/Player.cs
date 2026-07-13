@@ -95,7 +95,8 @@ namespace TravelTour.Entities
             CurrentHP = MaxHP;
             MaxChakra = c.MaxChakra;
             CurrentChakra = MaxChakra;
-            BaseAtk = (c.ScaledAtk() + TravelTour.Core.PlayerSave.LevelAtkBonus())
+            float weaponBonus = TravelTour.Core.PlayerSave.GetEquippedWeapon()?.GetDamage() ?? 0f;
+            BaseAtk = (c.ScaledAtk() + TravelTour.Core.PlayerSave.LevelAtkBonus() + weaponBonus)
                       * TravelTour.Core.PlayerSave.MeleeDmgBonus()
                       * TravelTour.Core.PlayerSave.ArtifactMult(TravelTour.Core.ArtifactEffect.AtkBoost)
                       * c.MasteryAtkMult();
