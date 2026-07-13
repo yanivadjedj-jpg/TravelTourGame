@@ -52,9 +52,34 @@ namespace TravelTour.Core
                     sb.AppendLine($"equip_fruit={PlayerSave.EquippedFruitName}");
                 if (PlayerSave.EquippedWeaponName != null)
                     sb.AppendLine($"equip_weapon={PlayerSave.EquippedWeaponName}");
+                if (PlayerSave.EquippedVehicleName != null)
+                    sb.AppendLine($"equip_vehicle={PlayerSave.EquippedVehicleName}");
                 for (int i = 0; i < PlayerSave.StoryProgress.Length; i++)
                     sb.AppendLine($"story:{i}={PlayerSave.StoryProgress[i]}");
                 sb.AppendLine($"lastchapter={PlayerSave.LastChapterIndex}");
+                // Artefacts possédés + équipés
+                foreach (var a in Catalog.Artifacts)
+                    if (a.IsOwned) sb.AppendLine($"artifact:{a.Name}");
+                foreach (var kv in PlayerSave.EquippedArtifactBySlot)
+                    sb.AppendLine($"equip_artifact:{kv.Key}={kv.Value}");
+                // Quêtes : progression / réclamation
+                foreach (var q in Catalog.Quests)
+                    if (q.IsCompleted || q.RewardClaimed)
+                        sb.AppendLine($"quest:{q.Name}={q.IsCompleted}|{q.RewardClaimed}");
+                // Événement Monde : îles, PNJ, pêche
+                foreach (var isl in PlayerSave.VisitedIslands)
+                    sb.AppendLine($"islandvisited:{isl}");
+                foreach (var npc in PlayerSave.NpcsMet)
+                    sb.AppendLine($"npcmet:{npc}");
+                sb.AppendLine($"fishcaught={PlayerSave.FishCaught}");
+                sb.AppendLine($"legendaryfish={PlayerSave.LegendaryFishCaught}");
+                sb.AppendLine($"absoludefeated={PlayerSave.AbsoluDefeated}");
+                foreach (var r in PlayerSave.OwnedFishingRods)
+                    sb.AppendLine($"rod:{r}");
+                if (PlayerSave.EquippedFishingRod != null)
+                    sb.AppendLine($"equip_rod={PlayerSave.EquippedFishingRod}");
+                foreach (var kv in PlayerSave.FishInventory)
+                    sb.AppendLine($"fish:{kv.Key}={kv.Value}");
                 File.WriteAllText(SavePath, sb.ToString());
             }
             catch { /* Silently fail if can't write */ }
@@ -113,6 +138,7 @@ namespace TravelTour.Core
                     }
                     else if (line.StartsWith("equip_fruit=")) PlayerSave.EquippedFruitName = line[12..];
                     else if (line.StartsWith("equip_weapon=")) PlayerSave.EquippedWeaponName = line[13..];
+                    else if (line.StartsWith("equip_vehicle=")) PlayerSave.EquippedVehicleName = line[14..];
                     else if (line.StartsWith("story:"))
                     {
                         var eq = line.IndexOf('=');
@@ -121,6 +147,45 @@ namespace TravelTour.Core
                             PlayerSave.StoryProgress[idx] = line[(eq+1)..] == "True";
                     }
                     else if (line.StartsWith("lastchapter=")) PlayerSave.LastChapterIndex = int.Parse(line[12..]);
+                    else if (line.StartsWith("artifact:"))    { var n = line[9..]; var a = Catalog.Artifacts.Find(x => x.Name == n); if (a != null) a.IsOwned = true; }
+                    else if (line.StartsWith("equip_artifact:"))
+                    {
+                        var eq = line.IndexOf('=');
+                        var slot = line[15..eq];
+                        var name = line[(eq+1)..];
+                        PlayerSave.EquippedArtifactBySlot[slot] = name;
+                        var a = Catalog.Artifacts.Find(x => x.Name == name);
+                        if (a != null) a.IsEquipped = true;
+                    }
+                    else if (line.StartsWith("quest:"))
+                    {
+                        var eq = line.IndexOf('=');
+                        var name = line[6..eq];
+                        var parts = line[(eq+1)..].Split('|');
+                        var q = Catalog.Quests.Find(x => x.Name == name);
+                        if (q != null && parts.Length == 2)
+                        {
+                            q.IsCompleted   = parts[0] == "True";
+                            q.RewardClaimed = parts[1] == "True";
+                        }
+                    }
+                    else if (line.StartsWith("islandvisited:")) PlayerSave.VisitedIslands.Add(line[14..]);
+                    else if (line.StartsWith("npcmet:"))        PlayerSave.NpcsMet.Add(line[7..]);
+                    else if (line.StartsWith("fishcaught="))    PlayerSave.FishCaught = int.Parse(line[11..]);
+                    else if (line.StartsWith("legendaryfish=")) PlayerSave.LegendaryFishCaught = int.Parse(line[14..]);
+                    else if (line.StartsWith("absoludefeated=")) PlayerSave.AbsoluDefeated = line[15..] == "True";
+                    else if (line.StartsWith("rod:"))
+                    {
+                        var n = line[4..];
+                        if (!PlayerSave.OwnedFishingRods.Contains(n)) PlayerSave.OwnedFishingRods.Add(n);
+                    }
+                    else if (line.StartsWith("equip_rod="))     PlayerSave.EquippedFishingRod = line[10..];
+                    else if (line.StartsWith("fish:"))
+                    {
+                        var eq = line.IndexOf('=');
+                        var key = line[5..eq];
+                        PlayerSave.FishInventory[key] = int.Parse(line[(eq+1)..]);
+                    }
                 }
                 // Sync story progress to StoryState
                 for (int i = 0; i < PlayerSave.StoryProgress.Length; i++)
@@ -152,6 +217,19 @@ namespace TravelTour.Core
                     PlayerSave.EquipFruit(PlayerSave.EquippedFruitName);
                 if (PlayerSave.EquippedWeaponName != null)
                     PlayerSave.EquipWeapon(PlayerSave.EquippedWeaponName);
+                // Cannes à pêche
+                foreach (var name in PlayerSave.OwnedFishingRods)
+                {
+                    var r = Catalog.FishingRods.Find(x => x.Name == name);
+                    if (r != null) r.IsOwned = true;
+                }
+                if (PlayerSave.EquippedFishingRod != null)
+                {
+                    var er = Catalog.FishingRods.Find(x => x.Name == PlayerSave.EquippedFishingRod);
+                    if (er != null) er.IsEquipped = true;
+                }
+                if (PlayerSave.EquippedVehicleName != null)
+                    PlayerSave.EquipVehicle(PlayerSave.EquippedVehicleName);
             }
             catch { /* Corrupt save — ignore */ }
         }

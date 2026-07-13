@@ -25,6 +25,7 @@ namespace TravelTour
 
         Color[] _bgGradient = { new Color(2,6,24), new Color(10,21,80), new Color(32,8,64) };
         DungeonData? _pendingDungeon;
+        IslandData?  _pendingIsland;
 
         bool _isPaused = false;
         bool _prevF11  = false;
@@ -153,6 +154,19 @@ namespace TravelTour
 
         public void SetBackground(Color[] gradient) => _bgGradient = gradient;
 
+        public void EnterIsland(IslandData island)
+        {
+            _pendingIsland = island;
+            ChangeState(GameState.WorldIsland);
+        }
+
+        IslandData? _pendingFishingIsland;
+        public void EnterFishing(IslandData island)
+        {
+            _pendingFishingIsland = island;
+            ChangeState(GameState.Fishing);
+        }
+
         static bool PlayerPrefs_GetBool(string key) =>
             System.IO.File.Exists(System.IO.Path.Combine(
                 System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
@@ -185,6 +199,9 @@ namespace TravelTour
                 GameState.Inventory  => new InventoryState(this),
                 GameState.Quest      => new QuestState(this),
                 GameState.Artifact   => new ArtifactState(this),
+                GameState.WorldSea   => new WorldSeaState(this),
+                GameState.WorldIsland=> new WorldIslandState(this),
+                GameState.Fishing    => new FishingState(this),
                 _                    => new MainMenuState(this)
             };
 
@@ -194,6 +211,18 @@ namespace TravelTour
                 cs.SetDungeon(_pendingDungeon);
                 cs.IsStoryDungeon = (_storyChapterIndex >= 0);
                 _pendingDungeon = null;
+            }
+
+            if (next is WorldIslandState wis && _pendingIsland != null)
+            {
+                wis.SetIsland(_pendingIsland);
+                _pendingIsland = null;
+            }
+
+            if (next is FishingState fs && _pendingFishingIsland != null)
+            {
+                fs.SetIsland(_pendingFishingIsland);
+                _pendingFishingIsland = null;
             }
 
             switch (next)
@@ -212,6 +241,9 @@ namespace TravelTour
                 case InventoryState  iv: iv.Load(_pixel, _font, _bigFont); break;
                 case QuestState      qs: qs.Load(_pixel, _font, _bigFont); break;
                 case ArtifactState   ar: ar.Load(_pixel, _font, _bigFont); break;
+                case WorldSeaState    ws: ws.Load(_pixel, _font, _bigFont); break;
+                case WorldIslandState wi: wi.Load(_pixel, _font, _bigFont); break;
+                case FishingState     fi: fi.Load(_pixel, _font, _bigFont); break;
             }
             _currentState = next;
         }

@@ -19,13 +19,14 @@ namespace TravelTour.States
         List<UIButton> _catBtns = new();
         string _toast = ""; float _toastTimer; Color _toastColor;
 
-        static readonly string[] Categories = { "Tous", "Débutant", "Combat", "Exploration", "Maîtrise" };
+        static readonly string[] Categories = { "Tous", "Débutant", "Combat", "Exploration", "Maîtrise", "Île" };
         static readonly Color[]  CatColors  = {
             UIHelper.TextMain,
             new Color(80, 200, 120),
             new Color(240, 80, 96),
             new Color(64, 180, 255),
             new Color(200, 80, 255),
+            new Color(60, 170, 210),
         };
 
         int _catIdx = 0;

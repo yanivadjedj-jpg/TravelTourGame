@@ -254,7 +254,7 @@ namespace TravelTour.States
         {
             var owned = Catalog.Vehicles.Where(v => v.IsOwned).ToList();
             if (owned.Count == 0) { DrawEmpty(sb, W, y0, "Aucun véhicule possédé"); return; }
-            UIHelper.DrawCenteredText(sb, _font, $"{owned.Count} véhicule(s)",
+            UIHelper.DrawCenteredText(sb, _font, $"{owned.Count} véhicule(s)  —  équipé : {(PlayerSave.GetEquippedVehicle()?.Name ?? "aucun")}",
                 new Rectangle(0, y0, W, 22), UIHelper.TextDim, 0.8f);
             GridLayout(sb, W, 4, 220, 100, 12, y0 + 28, (i, x, y) =>
             {
@@ -262,9 +262,12 @@ namespace TravelTour.States
                 // Remplace l'emoji par le sprite si disponible
                 var sprite = TravelTour.Core.SpriteLoader.Vehicle(v.Name);
                 string icon = sprite == null ? v.Icon : "";
+                var vv = v;
                 DrawItemCard(sb, x, y, 220, icon, v.Name,
                     UIHelper.RarityNames[(int)v.Rarity], $"SPD {v.Speed}  ACC {v.Acceleration}",
-                    rc, false, null, null);
+                    rc, v.IsEquipped,
+                    () => { PlayerSave.EquipVehicle(vv.Name); Toast($"🚗 {vv.Name} équipé!", rc); },
+                    () => { PlayerSave.UnequipVehicle(); Toast("Véhicule retiré.", UIHelper.TextDim); });
                 if (sprite != null)
                     sb.Draw(sprite, new Rectangle(x + 4, y + 8, 52, 52), Color.White);
             }, owned.Count);

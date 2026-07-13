@@ -31,12 +31,13 @@ namespace TravelTour.States
         bool _fruitTutoShown = false;  // true quand l'overlay est visible
         UIButton _fruitTutoBtn = null!;
 
-        readonly string[] _tabNames    = { "⚡ Capacités & Améliorations", "🛒 Armes, Skins & Véhicules", "🍎 Fruits du Démon", "💰 Vente de Matériaux" };
+        readonly string[] _tabNames    = { "⚡ Capacités & Améliorations", "🛒 Armes, Skins & Véhicules", "🍎 Fruits du Démon", "💰 Vente de Matériaux", "🎣 Pêche" };
         readonly string[][] _subNames  = {
             new[]{ "🗡️ Armes", "👘 Skins", "🚗 Véhicules", "✨ Capacités" },
             new[]{ "🗡️ Armes", "👘 Skins", "🚗 Véhicules" },
             new[]{ "🌿 Naturel", "⚡ Élémentaire", "🐉 Bête" },
-            System.Array.Empty<string>()
+            System.Array.Empty<string>(),
+            new[]{ "🎣 Cannes", "🐟 Vendre Poissons" }
         };
 
         public BoutiqueState(TravelTourGame game) => _game = game;
@@ -150,6 +151,27 @@ namespace TravelTour.States
                 else foreach (var v in Catalog.Vehicles)
                     { var vv = v; MakeBtn(v.Name, v.IsOwned, v.BuyPrice, v.Rarity, () => BuyVehicle(vv)); }
             }
+            else if (_tab == 4 && _subTab == 0) // PÊCHE — Cannes
+            {
+                foreach (var r in Catalog.FishingRods)
+                {
+                    var rr = r;
+                    int col = i % cols, row = i / cols;
+                    int x = startX + col * (iw + gap), y = startY + row * (ih + gap);
+                    string btnLabel = !rr.IsOwned ? $"ACHETER  {rr.BuyPrice:N0} or"
+                        : rr.IsEquipped ? "✔ RETIRER" : "🎣 ÉQUIPER";
+                    Color btnNorm = !rr.IsOwned ? new Color(40, 30, 5)
+                        : rr.IsEquipped ? new Color(10, 40, 10) : new Color(20, 40, 60);
+                    Color btnHov = !rr.IsOwned ? new Color(100, 70, 10)
+                        : rr.IsEquipped ? new Color(20, 80, 20) : new Color(30, 90, 140);
+                    _itemBtns.Add(new UIButton(
+                        new Rectangle(x + 4, y + ih - 30, iw - 8, 26), btnLabel,
+                        () => BuyOrEquipRod(rr), btnNorm, btnHov
+                    ) { TextColor = !rr.IsOwned ? UIHelper.Gold : rr.IsEquipped ? Color.LimeGreen : UIHelper.Blue });
+                    i++;
+                }
+            }
+            else if (_tab == 4 && _subTab == 1) { /* Vente poissons : géré par DrawFishSellTab */ }
             else // AMÉLIORATIONS
             {
                 if (_subTab == 0) foreach (var w in Catalog.Weapons)
@@ -227,6 +249,34 @@ namespace TravelTour.States
             // Rebuild APRES que la liste soit déjà copiée par .ToList() dans Update
             RebuildItems();
         }
+        void BuyOrEquipRod(FishingRodData r)
+        {
+            if (!r.IsOwned)
+            {
+                if (!PlayerSave.SpendGold(r.BuyPrice))
+                {
+                    ShowToast($"Or insuffisant ! ({r.BuyPrice:N0} requis, tu as {PlayerSave.Gold:N0})", Color.Red);
+                    return;
+                }
+                r.IsOwned = true;
+                if (!PlayerSave.OwnedFishingRods.Contains(r.Name)) PlayerSave.OwnedFishingRods.Add(r.Name);
+                ShowToast($"✅ {r.Icon} {r.Name} achetée !", Color.Green);
+            }
+            else if (r.IsEquipped)
+            {
+                PlayerSave.EquipFishingRod("Canne en Bois");
+                ShowToast($"{r.Icon} {r.Name} retirée.", Color.Gray);
+            }
+            else
+            {
+                foreach (var rod in Catalog.FishingRods) rod.IsEquipped = false;
+                r.IsEquipped = true;
+                PlayerSave.EquipFishingRod(r.Name);
+                ShowToast($"🎣 {r.Icon} {r.Name} équipée !", UIHelper.Blue);
+            }
+            RebuildItems();
+        }
+
         void UpgradeWeapon(WeaponData w)
         {
             if (!w.IsOwned) { ShowToast("Non possédé!", Color.Red); return; }
@@ -350,6 +400,9 @@ namespace TravelTour.States
                 else foreach (var ab in Catalog.Abilities)
                     items.Add((ab.Name, ab.Icon, ab.BuyPrice, ab.IsOwned, Rarity.Epic, 1, 1, false));
             }
+            if (_tab == 4 && _subTab == 0) // PÊCHE — Cannes
+                foreach (var r in Catalog.FishingRods)
+                    items.Add((r.IsEquipped ? $"[ÉQUIPÉ] {r.Name}" : r.Name, r.Icon, r.BuyPrice, r.IsOwned, r.Rarity, 0, 0, false));
 
             for (int i = 0; i < items.Count && i < _itemBtns.Count; i++)
             {
@@ -381,6 +434,23 @@ namespace TravelTour.States
                     sb.DrawString(_font, fruitType,
                         new Vector2(cardX + 60, cardY + 40), UIHelper.TextDim * 0.7f);
                     // Bouton action (centré, bien visible)
+                    btn.Draw(sb, _pixel, _font, 0.75f);
+                    continue;
+                }
+
+                if (_tab == 4 && _subTab == 0)
+                {
+                    var rod = Catalog.FishingRods[i];
+                    UIHelper.DrawBox(sb, _pixel, new Rectangle(cardX, cardY, cardW, cardH),
+                        UIHelper.CardBg, rarCol * 0.6f, 2);
+                    UIHelper.DrawCenteredText(sb, _bigFont, item.icon,
+                        new Rectangle(cardX + 4, cardY + 4, 50, 50), Color.White, 0.7f);
+                    sb.DrawString(_font, item.name,
+                        new Vector2(cardX + 60, cardY + 8), UIHelper.TextMain);
+                    sb.DrawString(_font, UIHelper.RarityNames[(int)item.rar],
+                        new Vector2(cardX + 60, cardY + 26), rarCol);
+                    sb.DrawString(_font, rod.EffectLabel(),
+                        new Vector2(cardX + 60, cardY + 40), UIHelper.TextDim * 0.7f);
                     btn.Draw(sb, _pixel, _font, 0.75f);
                     continue;
                 }
@@ -458,9 +528,11 @@ namespace TravelTour.States
             // Onglet vente de matériaux
             if (_tab == 3)
                 DrawSellTab(sb, W, H);
+            if (_tab == 4 && _subTab == 1)
+                DrawFishSellTab(sb, W, H);
 
             // Materials summary (seulement sur les autres onglets)
-            if (_tab != 3)
+            if (_tab != 3 && !(_tab == 4 && _subTab == 1))
             {
                 int mx = W - 200, my = 160;
                 UIHelper.DrawBox(sb, _pixel, new Rectangle(mx, my, 180, 200), UIHelper.Dark2, UIHelper.TextDim * 0.3f, 1);
@@ -632,6 +704,77 @@ namespace TravelTour.States
                     PlayerSave.ConsumeMaterial(key, qty);
                     PlayerSave.AddGold(total);
                     ShowToast($"+{total} 💰  (vendu {qty}× {info.Icon} {info.Label})", UIHelper.Gold);
+                }
+
+                idx++;
+            }
+        }
+
+        void DrawFishSellTab(SpriteBatch sb, int W, int H)
+        {
+            UIHelper.DrawCenteredText(sb, _font,
+                "Vends tes poissons contre de l'or",
+                new Rectangle(0, 152, W, 22), UIHelper.TextDim, 0.82f);
+
+            var owned = Catalog.Fish.Where(f => PlayerSave.FishInventory.TryGetValue(f.Name, out int q) && q > 0).ToList();
+            if (owned.Count == 0)
+            {
+                UIHelper.DrawCenteredText(sb, _font, "Aucun poisson pêché pour l'instant.",
+                    new Rectangle(0, 220, W, 22), UIHelper.TextDim, 0.85f);
+                return;
+            }
+
+            int cols = 4, cw = 260, ch = 100, gap = 12;
+            int startX = W / 2 - (cols * (cw + gap)) / 2;
+            int startY = 180;
+            int idx = 0;
+
+            foreach (var fish in owned)
+            {
+                int qty = PlayerSave.FishInventory.TryGetValue(fish.Name, out int q) ? q : 0;
+                int sellPrice = FishInfo.SellPrice(fish.Name);
+
+                int col = idx % cols, row = idx / cols;
+                int x = startX + col * (cw + gap);
+                int y = startY + row * (ch + gap);
+
+                Color rc = UIHelper.RarityColors[(int)fish.Rarity];
+                UIHelper.DrawBox(sb, _pixel, new Rectangle(x, y, cw, ch), UIHelper.CardBg, rc * 0.5f, 2);
+
+                UIHelper.DrawCenteredText(sb, _bigFont, fish.Icon,
+                    new Rectangle(x + 4, y + 8, 52, 52), Color.White, 0.75f);
+                sb.DrawString(_font, fish.Name, new Vector2(x + 62, y + 10), UIHelper.TextMain);
+                sb.DrawString(_font, $"Rareté : {UIHelper.RarityNames[(int)fish.Rarity]}", new Vector2(x + 62, y + 28), rc * 0.8f);
+                sb.DrawString(_font, $"Stock : {qty}", new Vector2(x + 62, y + 44), qty > 0 ? UIHelper.Gold : UIHelper.TextDim);
+                sb.DrawString(_font, $"{sellPrice} 💰 / unité", new Vector2(x + 62, y + 60), UIHelper.Gold * 0.8f);
+
+                int bx1 = x + 4, by = y + ch - 26, bw1 = (cw - 16) / 2;
+                var r1 = new Rectangle(bx1, by, bw1, 22);
+                bool hov1 = r1.Contains(_curMs.Position) && qty > 0;
+                bool click1 = hov1 && _curMs.LeftButton == ButtonState.Released && _prevMs.LeftButton == ButtonState.Pressed;
+                sb.Draw(_pixel, r1, hov1 && qty > 0 ? new Color(40, 80, 20) : new Color(20, 40, 10));
+                UIHelper.DrawBox(sb, _pixel, r1, Color.Transparent, qty > 0 ? new Color(80, 180, 40) * 0.7f : UIHelper.TextDim * 0.3f, 1);
+                UIHelper.DrawCenteredText(sb, _font, "Vendre 1", r1, qty > 0 ? new Color(120, 230, 60) : UIHelper.TextDim * 0.4f, 0.72f);
+                if (click1 && qty > 0)
+                {
+                    PlayerSave.SellFish(fish.Name, 1);
+                    PlayerSave.AddGold(sellPrice);
+                    ShowToast($"+{sellPrice} 💰  (vendu 1 {fish.Icon} {fish.Name})", UIHelper.Gold);
+                }
+
+                int bx2 = bx1 + bw1 + 8;
+                var r2 = new Rectangle(bx2, by, bw1, 22);
+                bool hov2 = r2.Contains(_curMs.Position) && qty > 0;
+                bool click2 = hov2 && _curMs.LeftButton == ButtonState.Released && _prevMs.LeftButton == ButtonState.Pressed;
+                sb.Draw(_pixel, r2, hov2 && qty > 0 ? new Color(80, 40, 10) : new Color(40, 20, 5));
+                UIHelper.DrawBox(sb, _pixel, r2, Color.Transparent, qty > 0 ? UIHelper.Gold * 0.7f : UIHelper.TextDim * 0.3f, 1);
+                UIHelper.DrawCenteredText(sb, _font, $"Vendre {qty}", r2, qty > 0 ? UIHelper.Gold : UIHelper.TextDim * 0.4f, 0.72f);
+                if (click2 && qty > 0)
+                {
+                    int total = sellPrice * qty;
+                    PlayerSave.SellFish(fish.Name, qty);
+                    PlayerSave.AddGold(total);
+                    ShowToast($"+{total} 💰  (vendu {qty}× {fish.Icon} {fish.Name})", UIHelper.Gold);
                 }
 
                 idx++;

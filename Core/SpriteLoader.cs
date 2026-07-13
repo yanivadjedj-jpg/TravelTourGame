@@ -134,5 +134,11 @@ namespace TravelTour.Core
         };
         public static Texture2D? Ability(string name) =>
             _abilityMap.TryGetValue(name, out var k) ? Get(k) : null;
+
+        // ── Événement Monde : mer, îles, bateau ─────────────────
+        public static Texture2D? Sea()                     => Get("world_sea");
+        public static Texture2D? IslandTerrain(string key) => Get(key);
+        public static Texture2D? IslandMob(string key)     => Get(key);
+        public static Texture2D? Boat()                    => Get("world_boat");
     }
 }

@@ -4,12 +4,12 @@ namespace TravelTour.Core
 {
     // ── Enums ──────────────────────────────────────────────
     public enum Rarity      { Common, Rare, Epic, Legendary, Mythical }
-    public enum GameState   { MainMenu, Crosspark, Team, Boutique, Training, Story, Background, Combat, Tutorial, Wallet, Fruits, Inventory, Quest, Artifact }
+    public enum GameState   { MainMenu, Crosspark, Team, Boutique, Training, Story, Background, Combat, Tutorial, Wallet, Fruits, Inventory, Quest, Artifact, WorldSea, WorldIsland, Fishing }
     public enum AbilityType { DomainMonarque, FruitGolem, RasenganDimensionnel, FrappeSérieuse, HakiRois }
     public enum WeaponType  { Sword, Shield, Bow, Staff, Gauntlet, Scythe }
     public enum ArtifactEffect { HpBoost, AtkBoost, DefBoost, SpeedBoost, XpBoost, GoldBoost, CooldownReduce, FruitDmgBoost, SwordDmgBoost, MeleeDmgBoost }
     public enum ArtifactSlot   { Chapeau, Amulette, Bague, Cape }
-    public enum QuestObjectiveType { KillEnemies, KillBosses, CompleteDungeons, EarnGold, ReachLevel, ReachRank, OwnWeapons, OwnFruits, DoCombo }
+    public enum QuestObjectiveType { KillEnemies, KillBosses, CompleteDungeons, EarnGold, ReachLevel, ReachRank, OwnWeapons, OwnFruits, DoCombo, ExploreIsland, CatchFish, TalkToNpc, DefeatAbsolu }
     public enum DifficultyLevel { Easy, Medium, Hard, Boss, Legendary }
     public enum FruitType   { Naturel, Élémentaire, Bête }   // Paramecia / Logia / Zoan
 
@@ -129,6 +129,7 @@ namespace TravelTour.Core
         public Rarity Rarity;
         public int    Level = 1, MaxLevel = 10;
         public bool   IsOwned;
+        public bool   IsEquipped;
         public int    BuyPrice;
 
         public float GetSpeed() => Speed + (Level - 1) * 1.5f;
@@ -202,6 +203,10 @@ namespace TravelTour.Core
             QuestObjectiveType.OwnWeapons       => Catalog.Weapons.FindAll(w => w.IsOwned).Count,
             QuestObjectiveType.OwnFruits        => Catalog.Fruits.FindAll(f => f.IsOwned).Count,
             QuestObjectiveType.DoCombo          => PlayerSave.MaxComboReached,
+            QuestObjectiveType.ExploreIsland    => PlayerSave.VisitedIslands.Count,
+            QuestObjectiveType.CatchFish        => PlayerSave.FishCaught,
+            QuestObjectiveType.TalkToNpc        => PlayerSave.NpcsMet.Count,
+            QuestObjectiveType.DefeatAbsolu      => PlayerSave.AbsoluDefeated ? 1 : 0,
             _                                   => 0
         };
 
@@ -426,6 +431,30 @@ namespace TravelTour.Core
             SaveSystem.Save();
         }
 
+        // ── Véhicule système ───────────────────────────────────
+        public static string? EquippedVehicleName = null;
+        public static VehicleData? GetEquippedVehicle() =>
+            EquippedVehicleName == null ? null :
+            Catalog.Vehicles.Find(v => v.Name == EquippedVehicleName);
+
+        public static void EquipVehicle(string name)
+        {
+            foreach (var v in Catalog.Vehicles) v.IsEquipped = false;
+            EquippedVehicleName = name;
+            var vh = Catalog.Vehicles.Find(v => v.Name == name);
+            if (vh != null) vh.IsEquipped = true;
+            Popups.Enqueue($"🚗 {name} équipé !");
+            SaveSystem.Save();
+        }
+
+        public static void UnequipVehicle()
+        {
+            foreach (var v in Catalog.Vehicles) v.IsEquipped = false;
+            EquippedVehicleName = null;
+            Popups.Enqueue("Véhicule retiré.");
+            SaveSystem.Save();
+        }
+
         public static void AddFruitMastery(string fruitName, int amount)
         {
             var f = Catalog.Fruits.Find(fr => fr.Name == fruitName);
@@ -467,6 +496,57 @@ namespace TravelTour.Core
         public static int DungeonsCompleted= 0;
         public static int MaxComboReached  = 0;
         public static int TotalGoldEarned  = 0;
+
+        // ── Événement Monde : îles, PNJ, pêche ────────────────────
+        public static HashSet<string> VisitedIslands = new();
+        public static HashSet<string> NpcsMet         = new();
+        public static int  FishCaught          = 0;
+        public static int  LegendaryFishCaught = 0;
+        public static bool AbsoluDefeated      = false;
+        public static List<string> OwnedFishingRods = new() { "Canne en Bois" };
+        public static string? EquippedFishingRod    = "Canne en Bois";
+        public static Dictionary<string, int> FishInventory = new();
+
+        public static void VisitIsland(string islandName)
+        {
+            if (VisitedIslands.Add(islandName)) SaveSystem.Save();
+        }
+
+        public static void TalkToNpc(string npcId)
+        {
+            if (NpcsMet.Add(npcId)) SaveSystem.Save();
+        }
+
+        public static void EquipFishingRod(string name)
+        {
+            EquippedFishingRod = name;
+            SaveSystem.Save();
+        }
+
+        public static FishingRodData? GetEquippedFishingRod() =>
+            EquippedFishingRod == null ? null :
+            Catalog.FishingRods.Find(r => r.Name == EquippedFishingRod);
+
+        public static void AddFish(string fishName, int qty, bool isLegendaryCatch)
+        {
+            if (!FishInventory.ContainsKey(fishName)) FishInventory[fishName] = 0;
+            FishInventory[fishName] += qty;
+            FishCaught += qty;
+            if (isLegendaryCatch) LegendaryFishCaught += qty;
+            Popups.Enqueue($"🐟 +{qty} {FishInfo.GetIcon(fishName)} {FishInfo.GetLabel(fishName)}");
+            SaveSystem.Save();
+        }
+
+        public static bool HasFish(string fishName, int qty) =>
+            FishInventory.TryGetValue(fishName, out int v) && v >= qty;
+
+        public static bool SellFish(string fishName, int qty)
+        {
+            if (!HasFish(fishName, qty)) return false;
+            FishInventory[fishName] -= qty;
+            SaveSystem.Save();
+            return true;
+        }
 
         // ── Kills boss pour débloquer les fruits ──────────────────
         public const  int BossKillsRequired = 3;  // 3 kills pour obtenir le fruit
@@ -576,8 +656,16 @@ namespace TravelTour.Core
     }
 
     // ── Catalog singleton ─────────────────────────────────
-    public static class Catalog
+    public static partial class Catalog
     {
+        static Catalog()
+        {
+            // Prix x4 : armes, fruits et accessoires (artefacts)
+            foreach (var w in Weapons)   if (w.BuyPrice > 0) w.BuyPrice *= 4;
+            foreach (var f in Fruits)    if (f.BuyPrice > 0) f.BuyPrice *= 4;
+            foreach (var a in Artifacts) if (a.BuyPrice > 0) a.BuyPrice *= 4;
+        }
+
         public static List<CharacterData> Characters = new()
         {
             new(){ Name="Jimmy",         Rarity=Rarity.Legendary, MaxHP=100, BaseAtk=12, BaseDef=6, BaseSpeed=8, MaxChakra=200, IsOwned=true,  BuyPrice=0,     Icon="😎" },
@@ -716,6 +804,16 @@ namespace TravelTour.Core
             new(){ Name="Sanctuaire des Âmes Perdues", Icon="💀", Difficulty=DifficultyLevel.Boss,      RequiredRank=5, EnemyCount=7,  GoldReward=680,  Rewards=new(){ new(){Material="EssenceOmbres", Min=3, Max=5}, new(){Material="CristalNoir",   Min=1, Max=2} } },
             new(){ Name="Crypte des Esprits Ancestraux", Icon="👻", Difficulty=DifficultyLevel.Medium, RequiredRank=1, EnemyCount=8,  GoldReward=185,  Rewards=new(){ new(){Material="GemmeLunaire",  Min=1, Max=2}, new(){Material="CristalFeu",    Min=1, Max=3} } },
             new(){ Name="Colisée des Légendes",          Icon="🏛️", Difficulty=DifficultyLevel.Legendary, RequiredRank=5, EnemyCount=16, GoldReward=850,  Rewards=new(){ new(){Material="AmeDechue",     Min=2, Max=4}, new(){Material="CristalNoir",   Min=1, Max=3} } },
+            // ── ÉVÉNEMENT MONDE : combats d'îles (mêmes récompenses/pool que les donjons classiques) ──
+            new(){ Name="Faille du Chasseur E",   Icon="🔴", Difficulty=DifficultyLevel.Easy,   RequiredRank=0, EnemyCount=2,  GoldReward=140,  Rewards=new(){ new(){Material="EssenceOmbres", Min=1, Max=3} } },
+            new(){ Name="Sanctuaire Gris",        Icon="🗝️", Difficulty=DifficultyLevel.Medium, RequiredRank=2, EnemyCount=2,  GoldReward=220,  Rewards=new(){ new(){Material="GemmeLunaire",  Min=1, Max=2} } },
+            new(){ Name="Abîme du Monarque",      Icon="👁️", Difficulty=DifficultyLevel.Boss,   RequiredRank=4, EnemyCount=1,  GoldReward=700,  Rewards=new(){ new(){Material="AmeDechue", Min=1, Max=2} } },
+            new(){ Name="Récif Pirate",           Icon="🏴‍☠️", Difficulty=DifficultyLevel.Easy,  RequiredRank=0, EnemyCount=2,  GoldReward=145,  Rewards=new(){ new(){Material="CristalFeu",    Min=1, Max=3} } },
+            new(){ Name="Archipel Tempête",       Icon="🌊", Difficulty=DifficultyLevel.Medium, RequiredRank=2, EnemyCount=2,  GoldReward=225,  Rewards=new(){ new(){Material="EclatFoudre",   Min=1, Max=3} } },
+            new(){ Name="Baie du Roi Naufragé",   Icon="⚓", Difficulty=DifficultyLevel.Boss,   RequiredRank=4, EnemyCount=1,  GoldReward=710,  Rewards=new(){ new(){Material="AmeDechue", Min=1, Max=2} } },
+            new(){ Name="Feuille Grise",          Icon="🍃", Difficulty=DifficultyLevel.Easy,   RequiredRank=0, EnemyCount=2,  GoldReward=150,  Rewards=new(){ new(){Material="EclatFoudre",   Min=1, Max=3} } },
+            new(){ Name="Brume Rouge",            Icon="🌫️", Difficulty=DifficultyLevel.Medium, RequiredRank=2, EnemyCount=2,  GoldReward=230,  Rewards=new(){ new(){Material="GemmeLunaire",  Min=1, Max=2} } },
+            new(){ Name="Sceau Ancestral",        Icon="⛩️", Difficulty=DifficultyLevel.Boss,   RequiredRank=4, EnemyCount=1,  GoldReward=720,  Rewards=new(){ new(){Material="AmeDechue", Min=1, Max=2} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
@@ -902,6 +1000,35 @@ namespace TravelTour.Core
                     M("Singularité","Trou noir géant qui dévaste la zone.",190,90,7.0f,200,"C","🕳️"),
                     M("Néant Absolu","Efface tout dans un rayon massif — dégâts ultimes.",280,170,20.0f,400,"F","💀"),
                 }},
+
+            // ── Événement Monde : fruits natifs des îles élites (drop boss, comme les autres) ──
+            new(){ Name="Fruit de l'Ombre Monarque", Icon="👁️", Type=FruitType.Élémentaire,
+                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=0, Mastery=0,
+                Description="Domaine du Monarque de l'Ombre. Invoque des ombres serviles et frappe depuis l'obscurité.",
+                Moves=new[]{
+                    M("Lame d'Ombre","Frappe tranchante surgie de l'ombre.",40,15,0.5f,0,"Z","🗡️"),
+                    M("Invocation Servile","Invoque une ombre qui combat à ses côtés.",70,35,3.0f,100,"X","👤"),
+                    M("Domaine Silencieux","Zone d'ombre qui affaiblit tous les ennemis.",110,60,5.0f,200,"C","🌑"),
+                    M("Monarque Déchu","Libère la pleine puissance du monarque — dégâts massifs.",200,130,16.0f,400,"F","👁️"),
+                }},
+            new(){ Name="Fruit du Roi des Mers", Icon="⚓", Type=FruitType.Bête,
+                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=0, Mastery=0,
+                Description="Commande les océans et les créatures des abysses.",
+                Moves=new[]{
+                    M("Lame de Vague","Tranchant d'eau compressée.",42,15,0.5f,0,"Z","🌊"),
+                    M("Appel des Abysses","Invoque une créature marine pour attaquer.",72,35,3.0f,100,"X","🐙"),
+                    M("Raz-de-Marée","Vague géante qui submerge la zone.",115,60,5.0f,200,"C","🌊"),
+                    M("Couronne des Mers","Déchaîne la tempête ultime du Roi des Mers.",205,130,16.0f,400,"F","👑"),
+                }},
+            new(){ Name="Fruit du Sage des Six Voies", Icon="⛩️", Type=FruitType.Naturel,
+                Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=0, Mastery=0,
+                Description="Chakra ancestral scellé dans le temple de la montagne. Maîtrise des six voies.",
+                Moves=new[]{
+                    M("Poing Chakra","Coup chargé de chakra pur.",41,15,0.5f,0,"Z","👊"),
+                    M("Chemin Animal","Invoque un esprit-guide pour assister au combat.",71,35,3.0f,100,"X","🦊"),
+                    M("Sceau des Six Voies","Libère un sceau qui frappe toute la zone.",112,60,5.0f,200,"C","⛩️"),
+                    M("Voie du Sage","Éveil complet du chakra des six voies.",202,130,16.0f,400,"F","🌀"),
+                }},
         };
 
         static QuestReward G(int amt) => new(){ RewardType="gold", Amount=amt };
@@ -934,6 +1061,26 @@ namespace TravelTour.Core
             new(){ Name="Rang A",               Icon="💎", Category="Maîtrise",   Objective=QuestObjectiveType.ReachRank,        Target=4,    Description="Atteindre le rang A",                Rewards=new[]{ G(6000), M("AmeDechue",2) } },
             new(){ Name="Gauntlet Maître",      Icon="🔥", Category="Maîtrise",   Objective=QuestObjectiveType.KillBosses,       Target=20,   Description="Vaincre 20 boss",                    Rewards=new[]{ G(10000), M("AmeDechue",5) } },
             new(){ Name="Légende",              Icon="🌌", Category="Maîtrise",   Objective=QuestObjectiveType.KillEnemies,      Target=1000, Description="Vaincre 1000 ennemis",               Rewards=new[]{ G(20000), M("AmeDechue",5), X(2000) } },
+            // ── ÎLE (Événement Monde) ───────────────────────────────
+            new(){ Name="Nettoyeur de Faille",    Icon="🔴", Category="Île", Objective=QuestObjectiveType.KillEnemies,   Target=15, Description="Vaincre 15 ennemis (Île de la Porte Écarlate)",        Rewards=new[]{ G(900),  M("EssenceOmbres",2) } },
+            new(){ Name="Éclaireur de la Porte",  Icon="🧭", Category="Île", Objective=QuestObjectiveType.ExploreIsland, Target=1,  Description="Explorer une île de l'Événement Monde",                Rewards=new[]{ G(600),  X(150) } },
+            new(){ Name="Purge du Sanctuaire",    Icon="🗝️", Category="Île", Objective=QuestObjectiveType.KillEnemies,   Target=30, Description="Vaincre 30 ennemis (Sanctuaire du Chasseur Gris)",      Rewards=new[]{ G(1600), M("GemmeLunaire",2) } },
+            new(){ Name="Le Pacte Brisé",         Icon="👻", Category="Île", Objective=QuestObjectiveType.KillBosses,    Target=2,  Description="Vaincre 2 boss (Sanctuaire du Chasseur Gris)",          Rewards=new[]{ G(2200), M("EssenceOmbres",3) } },
+            new(){ Name="Le Gardien Muet",        Icon="👁️", Category="Île", Objective=QuestObjectiveType.KillBosses,    Target=4,  Description="Vaincre 4 boss (Abîme du Monarque Silencieux)",         Rewards=new[]{ G(4200), M("AmeDechue",2) } },
+            new(){ Name="Éclat du Monarque",      Icon="💠", Category="Île", Objective=QuestObjectiveType.ExploreIsland, Target=3,  Description="Explorer 3 îles de l'Événement Monde",                  Rewards=new[]{ G(2500), M("PierreCeleste",3) } },
+            new(){ Name="Pilleur de Récif",       Icon="🏴‍☠️", Category="Île", Objective=QuestObjectiveType.KillEnemies,   Target=18, Description="Vaincre 18 ennemis (Île du Grand Récif)",               Rewards=new[]{ G(1000), M("CristalFeu",2) } },
+            new(){ Name="Rencontre au Port",      Icon="⚓", Category="Île", Objective=QuestObjectiveType.TalkToNpc,     Target=1,  Description="Parler à un PNJ sur une île",                          Rewards=new[]{ G(500),  X(120) } },
+            new(){ Name="Chasse à la Tempête",    Icon="🌊", Category="Île", Objective=QuestObjectiveType.KillEnemies,   Target=35, Description="Vaincre 35 ennemis (Archipel des Tempêtes)",            Rewards=new[]{ G(1900), M("EclatFoudre",3) } },
+            new(){ Name="Le Journal du Naufragé", Icon="📜", Category="Île", Objective=QuestObjectiveType.TalkToNpc,     Target=3,  Description="Parler à 3 PNJ différents",                             Rewards=new[]{ G(1400), M("GemmeLunaire",2) } },
+            new(){ Name="L'Amiral Fantôme",       Icon="⚓", Category="Île", Objective=QuestObjectiveType.KillBosses,    Target=5,  Description="Vaincre 5 boss (Baie du Roi Naufragé)",                Rewards=new[]{ G(4500), M("AmeDechue",2) } },
+            new(){ Name="Trésor du Roi Englouti", Icon="💰", Category="Île", Objective=QuestObjectiveType.ExploreIsland, Target=6,  Description="Explorer 6 îles de l'Événement Monde",                  Rewards=new[]{ G(4000), M("CristalNoir",3) } },
+            new(){ Name="Chasse aux Renégats",    Icon="🍃", Category="Île", Objective=QuestObjectiveType.KillEnemies,   Target=20, Description="Vaincre 20 ennemis (Village de la Feuille Grise)",      Rewards=new[]{ G(1100), M("EclatFoudre",2) } },
+            new(){ Name="Le Message du Village",  Icon="✉️", Category="Île", Objective=QuestObjectiveType.TalkToNpc,     Target=2,  Description="Parler à 2 PNJ différents",                            Rewards=new[]{ G(900),  X(150) } },
+            new(){ Name="Brouillard Interdit",    Icon="🌫️", Category="Île", Objective=QuestObjectiveType.KillEnemies,   Target=40, Description="Vaincre 40 ennemis (Vallée de la Brume Rouge)",         Rewards=new[]{ G(2100), M("GemmeLunaire",3) } },
+            new(){ Name="Pêcheur du Village",     Icon="🎣", Category="Île", Objective=QuestObjectiveType.CatchFish,     Target=5,  Description="Pêcher 5 poissons",                                     Rewards=new[]{ G(1200), M("CristalFeu",2) } },
+            new(){ Name="Le Sceau Interdit",      Icon="⛩️", Category="Île", Objective=QuestObjectiveType.KillBosses,    Target=6,  Description="Vaincre 6 boss (Temple du Sceau Ancestral)",            Rewards=new[]{ G(5000), M("AmeDechue",3) } },
+            new(){ Name="Chakra du Temple",       Icon="🌀", Category="Île", Objective=QuestObjectiveType.ExploreIsland, Target=9,  Description="Explorer les 9 îles de l'Événement Monde",              Rewards=new[]{ G(8000), M("AmeDechue",3), X(1000) } },
+            new(){ Name="Le Successeur de l'Absolu", Icon="👑", Category="Maîtrise", Objective=QuestObjectiveType.DefeatAbsolu, Target=1, Description="Affronter et vaincre L'Absolu, le gardien du Grand Tour", Rewards=new[]{ G(50000), M("AmeDechue",10), X(5000) } },
         };
 
         public static List<ArtifactData> Artifacts = new()

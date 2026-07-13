@@ -37,8 +37,34 @@ namespace TravelTour.Entities
         public CharacterData? Character;
 
         // ── Effet visuel des attaques spéciales (orbe d'énergie) ──
-        public string ActiveEffectKey = "";
+        public string ActiveEffectKey   = "";
+        public string ActiveEffectIcon  = "";
+        public Color  ActiveEffectColor = Color.White;
         float _effectTime;
+
+        // Couleur déterministe dérivée du nom — chaque attaque a sa propre teinte
+        static Color ColorFromName(string name)
+        {
+            int hash = 0;
+            foreach (char c in name) hash = hash * 31 + c;
+            float hue = (hash & 0x7FFFFFFF) % 360 / 360f;
+            return HsvToColor(hue, 0.75f, 1f);
+        }
+
+        static Color HsvToColor(float h, float s, float v)
+        {
+            int i = (int)(h * 6f);
+            float f = h * 6f - i;
+            float p = v * (1f - s);
+            float q = v * (1f - f * s);
+            float t = v * (1f - (1f - f) * s);
+            (float r, float g, float b) = (i % 6) switch
+            {
+                0 => (v, t, p), 1 => (q, v, p), 2 => (p, v, t),
+                3 => (p, q, v), 4 => (t, p, v), _ => (v, p, q),
+            };
+            return new Color(r, g, b);
+        }
 
         // ── Transformation de fruit (sprite + puissance) ──
         bool  _transformActive;
@@ -82,7 +108,7 @@ namespace TravelTour.Entities
         const float DASH_CD       = 0.8f;
         const float ATK_CD        = 0.30f;
         const float PLAYER_DMG    = 0.22f;  // multiplicateur dégâts attaques normales
-        const float ABILITY_DMG   = 0.13f;  // multiplicateur dégâts capacités/fruits
+        const float ABILITY_DMG   = 0.195f;  // multiplicateur dégâts capacités/fruits (x1.5)
 
         // ── Init ──────────────────────────────────────────
         public void Init(CharacterData c)
@@ -331,7 +357,9 @@ namespace TravelTour.Entities
             AttackActive = true;
             _attackBoxTimer = 0.4f;
             AttackBox = new Rectangle((int)Position.X - 130, (int)Position.Y - 130, 300, 300);
-            ActiveEffectKey = "gold";
+            ActiveEffectKey   = "ultimate_" + Character.MasteryUltimateName;
+            ActiveEffectIcon  = Character.Icon;
+            ActiveEffectColor = new Color(255, 215, 0);
             _effectTime = 0f;
             Flash(new Color(255, 215, 0));
             ShowToast?.Invoke($"⚡ {Character.MasteryUltimateName}!", new Color(255, 215, 0));
@@ -378,8 +406,11 @@ namespace TravelTour.Entities
                     AttackActive  = true;
                     _attackBoxTimer = 0.4f;
                     AttackBox = new Rectangle((int)Position.X - 120, (int)Position.Y - 120, 290, 290);
-                    Flash(new Color(255, 140, 0));
-                    ActiveEffectKey = "orange";
+                    var moveColor = ColorFromName(fruit.Name + move.Name);
+                    Flash(moveColor);
+                    ActiveEffectKey   = "fruitmove_" + fruit.Name + "_" + i;
+                    ActiveEffectIcon  = move.Icon;
+                    ActiveEffectColor = moveColor;
                     _effectTime = 0f;
                 }
                 ShowToast?.Invoke($"{fruit.Icon} {move.Icon} {move.Name}!", new Color(255, 140, 0));
@@ -423,18 +454,17 @@ namespace TravelTour.Entities
             AttackActive = true;
             _attackBoxTimer = ab.Duration > 0 ? Math.Min(ab.Duration, 1f) : 0.3f;
             AttackBox = new Rectangle((int)Position.X - 150, (int)Position.Y - 150, 300 + 48, 300 + 72);
-            ActiveEffectKey = "purple";
+            ActiveEffectKey   = "ability_" + ab.Name;
+            ActiveEffectIcon  = ab.Icon;
+            ActiveEffectColor = ColorFromName(ab.Name);
             _effectTime = 0f;
             ShowToast?.Invoke($"⚡ {ab.Name}!", UIHelper.Purple);
             OnAbilityUsed?.Invoke($"{ab.Icon} {ab.Name}", UIHelper.Purple);
         }
 
-        public void DrawEffect(SpriteBatch sb)
+        public void DrawEffect(SpriteBatch sb, Texture2D pixel, FontStashSharp.SpriteFontBase? bigFont = null)
         {
             if (!AttackActive || ActiveEffectKey == "") return;
-            var tex = TravelTour.Core.SpriteLoader.Effect(ActiveEffectKey);
-            if (tex == null) return;
-
             float pulse = 1f + (float)Math.Sin(_effectTime * 14.0) * 0.08f;
             float fade  = Math.Clamp(_attackBoxTimer / 0.2f, 0f, 1f);
             int size = (int)(Math.Min(AttackBox.Width, AttackBox.Height) * 0.7f * pulse);
@@ -442,7 +472,21 @@ namespace TravelTour.Entities
                 AttackBox.Center.X - size / 2,
                 AttackBox.Center.Y - size / 2,
                 size, size);
-            sb.Draw(tex, dest, Color.White * fade);
+
+            var tex = TravelTour.Core.SpriteLoader.Effect(ActiveEffectKey);
+            if (tex != null) { sb.Draw(tex, dest, Color.White * fade); return; }
+
+            // Pas de sprite dédié pour cette attaque : glow teinté + icône propre à l'attaque
+            sb.Draw(pixel, dest, ActiveEffectColor * (fade * 0.35f));
+            int inner = size / 2;
+            sb.Draw(pixel, new Rectangle(dest.Center.X - inner / 2, dest.Center.Y - inner / 2, inner, inner), ActiveEffectColor * (fade * 0.7f));
+            if (bigFont != null && ActiveEffectIcon != "")
+            {
+                var textSize = bigFont.MeasureString(ActiveEffectIcon);
+                sb.DrawString(bigFont, ActiveEffectIcon,
+                    new Vector2(dest.Center.X - textSize.X / 2f, dest.Center.Y - textSize.Y / 2f),
+                    Color.White * fade);
+            }
         }
 
         public void TakeDamage(float amount)

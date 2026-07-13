@@ -110,6 +110,7 @@ namespace TravelTour.States
                 new("📊", "STATS",        "Grille de stats style Blox Fruits", GameState.Wallet,     new Color(255, 140, 0)),
                 new("🎒", "INVENTAIRE",   "Tous tes objets possédés",           GameState.Inventory,   new Color(80, 200, 120)),
                 new("🏍️", "CROSSPARK",    "Défi de course & acrobaties",  GameState.Crosspark,  UIHelper.Gold),
+                new("🌍", "MONDE",        "Explore les îles en bateau",    GameState.WorldSea,   new Color(30, 140, 200)),
                 // MY TEAM retiré
                 new("🏪", "BOUTIQUE",     "Achète équipement & potions",   GameState.Boutique,   UIHelper.Purple),
                 new("🏰", "ENTRAÎNEMENT", "Améliore tes compétences",      GameState.Training,   new Color(240, 80,  96)),

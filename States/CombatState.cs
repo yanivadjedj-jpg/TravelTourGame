@@ -192,8 +192,9 @@ namespace TravelTour.States
                 // 1 ennemi sur 3 est un mage attaquant à distance
                 if (i % 3 == 0)
                 {
-                    e.IsRanged  = true;
-                    e.SpriteKey = "enemy_ghost";
+                    e.IsRanged     = true;
+                    e.SpriteKey    = "enemy_ghost";
+                    e.AttackDamage *= 0.5f;  // mages moins punitifs qu'un ennemi au corps-à-corps
                     e.OnRangedAttack = (pos, dir, dmg) => _enemyProjectiles.Add(
                         new EnemyProjectile(pos, dir * PROJECTILE_SPEED, dmg, PROJECTILE_LIFE,
                             new Color(180, 100, 255), 12));
@@ -216,6 +217,10 @@ namespace TravelTour.States
             "Fruit du Magma",      // diff 3b
             "Fruit de la Lumière", // diff 4
             "Sekai Sekai no Mi",   // wave 8+
+            // Fruits natifs de l'Événement Monde — droppables par n'importe quel boss (comme les autres)
+            "Fruit de l'Ombre Monarque",
+            "Fruit du Roi des Mers",
+            "Fruit du Sage des Six Voies",
         };
 
         // Armes assignées aux boss selon la difficulté
@@ -234,7 +239,7 @@ namespace TravelTour.States
             var boss = new Enemy();
             int H = _game.GraphicsDevice.Viewport.Height;
             int diff = _dungeon != null ? (int)_dungeon.Difficulty : 0;
-            int fruitIdx = Math.Clamp(diff * 2 + (_wave % 2), 0, _bossFruits.Length - 1);
+            int fruitIdx = (diff * 2 + _wave) % _bossFruits.Length;
             string fruitName = _bossFruits[fruitIdx];
 
             // Multiplicateur d'acte pour le boss
@@ -478,6 +483,7 @@ namespace TravelTour.States
                 int bonusXp = reward / 5;
                 PlayerSave.AddXp(bonusXp);
                 PlayerSave.DungeonsCompleted++;
+                if (_dungeon.Name == "Trône de l'Absolu Renaissant") PlayerSave.AbsoluDefeated = true;
                 foreach (var q in Catalog.Quests) q.CheckCompleted();
             }
             ShowToast("VICTOIRE! 🏆", UIHelper.Gold);
@@ -667,7 +673,7 @@ namespace TravelTour.States
 
             // Player
             _player.Draw(sb, _pixel);
-            _player.DrawEffect(sb);
+            _player.DrawEffect(sb, _pixel, _bigFont);
 
             // Particles
             foreach (var p in _particles)
