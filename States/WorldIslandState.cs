@@ -27,6 +27,7 @@ namespace TravelTour.States
 
         int WORLD_W = 1000, WORLD_H = 700;
         bool _prevInteract;
+        bool _facingRight = true;
         string _npcId = "";
 
         string _toast = ""; float _toastTimer; Color _toastColor;
@@ -90,6 +91,8 @@ namespace TravelTour.States
             if (kb.IsKeyDown(Keys.W) || kb.IsKeyDown(Keys.Up))    move.Y -= 1;
             if (kb.IsKeyDown(Keys.S) || kb.IsKeyDown(Keys.Down))  move.Y += 1;
             if (move != Vector2.Zero) move.Normalize();
+            if (move.X > 0.01f) _facingRight = true;
+            else if (move.X < -0.01f) _facingRight = false;
             _playerPos += move * MOVE_SPEED * dt;
             _playerPos.X = Math.Clamp(_playerPos.X, 20, WORLD_W - 20);
             _playerPos.Y = Math.Clamp(_playerPos.Y, 20, WORLD_H - 20);
@@ -201,10 +204,21 @@ namespace TravelTour.States
             foreach (var spawn in _island.MobSpawns)
                 DrawMarker(sb, spawn.Position, spawn.IsBoss ? "👹" : "👺", spawn.EnemyName, spawn.IsBoss ? Color.OrangeRed : new Color(200, 90, 90));
 
-            // Joueur
+            // Joueur — sprite du perso/skin réellement équipé, mis à l'échelle selon la profondeur
             float depthScale = WorldCamera.DepthScaleFor(_playerPos.Y, 0, WORLD_H);
-            int psz = (int)(48 * depthScale);
-            sb.Draw(_pixel, new Rectangle((int)_playerPos.X - psz / 2, (int)_playerPos.Y - psz / 2, psz, psz), new Color(240, 220, 80));
+            var playerSprite = SpriteLoader.Player(false);
+            if (playerSprite != null)
+            {
+                int pw = (int)(72 * depthScale), ph = (int)(96 * depthScale);
+                var flip = _facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                sb.Draw(playerSprite, new Rectangle((int)_playerPos.X - pw / 2, (int)_playerPos.Y - ph, pw, ph),
+                    null, Color.White, 0f, Vector2.Zero, flip, 0f);
+            }
+            else
+            {
+                int psz = (int)(48 * depthScale);
+                sb.Draw(_pixel, new Rectangle((int)_playerPos.X - psz / 2, (int)_playerPos.Y - psz / 2, psz, psz), new Color(240, 220, 80));
+            }
 
             sb.End();
             sb.Begin(samplerState: SamplerState.PointClamp);
