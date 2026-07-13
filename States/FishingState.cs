@@ -38,8 +38,8 @@ namespace TravelTour.States
         float _zoneSpeed;
         float _reelTimeLimit;
 
-        const float INDICATOR_ACCEL = 900f;
-        const float INDICATOR_GRAVITY = 650f;
+        const float INDICATOR_ACCEL = 3200f;
+        const float INDICATOR_GRAVITY = 2400f;
         const float FILL_RATE  = 32f;   // %/s quand dans la zone
         const float DRAIN_RATE = 14f;   // %/s quand hors zone
 
