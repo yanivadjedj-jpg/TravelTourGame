@@ -45,7 +45,6 @@ namespace TravelTour.States
 
             WORLD_W = 4000; WORLD_H = 1100;
             _boat.Position = new Vector2(200, 700);
-            _boat.Velocity = Vector2.Zero;
             _boat.Rotation = 0f;
             _camera.Position = _boat.Position;
         }
