@@ -421,7 +421,7 @@ namespace TravelTour.States
         void EndSession()
         {
             _sessionActive = false;
-            int gold = _score / 10;
+            int gold = _score / 20;
             PlayerSave.AddGold(gold);
             ShowToast($"Session terminée! Score: {_score:N0}  +{gold}", UIHelper.Gold);
         }
@@ -681,7 +681,7 @@ namespace TravelTour.States
                 new Vector2(18, 16), UIHelper.Gold);
 
             // --- Or gagnable cette session ---
-            int goldPreview = _score / 10;
+            int goldPreview = _score / 20;
             if (goldPreview > 0)
                 sb.DrawString(_font, $"+{goldPreview} en cours",
                     new Vector2(18, 34), UIHelper.Gold * 0.6f);
