@@ -16,11 +16,11 @@ namespace TravelTour.States
         SpriteFontBase _font = null!, _bigFont = null!;
         UIButton _backBtn = null!;
 
-        // Tabs: 0=Persos 1=Armes 2=Véhicules 3=Fruits 4=Capacités 5=Matériaux 6=Artefacts 7=Maîtrise
+        // Tabs: 0=Persos 1=Armes 2=Véhicules 3=Fruits 4=Capacités 5=Matériaux 6=Artefacts 7=Maîtrise 8=Pêche
         int _tab = 0;
         List<UIButton> _tabBtns = new();
 
-        static readonly string[] TabNames  = { "👤 Persos", "⚔️ Armes", "🚗 Véhicules", "🍎 Fruits", "✨ Capacités", "🔮 Matériaux", "🏺 Artefacts", "🎖️ Maîtrise" };
+        static readonly string[] TabNames  = { "👤 Persos", "⚔️ Armes", "🚗 Véhicules", "🍎 Fruits", "✨ Capacités", "🔮 Matériaux", "🏺 Artefacts", "🎖️ Maîtrise", "🎣 Pêche" };
         static readonly Color[]  TabColors = {
             new Color(240,192,64),  // gold
             new Color(200,80,80),   // red
@@ -30,6 +30,7 @@ namespace TravelTour.States
             new Color(160,120,80),  // brown
             new Color(255,165,0),   // orange
             new Color(120,220,255), // mastery cyan-blue
+            new Color(60,170,210),  // pêche bleu océan
         };
 
         // Scroll
@@ -119,6 +120,7 @@ namespace TravelTour.States
                 case 5: DrawMaterials(sb, W, H, contentY); break;
                 case 6: DrawArtifacts(sb, W, H, contentY); break;
                 case 7: DrawMasteries(sb, W, H, contentY); break;
+                case 8: DrawFishing(sb, W, H, contentY); break;
             }
 
             // Toast
@@ -357,6 +359,53 @@ namespace TravelTour.States
             }
         }
 
+        void DrawFishing(SpriteBatch sb, int W, int H, int y0)
+        {
+            var rods = Catalog.FishingRods.Where(r => r.IsOwned).ToList();
+            UIHelper.DrawCenteredText(sb, _font, $"{rods.Count} canne(s)  —  équipée : {(PlayerSave.GetEquippedFishingRod()?.Name ?? "aucune")}",
+                new Rectangle(0, y0, W, 22), UIHelper.TextDim, 0.8f);
+
+            int nextY = GridLayout(sb, W, 4, 220, 100, 12, y0 + 28, (i, x, y) =>
+            {
+                var r = rods[i]; Color rc = UIHelper.RarityColors[(int)r.Rarity];
+                var rr = r;
+                DrawItemCard(sb, x, y, 220, r.Icon, r.Name,
+                    UIHelper.RarityNames[(int)r.Rarity], r.EffectLabel(),
+                    rc, r.IsEquipped,
+                    () => { PlayerSave.EquipFishingRod(rr.Name); Toast($"🎣 {rr.Name} équipée!", rc); },
+                    () => { PlayerSave.EquipFishingRod("Canne en Bois"); Toast("Canne retirée.", UIHelper.TextDim); });
+            }, rods.Count);
+
+            var fish = PlayerSave.FishInventory.Where(kv => kv.Value > 0).ToList();
+            int fishY = nextY + 20;
+            if (fish.Count == 0)
+            {
+                DrawEmpty(sb, W, fishY - 60, "Aucun poisson pêché");
+                return;
+            }
+            UIHelper.DrawCenteredText(sb, _font, $"{fish.Count} type(s) de poisson pêché(s)",
+                new Rectangle(0, fishY, W, 22), UIHelper.TextDim, 0.8f);
+
+            int cols = 5, cw = 170, ch = 90, gap = 12;
+            int startX = W / 2 - (cols * (cw + gap)) / 2;
+            for (int i = 0; i < fish.Count; i++)
+            {
+                var kv = fish[i];
+                int col = i % cols, row = i / cols;
+                int x = startX + col * (cw + gap);
+                int y = fishY + 28 + row * (ch + gap);
+
+                var info = Catalog.Fish.Find(f => f.Name == kv.Key);
+                string icon = info?.Icon ?? "🐟";
+                Color rc = UIHelper.RarityColors[(int)(info?.Rarity ?? Rarity.Common)];
+
+                UIHelper.DrawBox(sb, _pixel, new Rectangle(x, y, cw, ch), UIHelper.CardBg, rc * 0.6f, 2);
+                UIHelper.DrawCenteredText(sb, _bigFont, icon, new Rectangle(x + 4, y + 8, 48, 48), Color.White, 0.7f);
+                UIHelper.DrawCenteredText(sb, _bigFont, kv.Value.ToString(), new Rectangle(x + 56, y + 10, cw - 60, 36), rc, 0.65f);
+                UIHelper.DrawCenteredText(sb, _font, kv.Key, new Rectangle(x + 4, y + ch - 22, cw - 8, 18), UIHelper.TextDim * 0.8f, 0.7f);
+            }
+        }
+
         void DrawEmpty(SpriteBatch sb, int W, int y, string msg)
         {
             UIHelper.DrawCenteredText(sb, _font, msg,
@@ -372,6 +421,7 @@ namespace TravelTour.States
                 3 => $"{Catalog.Fruits.Count(f => f.IsOwned)}/{Catalog.Fruits.Count} fruits",
                 4 => $"{Catalog.Abilities.Count(a => a.IsOwned)}/{Catalog.Abilities.Count} capacités",
                 6 => $"{Catalog.Artifacts.Count(a => a.IsOwned)}/{Catalog.Artifacts.Count} artefacts",
+                8 => $"{Catalog.FishingRods.Count(r => r.IsOwned)}/{Catalog.FishingRods.Count} cannes",
                 _ => $"{PlayerSave.Materials.Count(kv => kv.Value > 0)} types"
             };
         }

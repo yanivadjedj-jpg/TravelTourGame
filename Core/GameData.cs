@@ -521,7 +521,10 @@ namespace TravelTour.Core
 
         public static void EquipFishingRod(string name)
         {
+            foreach (var r in Catalog.FishingRods) r.IsEquipped = false;
             EquippedFishingRod = name;
+            var rod = Catalog.FishingRods.Find(r => r.Name == name);
+            if (rod != null) rod.IsEquipped = true;
             SaveSystem.Save();
         }
 

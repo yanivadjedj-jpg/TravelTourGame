@@ -269,8 +269,6 @@ namespace TravelTour.States
             }
             else
             {
-                foreach (var rod in Catalog.FishingRods) rod.IsEquipped = false;
-                r.IsEquipped = true;
                 PlayerSave.EquipFishingRod(r.Name);
                 ShowToast($"🎣 {r.Icon} {r.Name} équipée !", UIHelper.Blue);
             }
