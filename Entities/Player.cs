@@ -82,7 +82,7 @@ namespace TravelTour.Entities
         const float DASH_CD       = 0.8f;
         const float ATK_CD        = 0.30f;
         const float PLAYER_DMG    = 0.22f;  // multiplicateur dégâts attaques normales
-        const float ABILITY_DMG   = 0.20f;  // multiplicateur dégâts capacités/fruits
+        const float ABILITY_DMG   = 0.13f;  // multiplicateur dégâts capacités/fruits
 
         // ── Init ──────────────────────────────────────────
         public void Init(CharacterData c)
