@@ -593,6 +593,8 @@ namespace TravelTour.Core
             new(){ Name="Kira Void",     Rarity=Rarity.Legendary, MaxHP=170, BaseAtk=30, BaseDef=13, BaseSpeed=11, MaxChakra=270, IsOwned=false, BuyPrice=19000, Icon="🌀" },
             new(){ Name="Tsuki Eclipse", Rarity=Rarity.Legendary, MaxHP=175, BaseAtk=33, BaseDef=13, BaseSpeed=10, MaxChakra=285, IsOwned=false, BuyPrice=21000, Icon="🌙" },
             new(){ Name="Seika Arashi",  Rarity=Rarity.Legendary, MaxHP=180, BaseAtk=32, BaseDef=13, BaseSpeed=11, MaxChakra=290, IsOwned=false, BuyPrice=23000, Icon="🌺" },
+            new(){ Name="Rei Mugen",     Rarity=Rarity.Legendary, MaxHP=185, BaseAtk=34, BaseDef=13, BaseSpeed=11, MaxChakra=295, IsOwned=false, BuyPrice=18000, Icon="♾️" },
+            new(){ Name="Akuma Ryu",     Rarity=Rarity.Legendary, MaxHP=190, BaseAtk=35, BaseDef=12, BaseSpeed=10, MaxChakra=300, IsOwned=false, BuyPrice=22000, Icon="🔱" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -624,6 +626,10 @@ namespace TravelTour.Core
             new(){ Name="Lame Lunaire",             Type=WeaponType.Sword,    BaseDamage=82,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12500, Icon="🌙",  Costs=new(){ new(){Material="GemmeLunaire",  Quantity=4}, new(){Material="EssenceOmbres", Quantity=3} } },
             new(){ Name="Hache des Tempêtes",       Type=WeaponType.Scythe,   BaseDamage=62,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=5100,  Icon="🌩️", Costs=new(){ new(){Material="EclatFoudre",   Quantity=2}, new(){Material="LarmePhoenix",  Quantity=2} } },
             new(){ Name="Étoile Dimensionnelle",    Type=WeaponType.Bow,      BaseDamage=118, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=24000, Icon="🌠",  Costs=new(){ new(){Material="PierreCeleste", Quantity=5}, new(){Material="AmeDechue",     Quantity=2} } },
+            new(){ Name="Lame de l'Éveil",          Type=WeaponType.Sword,    BaseDamage=65,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=5700,  Icon="✨",  Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="LarmePhoenix",  Quantity=1} } },
+            new(){ Name="Sceptre de l'Infini",      Type=WeaponType.Staff,    BaseDamage=105, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000, Icon="💫",  Costs=new(){ new(){Material="AmeDechue",     Quantity=2}, new(){Material="CristalNoir",   Quantity=4} } },
+            new(){ Name="Lame des Abysses",          Type=WeaponType.Sword,    BaseDamage=67,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6200,  Icon="🌊",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=2}, new(){Material="CristalNoir",   Quantity=1} } },
+            new(){ Name="Bâton du Tonnerre Céleste", Type=WeaponType.Staff,    BaseDamage=94,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=15000, Icon="⛈️", Costs=new(){ new(){Material="EclatFoudre",   Quantity=5}, new(){Material="PierreCeleste", Quantity=2} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -661,6 +667,8 @@ namespace TravelTour.Core
             new(){ Name="Comète Noire",        Icon="☄️", Speed=21, Acceleration=15, TrickBonus=1.4f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12000 },
             new(){ Name="Dragon Volant",        Icon="🐲", Speed=20, Acceleration=14, TrickBonus=1.3f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=14000 },
             new(){ Name="Fantôme des Cieux",    Icon="👻", Speed=19, Acceleration=13, TrickBonus=1.1f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=9000  },
+            new(){ Name="Tornade Astrale",      Icon="🌪️", Speed=21, Acceleration=15, TrickBonus=1.4f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=11000 },
+            new(){ Name="Raijin Drift",         Icon="⚡", Speed=23, Acceleration=17, TrickBonus=1.6f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -704,6 +712,10 @@ namespace TravelTour.Core
             new(){ Name="Caverne du Phénix Noir",      Icon="🔥", Difficulty=DifficultyLevel.Boss,   RequiredRank=4, EnemyCount=8,  GoldReward=520, Rewards=new(){ new(){Material="LarmePhoenix",  Min=2, Max=4}, new(){Material="EssenceOmbres", Min=1, Max=3} } },
             new(){ Name="Temple de l'Orage Sacré",     Icon="🌩️", Difficulty=DifficultyLevel.Medium,    RequiredRank=2, EnemyCount=9,  GoldReward=210, Rewards=new(){ new(){Material="EclatFoudre",   Min=2, Max=3}, new(){Material="LarmePhoenix",  Min=1, Max=2} } },
             new(){ Name="Citadelle du Néant Primordial",Icon="👁️", Difficulty=DifficultyLevel.Legendary, RequiredRank=6, EnemyCount=18, GoldReward=1300, Rewards=new(){ new(){Material="AmeDechue",    Min=2, Max=4}, new(){Material="CristalNoir",   Min=2, Max=3} } },
+            new(){ Name="Crypte des Étoiles Tombées",  Icon="🌠", Difficulty=DifficultyLevel.Medium,    RequiredRank=3, EnemyCount=10, GoldReward=270,  Rewards=new(){ new(){Material="GemmeLunaire",  Min=1, Max=3}, new(){Material="PierreCeleste", Min=1, Max=2} } },
+            new(){ Name="Sanctuaire des Âmes Perdues", Icon="💀", Difficulty=DifficultyLevel.Boss,      RequiredRank=5, EnemyCount=7,  GoldReward=680,  Rewards=new(){ new(){Material="EssenceOmbres", Min=3, Max=5}, new(){Material="CristalNoir",   Min=1, Max=2} } },
+            new(){ Name="Crypte des Esprits Ancestraux", Icon="👻", Difficulty=DifficultyLevel.Medium, RequiredRank=1, EnemyCount=8,  GoldReward=185,  Rewards=new(){ new(){Material="GemmeLunaire",  Min=1, Max=2}, new(){Material="CristalFeu",    Min=1, Max=3} } },
+            new(){ Name="Colisée des Légendes",          Icon="🏛️", Difficulty=DifficultyLevel.Legendary, RequiredRank=5, EnemyCount=16, GoldReward=850,  Rewards=new(){ new(){Material="AmeDechue",     Min=2, Max=4}, new(){Material="CristalNoir",   Min=1, Max=3} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
