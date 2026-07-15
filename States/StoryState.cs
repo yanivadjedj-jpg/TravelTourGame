@@ -21,10 +21,10 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[52];
+        public static readonly bool[] ChaptersCompleted = new bool[54];
         public static void MarkChapterCompleted(int chapterIndex)
         {
-            if (chapterIndex >= 0 && chapterIndex < 52)
+            if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
             {
                 ChaptersCompleted[chapterIndex] = true;
                 // Synchronise avec PlayerSave pour la persistance
@@ -474,11 +474,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Portail de l'Infini", Icon="🌌",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=35, GoldReward=12000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=53, Title="L'Éveil du Cristal Primordial", Tag="Grand Tour",
+                Summary="Au cœur d'une dimension cristalline jamais cartographiée, Kai perçoit une pulsation ancestrale.\n"+
+                        "Le Cristal Primordial — source de tout chakra dans l'univers — est en train de se fissurer sous l'assaut de créatures nées du vide.\n"+
+                        "L'équipage doit le défendre avant que sa destruction ne plonge tous les mondes dans un silence éternel.",
+                Dungeon=new DungeonData{ Name="Sanctuaire du Cristal Primordial", Icon="💎",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=28, GoldReward=11000,
+                    Rewards=new List<MaterialReward>{ new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="AmeDechue",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=54, Title="L'Horizon des Mondes Inversés", Tag="Grand Tour",
+                Summary="Une fissure dimensionnelle inverse les lois de la réalité : les alliés deviennent ennemis, les ombres prennent vie et le sol devient ciel.\n"+
+                        "Kai doit affronter son propre reflet corrompu — le Monarque des Mondes Inversés — dans un duel où chaque frappe retourne contre lui.\n"+
+                        "Seule la maîtrise absolue du chakra peut briser le miroir et refermer la fissure pour toujours.",
+                Dungeon=new DungeonData{ Name="Miroir des Mondes Inversés", Icon="🌀",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=32, GoldReward=13000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=6}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 12 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 14 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
