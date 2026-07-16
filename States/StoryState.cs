@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[54];
+        public static readonly bool[] ChaptersCompleted = new bool[56];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -490,11 +490,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Miroir des Mondes Inversés", Icon="🌀",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=32, GoldReward=13000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=55, Title="Le Souffle du Vide Infini", Tag="Grand Tour",
+                Summary="Au-delà du miroir brisé, Kai et son équipage découvrent une dimension que nul n'a jamais cartographiée : le Vide Infini.\n"+
+                        "Des gardiens anciens, forgés dans le néant absolu, surgissent pour repousser les intrus qui osent franchir ses frontières.\n"+
+                        "Pour avancer, Kai doit maîtriser une nouvelle forme de chakra — l'Essence du Vide — ou être consumé par l'obscurité éternelle.",
+                Dungeon=new DungeonData{ Name="Portail du Vide Infini", Icon="🕳️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=30, GoldReward=11500,
+                    Rewards=new List<MaterialReward>{ new(){Material="CristalNoir",Min=4,Max=6}, new(){Material="AmeDechue",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=56, Title="L'Aube des Mondes Nouveaux", Tag="Grand Tour",
+                Summary="Le Grand Tour atteint son apogée : une dimension vierge, née de l'énergie libérée par toutes les batailles précédentes, s'ouvre devant l'équipage.\n"+
+                        "Kai comprend enfin que le Système ne cherchait pas à le rendre plus fort — il cherchait à forger un bâtisseur de mondes.\n"+
+                        "Dans un dernier affrontement contre l'Ombre Primordiale, Kai pose la première pierre de l'univers qui portera le nom du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Berceau des Mondes Nouveaux", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=36, GoldReward=15000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=7}, new(){Material="CristalNoir",Min=3,Max=5}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 14 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 16 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -526,7 +542,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 51);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 55);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
