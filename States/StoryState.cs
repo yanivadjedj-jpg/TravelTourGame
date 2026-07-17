@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[56];
+        public static readonly bool[] ChaptersCompleted = new bool[58];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -506,11 +506,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Berceau des Mondes Nouveaux", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=36, GoldReward=15000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=7}, new(){Material="CristalNoir",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=57, Title="L'Œil de la Tempête Éternelle", Tag="Grand Tour",
+                Summary="Au-delà du Portail de l'Infini, Kai et son équipage découvrent l'Œil de la Tempête Éternelle — un nexus de dimensions en collision perpétuelle.\n"+
+                        "Des entités nées de cette destruction cosmique attaquent sans répit, cherchant à engloutir tout ce qui touche à la vie.\n"+
+                        "Kai doit canaliser la tempête elle-même pour forger un passage à travers le chaos et protéger les dimensions naissantes.",
+                Dungeon=new DungeonData{ Name="Nexus de la Tempête Éternelle", Icon="🌪️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=32, GoldReward=13500,
+                    Rewards=new List<MaterialReward>{ new(){Material="EclatFoudre",Min=4,Max=7}, new(){Material="AmeDechue",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=58, Title="Le Serment du Nouveau Monde", Tag="Grand Tour",
+                Summary="Kai, désormais Monarque Dimensionnel confirmé, rassemble son équipage une dernière fois avant de s'élancer vers l'horizon infini.\n"+
+                        "Les Gardiens du Serment — sept titans cosmiques qui protègent l'équilibre entre les dimensions — testent sa valeur ultime.\n"+
+                        "Pour sceller le Pacte du Nouveau Monde, Kai doit les vaincre et prouver que la paix peut coexister avec la puissance absolue.",
+                Dungeon=new DungeonData{ Name="Citadelle des Gardiens du Serment", Icon="🔮",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=36, GoldReward=15000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=7}, new(){Material="CristalNoir",Min=3,Max=5}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 16 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 18 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -542,7 +558,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 55);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 57);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
