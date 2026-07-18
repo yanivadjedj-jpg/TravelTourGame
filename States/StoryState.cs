@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[58];
+        public static readonly bool[] ChaptersCompleted = new bool[60];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -522,11 +522,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle des Gardiens du Serment", Icon="🔮",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=36, GoldReward=15000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=7}, new(){Material="CristalNoir",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=59, Title="La Citadelle des Étoiles Éteintes", Tag="Grand Tour",
+                Summary="Au-delà du Serment du Nouveau Monde, Kai découvre une citadelle suspendue entre des étoiles mourantes.\n"+
+                        "Les gardiens de cet avant-poste cosmique, figés depuis la nuit des temps, s'éveillent pour défendre leur dernier bastion.\n"+
+                        "L'équipage doit les affronter avant que la citadelle ne s'effondre dans le néant éternel.",
+                Dungeon=new DungeonData{ Name="Citadelle des Étoiles Éteintes", Icon="⭐",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=33, GoldReward=14000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=60, Title="L'Écho de l'Infini", Tag="Grand Tour",
+                Summary="Kai, au sommet de sa puissance, perçoit un écho provenant du fond de toutes les dimensions fusionnées.\n"+
+                        "Une entité ancienne — née de l'énergie de chaque combat jamais mené — cherche à consumer le Grand Tour.\n"+
+                        "Dans un affrontement transcendant toute limite, l'équipage forge son héritage pour l'éternité.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Écho Infini", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=38, GoldReward=16000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=6,Max=9}, new(){Material="PierreCeleste",Min=5,Max=7}, new(){Material="CristalNoir",Min=4,Max=6}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 18 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 20 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -558,7 +574,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 57);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 59);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
