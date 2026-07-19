@@ -488,7 +488,7 @@ namespace TravelTour.Core
         public static List<string> OwnedChars     = new() { "Jimmy", "Kaito Shadow", "Ryo Thunder" };
         public static List<string> OwnedVehicles  = new() { "Tommy Mayo" };
         public static List<string> OwnedFruits    = new() { "Fruit du Golem" };  // fruits possédés
-        public static bool[]       StoryProgress  = new bool[60];  // 60 chapitres
+        public static bool[]       StoryProgress  = new bool[62];  // 62 chapitres
         public static int          LastChapterIndex = 0;  // dernier chapitre consulté/joué
 
         // ── Statistiques globales pour les quêtes ─────────────────
@@ -693,6 +693,7 @@ namespace TravelTour.Core
             new(){ Name="Hoshi Kuroi",   Rarity=Rarity.Legendary, MaxHP=188, BaseAtk=35, BaseDef=13, BaseSpeed=12, MaxChakra=300, IsOwned=false, BuyPrice=18000, Icon="🌟" },
             new(){ Name="Yuki Hoshi",    Rarity=Rarity.Legendary, MaxHP=183, BaseAtk=34, BaseDef=14, BaseSpeed=11, MaxChakra=292, IsOwned=false, BuyPrice=16000, Icon="💫" },
             new(){ Name="Raiki Mugen",   Rarity=Rarity.Legendary, MaxHP=192, BaseAtk=35, BaseDef=15, BaseSpeed=10, MaxChakra=305, IsOwned=false, BuyPrice=14000, Icon="🔮" },
+            new(){ Name="Kaze Mugen",    Rarity=Rarity.Legendary, MaxHP=186, BaseAtk=33, BaseDef=13, BaseSpeed=13, MaxChakra=295, IsOwned=false, BuyPrice=15000, Icon="🌬️" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -738,6 +739,8 @@ namespace TravelTour.Core
             new(){ Name="Arc du Firmament",           Type=WeaponType.Bow,      BaseDamage=120, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=23000, Icon="🌌",  Costs=new(){ new(){Material="AmeDechue",     Quantity=3}, new(){Material="PierreCeleste", Quantity=4} } },
             new(){ Name="Sceptre de Givre",           Type=WeaponType.Staff,    BaseDamage=62,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=5200,  Icon="🧊",  Costs=new(){ new(){Material="GemmeLunaire",  Quantity=2}, new(){Material="CristalFeu",    Quantity=1} } },
             new(){ Name="Poing du Néant",             Type=WeaponType.Gauntlet, BaseDamage=87,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12500, Icon="⬛",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=4}, new(){Material="CristalNoir",   Quantity=2} } },
+            new(){ Name="Arc du Néant Glacé",         Type=WeaponType.Bow,      BaseDamage=65,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=5800,  Icon="🌌",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=2}, new(){Material="GemmeLunaire",  Quantity=2} } },
+            new(){ Name="Faux de l'Aube Sanglante",   Type=WeaponType.Scythe,   BaseDamage=128, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=23000, Icon="🌅",  Costs=new(){ new(){Material="AmeDechue",     Quantity=4}, new(){Material="CristalNoir",   Quantity=4} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -782,6 +785,7 @@ namespace TravelTour.Core
             new(){ Name="Éclipse des Cieux",    Icon="🌘", Speed=22, Acceleration=16, TrickBonus=1.5f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=13000 },
             new(){ Name="Croc-de-Vide",         Icon="🌑", Speed=21, Acceleration=15, TrickBonus=1.45f,Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12000 },
             new(){ Name="Cristal Volant",        Icon="💠", Speed=22, Acceleration=15, TrickBonus=1.55f,Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=13500 },
+            new(){ Name="Kitsune Fantôme",       Icon="🦊", Speed=21, Acceleration=15, TrickBonus=1.35f,Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=11500 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -849,6 +853,8 @@ namespace TravelTour.Core
             new(){ Name="Forteresse des Vents Célestes",Icon="💨", Difficulty=DifficultyLevel.Boss,      RequiredRank=5, EnemyCount=8,  GoldReward=550,  Rewards=new(){ new(){Material="EssenceOmbres", Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
             new(){ Name="Abîme des Flammes Ancestrales", Icon="🔥", Difficulty=DifficultyLevel.Easy,   RequiredRank=0, EnemyCount=6,  GoldReward=130,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
             new(){ Name="Bastion du Chaos Ancien",       Icon="🌑", Difficulty=DifficultyLevel.Boss,   RequiredRank=5, EnemyCount=7,  GoldReward=670,  Rewards=new(){ new(){Material="AmeDechue",     Min=1, Max=2}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
+            new(){ Name="Caverne des Cristaux Glacés",   Icon="🧊", Difficulty=DifficultyLevel.Easy,   RequiredRank=0, EnemyCount=7,  GoldReward=135,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
+            new(){ Name="Tour des Ombres Éternelles",    Icon="🌑", Difficulty=DifficultyLevel.Boss,   RequiredRank=5, EnemyCount=8,  GoldReward=710,  Rewards=new(){ new(){Material="AmeDechue",     Min=1, Max=2}, new(){Material="EssenceOmbres", Min=2, Max=4} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────

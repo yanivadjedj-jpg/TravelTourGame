@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[60];
+        public static readonly bool[] ChaptersCompleted = new bool[62];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -538,11 +538,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Écho Infini", Icon="♾️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=38, GoldReward=16000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=6,Max=9}, new(){Material="PierreCeleste",Min=5,Max=7}, new(){Material="CristalNoir",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=61, Title="L'Ombre du Destin Transcendant", Tag="Grand Tour",
+                Summary="Porté par l'écho de l'infini, Kai perçoit une déchirure entre les dimensions : une ombre colossale issue du Destin lui-même prend forme.\n"+
+                        "Cette entité n'est ni un monstre ni un dieu — c'est la somme de tous les voyages non accomplis, cherchant à effacer les héros qui ont brisé le cycle.\n"+
+                        "L'équipage du Grand Tour pénètre dans le Sanctuaire du Destin Transcendant pour affronter ce que nul n'a encore osé nommer.",
+                Dungeon=new DungeonData{ Name="Sanctuaire du Destin Transcendant", Icon="🌒",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=35, GoldReward=15000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=6}, new(){Material="GemmeLunaire",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=62, Title="Le Pacte des Mondes Réunis", Tag="Grand Tour",
+                Summary="Après avoir vaincu l'Ombre du Destin, Kai et ses alliés découvrent que chaque dimension vaincue pulse encore d'une vie nouvelle.\n"+
+                        "Les anciens ennemis, purifiés par le Grand Tour, tendent la main pour sceller un Pacte éternel entre tous les mondes traversés.\n"+
+                        "Dans la Citadelle de l'Alliance Primordiale, un dernier serment doit être prononcé — et défendu les armes à la main.",
+                Dungeon=new DungeonData{ Name="Citadelle de l'Alliance Primordiale", Icon="🌟",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=40, GoldReward=18000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=10}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=6}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 20 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 22 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -574,7 +590,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 59);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 61);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
