@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[62];
+        public static readonly bool[] ChaptersCompleted = new bool[64];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -554,11 +554,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle de l'Alliance Primordiale", Icon="🌟",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=40, GoldReward=18000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=10}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=63, Title="Le Trône des Éons Brisés", Tag="Grand Tour",
+                Summary="Après le Pacte des Mondes Réunis, une fissure colossale s'ouvre au cœur du Grand Tour : le Trône des Éons, vestige d'une ère antérieure aux premières dimensions.\n"+
+                        "Un être sans nom y réside depuis l'aube des temps, gardant un secret capable de défaire l'existence de Kai et de ses alliés.\n"+
+                        "L'équipage s'y enfonce armé de leur foi mutuelle, sachant que seule la victoire absolue leur permettra de revenir.",
+                Dungeon=new DungeonData{ Name="Trône des Éons Brisés", Icon="👁️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=42, GoldReward=19000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=64, Title="L'Aurore du Voyage Éternel", Tag="Grand Tour",
+                Summary="Vaincue la gardienne du Trône, Kai contemple pour la première fois la lumière au-delà de toutes les dimensions : une aurore née des âmes de chaque monde sauvé.\n"+
+                        "Le Grand Tour ne s'achève pas — il se transforme, portant l'équipage vers des horizons que nulle carte n'a jamais tracés.\n"+
+                        "Dans l'Arène de l'Aurore Éternelle, un ultime défi surgit, comme un dernier test avant que le vrai voyage commence.",
+                Dungeon=new DungeonData{ Name="Arène de l'Aurore Éternelle", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=20000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 22 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 24 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -590,7 +606,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 61);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 63);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
