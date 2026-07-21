@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[64];
+        public static readonly bool[] ChaptersCompleted = new bool[66];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -570,11 +570,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Arène de l'Aurore Éternelle", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=20000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=65, Title="Les Fragments du Cosmos Perdu", Tag="Grand Tour",
+                Summary="Dans les profondeurs d'une dimension fracturée, Kai découvre les fragments d'un cosmos oublié — débris d'une réalité détruite avant même le début du Grand Tour.\n"+
+                        "Des entités gardiennes, nées de ces ruines cosmiques, attaquent tout voyageur qui ose s'en approcher.\n"+
+                        "L'équipage doit récupérer les fragments et reconstituer la mémoire perdue de cet univers avant qu'elle ne disparaisse à jamais.",
+                Dungeon=new DungeonData{ Name="Ruines du Cosmos Fracturé", Icon="💫",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=17000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=6,Max=9}, new(){Material="CristalNoir",Min=4,Max=7}, new(){Material="GemmeLunaire",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=66, Title="L'Horizon des Dimensions Infinies", Tag="Grand Tour",
+                Summary="Kai et son équipage atteignent l'ultime frontière — l'Horizon des Dimensions Infinies, là où toutes les réalités connues s'effacent dans une lumière sans fin.\n"+
+                        "Le Gardien de l'Horizon, une entité tissée de chakra pur et de néant, s'élève pour tester le Monarque Dimensionnel une dernière fois.\n"+
+                        "Kai comprend que chaque voyage accompli a préparé ce moment : il affronte l'Horizon non pour le détruire, mais pour l'ouvrir sur l'infini.",
+                Dungeon=new DungeonData{ Name="Trône de l'Horizon Infini", Icon="🌠",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=48, GoldReward=22000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="CristalNoir",Min=5,Max=7}, new(){Material="EclatFoudre",Min=5,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 24 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 26 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -606,7 +622,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 63);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 65);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
