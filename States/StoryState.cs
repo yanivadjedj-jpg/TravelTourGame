@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[66];
+        public static readonly bool[] ChaptersCompleted = new bool[68];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -586,11 +586,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Trône de l'Horizon Infini", Icon="🌠",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=48, GoldReward=22000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="CristalNoir",Min=5,Max=7}, new(){Material="EclatFoudre",Min=5,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=67, Title="Le Réveil des Anciens Gardiens", Tag="Grand Tour",
+                Summary="Au-delà de l'horizon infini, Kai et son équipage découvrent un sanctuaire oublié gardé par des titans d'énergie pure — les Anciens Gardiens, créés avant même la naissance des dimensions.\n"+
+                        "Ces êtres immortels, figés depuis des éons, s'éveillent au passage du Monarque Dimensionnel et réclament un droit de passage que seule la force peut prouver.\n"+
+                        "Kai doit maîtriser une nouvelle forme de chakra ancestral pour briser les sceaux qui enchaînent ces gardiens et ouvrir la voie vers l'ultime destination du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Titans Éveillés", Icon="🗿",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=50, GoldReward=24000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=68, Title="L'Ultime Serment du Monarque", Tag="Grand Tour",
+                Summary="Le Grand Tour touche à sa véritable conclusion : Kai comprend que chaque dimension qu'il a traversée était une épreuve pour forger le seul être capable de sceller la fracture cosmique menaçant tous les mondes.\n"+
+                        "Devant le Conseil des Dimensions — entités représentant chaque univers du Grand Tour — il prononce le Serment du Monarque, liant son destin à la protection éternelle du Multivers.\n"+
+                        "Dans un ultime affrontement contre sa propre ombre transcendante, Kai prouve que le pouvoir ne réside pas dans la destruction, mais dans la volonté de protéger ce qui existe.",
+                Dungeon=new DungeonData{ Name="Arène du Serment Cosmique", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=28000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="PierreCeleste",Min=8,Max=12}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 26 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 28 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -622,7 +638,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 65);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 67);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
