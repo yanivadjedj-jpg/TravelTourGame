@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[68];
+        public static readonly bool[] ChaptersCompleted = new bool[70];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -602,11 +602,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Arène du Serment Cosmique", Icon="🌌",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=28000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="PierreCeleste",Min=8,Max=12}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=69, Title="L'Archipel des Âmes Réveillées", Tag="Grand Tour",
+                Summary="Au-delà du Serment Cosmique, Kai découvre un archipel légendaire où les âmes de tous les guerriers tombés se sont réveillées.\n"+
+                        "Ces esprits ancestraux, refusant de disparaître, défient le Monarque Dimensionnel pour éprouver la vérité de son titre.\n"+
+                        "Kai doit les vaincre avec respect, prouvant que sa force est au service de la vie et non de la destruction.",
+                Dungeon=new DungeonData{ Name="Archipel des Âmes Réveillées", Icon="🌊",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=45, GoldReward=25000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="GemmeLunaire",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=70, Title="Le Sceau de l'Éternité Brisée", Tag="Grand Tour",
+                Summary="Un sceau cosmique vieux de plusieurs éons vient de se fissurer, libérant une énergie primordiale capable de fracturer toutes les dimensions connues.\n"+
+                        "Le Monarque Dimensionnel est la seule entité assez puissante pour contenir cette rupture et forger un nouveau sceau à la mesure de l'infini.\n"+
+                        "Dans un affrontement titanesque contre l'Énergie Primordiale elle-même, Kai accomplit l'ultime mission du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Nexus du Sceau Éternel", Icon="🔮",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=60, GoldReward=30000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=16}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="CristalNoir",Min=7,Max=10}, new(){Material="EclatFoudre",Min=7,Max=10}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 28 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 30 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -638,7 +654,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 67);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 69);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
