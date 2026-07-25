@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[70];
+        public static readonly bool[] ChaptersCompleted = new bool[72];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -618,11 +618,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus du Sceau Éternel", Icon="🔮",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=60, GoldReward=30000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=16}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="CristalNoir",Min=7,Max=10}, new(){Material="EclatFoudre",Min=7,Max=10}}}},
+            new(){
+                Act=5, ChapterNum=71, Title="Le Chant du Cosmos Éveillé", Tag="Grand Tour",
+                Summary="Après avoir brisé le sceau de l'Éternité, le Monarque Dimensionnel perçoit pour la première fois le chant originel du cosmos — une mélodie tissée à même le tissu des dimensions.\n"+
+                        "Des entités cosmiques venues de l'au-delà du multivers réclament leur droit sur les mondes libérés, forçant Kai à défendre chaque fragment de réalité reconquise.\n"+
+                        "Dans le Sanctuaire Résonant, il affronte les Choristes du Vide pour faire taire leur chant destructeur.",
+                Dungeon=new DungeonData{ Name="Sanctuaire Résonant du Cosmos", Icon="🎵",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=48, GoldReward=28000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="EclatFoudre",Min=7,Max=10}, new(){Material="PierreCeleste",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=72, Title="L'Aube des Dimensions Réunies", Tag="Grand Tour",
+                Summary="Les fragments de toutes les dimensions traversées par le Grand Tour convergent en un seul nexus, formant un monde nouveau à l'image des voyages accomplis.\n"+
+                        "Le Monarque Dimensionnel doit sceller cette convergence en affrontant l'écho de tous les boss qu'il a vaincus, désormais fusionnés en une seule entité ultime.\n"+
+                        "Dans l'Arène de la Convergence Finale, Kai forge le pacte qui unira les mondes pour l'éternité.",
+                Dungeon=new DungeonData{ Name="Arène de la Convergence Finale", Icon="🌐",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=65, GoldReward=35000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=14,Max=18}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="CristalNoir",Min=8,Max=12}, new(){Material="GemmeLunaire",Min=8,Max=12}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 30 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 32 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -654,7 +670,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 69);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 71);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
