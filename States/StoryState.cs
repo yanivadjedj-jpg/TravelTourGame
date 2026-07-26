@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[72];
+        public static readonly bool[] ChaptersCompleted = new bool[74];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -634,11 +634,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Arène de la Convergence Finale", Icon="🌐",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=65, GoldReward=35000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=14,Max=18}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="CristalNoir",Min=8,Max=12}, new(){Material="GemmeLunaire",Min=8,Max=12}}}},
+            new(){
+                Act=5, ChapterNum=73, Title="Le Souffle des Mondes Oubliés", Tag="Grand Tour",
+                Summary="Au-delà de la Convergence Finale, le Monarque Dimensionnel découvre des fragments de mondes que le Grand Tour n'a jamais atteints — des réalités condamnées à l'oubli avant même leur naissance.\n"+
+                        "Des gardiens spectraux protègent ces ruines cosmiques, refusant toute intrusion dans leur sanctuaire brisé.\n"+
+                        "Kai doit traverser le Cimetière des Dimensions pour libérer ces mondes perdus et les intégrer à l'éternel voyage.",
+                Dungeon=new DungeonData{ Name="Cimetière des Dimensions Perdues", Icon="🪦",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=55, GoldReward=30000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=16}, new(){Material="CristalNoir",Min=8,Max=11}, new(){Material="EssenceOmbres",Min=7,Max=10}}}},
+            new(){
+                Act=5, ChapterNum=74, Title="L'Éternité en Marche", Tag="Grand Tour",
+                Summary="Le Grand Tour ne prend jamais fin — telle est la vérité que le Monarque Dimensionnel grave dans sa mémoire éternelle.\n"+
+                        "Chaque dimension vaincue devient un chapitre, chaque boss terrassé un pas de plus vers un horizon infini que nul ne peut atteindre seul.\n"+
+                        "Dans la Citadelle de l'Éternité en Marche, Kai scelle un nouveau pacte avec l'univers : voyager sans jamais s'arrêter.",
+                Dungeon=new DungeonData{ Name="Citadelle de l'Éternité en Marche", Icon="🚀",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=70, GoldReward=40000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=15,Max=20}, new(){Material="PierreCeleste",Min=11,Max=15}, new(){Material="CristalNoir",Min=9,Max=13}, new(){Material="GemmeLunaire",Min=9,Max=13}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 32 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 34 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -670,7 +686,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 71);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 73);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
