@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[74];
+        public static readonly bool[] ChaptersCompleted = new bool[76];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -650,11 +650,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle de l'Éternité en Marche", Icon="🚀",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=70, GoldReward=40000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=15,Max=20}, new(){Material="PierreCeleste",Min=11,Max=15}, new(){Material="CristalNoir",Min=9,Max=13}, new(){Material="GemmeLunaire",Min=9,Max=13}}}},
+            new(){
+                Act=5, ChapterNum=75, Title="Le Crépuscule des Titans Oubliés", Tag="Grand Tour",
+                Summary="Au-delà des dimensions explorées, Kai perçoit l'écho d'une civilisation de titans disparus avant même l'aube du multivers.\n"+
+                        "Leurs gardiens mécaniques, toujours actifs après des millénaires, défendent les ruines de leur empire oublié contre tout intrus.\n"+
+                        "L'équipage doit traverser ces vestiges colossaux pour sceller la fissure dimensionnelle qui menace d'avaler les mondes les plus jeunes.",
+                Dungeon=new DungeonData{ Name="Ruines des Titans Oubliés", Icon="🗿",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=58, GoldReward=32000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=17}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="CristalNoir",Min=7,Max=11}}}},
+            new(){
+                Act=5, ChapterNum=76, Title="L'Aube du Multivers Éternel", Tag="Grand Tour",
+                Summary="Kai, désormais forgé par chaque épreuve du Grand Tour, contemple la naissance d'une nouvelle ère dimensionnelle.\n"+
+                        "Une entité primordiale surgit des profondeurs du multivers, incarnant la somme de toutes les puissances jamais vaincues.\n"+
+                        "Dans un combat ultime où chaque coup est un chant pour l'éternité, l'équipage du Grand Tour trace sa légende pour toujours.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Aube Éternelle", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=72, GoldReward=45000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=15,Max=20}, new(){Material="PierreCeleste",Min=12,Max=16}, new(){Material="CristalNoir",Min=10,Max=14}, new(){Material="EclatFoudre",Min=8,Max=12}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 34 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 36 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
@@ -686,7 +702,7 @@ namespace TravelTour.States
 
             // Ouvre au chapitre demandé (après victoire en donjon), sinon reprend le dernier chapitre consulté
             int idx = System.Math.Clamp(
-                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 73);
+                RequestedChapterIdx >= 0 ? RequestedChapterIdx : PlayerSave.LastChapterIndex, 0, 75);
             for (int a = 0; a < ActStartIndex.Length - 1; a++)
             {
                 if (idx < ActStartIndex[a + 1])
