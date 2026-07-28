@@ -666,11 +666,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Aube Éternelle", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=72, GoldReward=45000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=15,Max=20}, new(){Material="PierreCeleste",Min=12,Max=16}, new(){Material="CristalNoir",Min=10,Max=14}, new(){Material="EclatFoudre",Min=8,Max=12}}}},
+            new(){
+                Act=5, ChapterNum=77, Title="Le Miroir des Dimensions Oubliées", Tag="Grand Tour",
+                Summary="Dans les profondeurs du Vide Absolu, Kai découvre un artefact ancien qui reflète toutes les dimensions visitées durant le Grand Tour.\n"+
+                        "Des fragments de ses ennemis passés se matérialisent sous forme de gardiens corrompus, défiant l'équipage une dernière fois.\n"+
+                        "Seule la maîtrise totale de son pouvoir permettra à Kai de briser le miroir et libérer les dimensions captives.",
+                Dungeon=new DungeonData{ Name="Sanctuaire du Miroir Brisé", Icon="🪞",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=24, GoldReward=10000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}, new(){Material="PierreCeleste",Min=2,Max=4}}}},
+            new(){
+                Act=5, ChapterNum=78, Title="L'Éternité Renaissante", Tag="Grand Tour",
+                Summary="Après avoir brisé le Miroir des Dimensions, Kai et son équipage assistent à la renaissance du cosmos fracturé par les guerres dimensionnelles.\n"+
+                        "Un être titanesque, né de la fusion de toutes les âmes déchues du Grand Tour, émerge pour contester la nouvelle paix.\n"+
+                        "Dans un ultime affrontement aux confins du temps, Kai scelle définitivement le destin de l'univers et entame une nouvelle légende.",
+                Dungeon=new DungeonData{ Name="Citadelle de l'Éternité Renaissante", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=30, GoldReward=15000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}, new(){Material="EclatFoudre",Min=2,Max=4}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 36 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 38 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
