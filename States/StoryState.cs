@@ -682,11 +682,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle de l'Éternité Renaissante", Icon="♾️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=30, GoldReward=15000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}, new(){Material="EclatFoudre",Min=2,Max=4}}}},
+            new(){
+                Act=5, ChapterNum=79, Title="L'Éveil des Gardiens Oubliés", Tag="Grand Tour",
+                Summary="Kai et son équipage découvrent une dimension cachée entre les fractures du cosmos, peuplée de gardiens ancestraux dont la mémoire a été effacée par les guerres dimensionnelles.\n"+
+                        "Ces êtres colossaux, prisonniers de leur propre amnésie, attaquent l'équipage sans reconnaître les héros du multivers.\n"+
+                        "Pour briser leur malédiction, Kai doit affronter le gardien suprême et lui restituer l'éclat de mémoire cosmique qui définit son existence.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Gardiens Ancestraux", Icon="🗿",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=26, GoldReward=11000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=7}, new(){Material="PierreCeleste",Min=3,Max=5}, new(){Material="EssenceOmbres",Min=2,Max=4}}}},
+            new(){
+                Act=5, ChapterNum=80, Title="Le Serment des Dimensions Libres", Tag="Grand Tour",
+                Summary="Au terme d'un long voyage à travers les dimensions, Kai forge un pacte éternel avec les entités primordiales du multivers pour sceller les fissures dimensionnelles définitivement.\n"+
+                        "Un adversaire inconnu, né de la convergence de toutes les énergies cosmiques libérées, surgit pour tester la valeur ultime du Monarque.\n"+
+                        "Kai affronte ce titan dimensionnel dans un combat final qui déterminera l'équilibre de tous les mondes pour l'éternité.",
+                Dungeon=new DungeonData{ Name="Nexus du Serment Éternel", Icon="⚖️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=32, GoldReward=16000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}, new(){Material="EclatFoudre",Min=2,Max=4}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 38 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 40 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
