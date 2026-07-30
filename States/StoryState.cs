@@ -698,6 +698,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus du Serment Éternel", Icon="⚖️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=32, GoldReward=16000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}, new(){Material="EclatFoudre",Min=2,Max=4}}}},
+            new(){
+                Act=5, ChapterNum=81, Title="L'Éveil des Fragments Interdits", Tag="Grand Tour",
+                Summary="Kai découvre que les fragments dimensionnels qu'il a scellés renferment des entités oubliées qui refusent de mourir.\n"+
+                        "Ces gardiens ancestraux, corrompus par des siècles d'emprisonnement, se libèrent et envahissent le Grand Tour.\n"+
+                        "Pour protéger les mondes conquis, Kai doit traverser une citadelle cristallisée hors du temps et vaincre le plus ancien des geôliers.",
+                Dungeon=new DungeonData{ Name="Citadelle des Fragments Interdits", Icon="🔷",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=18, GoldReward=4500,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=2,Max=4}, new(){Material="CristalNoir",Min=2,Max=3}, new(){Material="PierreCeleste",Min=1,Max=3}}}},
+            new(){
+                Act=5, ChapterNum=82, Title="Le Dernier Horizon du Monarque", Tag="Grand Tour",
+                Summary="Aux confins du multivers, une fissure primordiale menace d'engloutir chaque monde visité pendant le Grand Tour.\n"+
+                        "Kai et ses alliés des cinq actes convergent vers ce point néant pour livrer l'ultime combat collectif.\n"+
+                        "Dans un souffle de chakra absolu, Izanagi Murasaki surgit des légendes oubliées pour sceller définitivement le vide et ouvrir l'ère des dimensions libres.",
+                Dungeon=new DungeonData{ Name="Fissure du Dernier Horizon", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=20, GoldReward=5000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=3,Max=5}, new(){Material="EclatFoudre",Min=2,Max=4}, new(){Material="GemmeLunaire",Min=2,Max=3}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)

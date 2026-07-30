@@ -704,6 +704,7 @@ namespace TravelTour.Core
             new(){ Name="Nagi Setsura", Rarity=Rarity.Legendary, MaxHP=191, BaseAtk=36, BaseDef=14, BaseSpeed=13, MaxChakra=308, IsOwned=false, BuyPrice=16000, Icon="🦋" },
             new(){ Name="Kuro Hakyou",  Rarity=Rarity.Legendary, MaxHP=193, BaseAtk=36, BaseDef=14, BaseSpeed=12, MaxChakra=312, IsOwned=false, BuyPrice=18000, Icon="🪞" },
             new(){ Name="Kaen Ryusei",  Rarity=Rarity.Legendary, MaxHP=197, BaseAtk=38, BaseDef=15, BaseSpeed=13, MaxChakra=315, IsOwned=false, BuyPrice=20000, Icon="☄️" },
+            new(){ Name="Izanagi Murasaki", Rarity=Rarity.Legendary, MaxHP=192, BaseAtk=37, BaseDef=15, BaseSpeed=12, MaxChakra=310, IsOwned=false, BuyPrice=16000, Icon="🔯" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -771,6 +772,8 @@ namespace TravelTour.Core
             new(){ Name="Faux de l'Âme Absolue",     Type=WeaponType.Scythe,   BaseDamage=132, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=24500, Icon="🌑",  Costs=new(){ new(){Material="AmeDechue",     Quantity=4}, new(){Material="CristalNoir",   Quantity=5} } },
             new(){ Name="Arc du Cosmos Brisé",        Type=WeaponType.Bow,      BaseDamage=66,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6200,  Icon="🌌",  Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="GemmeLunaire",  Quantity=2} } },
             new(){ Name="Faux des Âmes Cosmiques",    Type=WeaponType.Scythe,   BaseDamage=93,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=14500, Icon="🌟",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=5}, new(){Material="CristalNoir",   Quantity=3} } },
+            new(){ Name="Lame du Tonnerre Vif",       Type=WeaponType.Sword,    BaseDamage=64,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=5600,  Icon="⚡",  Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="CristalFeu",    Quantity=1} } },
+            new(){ Name="Sceptre de l'Âme Maudite",   Type=WeaponType.Staff,    BaseDamage=92,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=14000, Icon="🌀",  Costs=new(){ new(){Material="CristalNoir",   Quantity=5}, new(){Material="AmeDechue",     Quantity=2} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -826,6 +829,7 @@ namespace TravelTour.Core
             new(){ Name="Sphère Cosmique",            Icon="🔮", Speed=23, Acceleration=16, TrickBonus=1.60f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=18000 },
             new(){ Name="Mantis Dimensionnel",        Icon="🦗", Speed=23, Acceleration=17, TrickBonus=1.65f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
             new(){ Name="Kirin Stellaire",             Icon="🦄", Speed=25, Acceleration=18, TrickBonus=1.80f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000 },
+            new(){ Name="Phénix Orbital",              Icon="🦅", Speed=22, Acceleration=16, TrickBonus=1.50f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=13000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -915,6 +919,8 @@ namespace TravelTour.Core
             new(){ Name="Bastion des Éclats Cosmiques",     Icon="🌌", Difficulty=DifficultyLevel.Hard,      RequiredRank=3, EnemyCount=12, GoldReward=320,  Rewards=new(){ new(){Material="PierreCeleste", Min=1, Max=2}, new(){Material="EclatFoudre",   Min=2, Max=4} } },
             new(){ Name="Creux des Murmures Cristallins",  Icon="🔷", Difficulty=DifficultyLevel.Easy,      RequiredRank=0, EnemyCount=6,  GoldReward=130,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
             new(){ Name="Bastion des Âmes Insoumises",     Icon="💀", Difficulty=DifficultyLevel.Hard,      RequiredRank=4, EnemyCount=13, GoldReward=460,  Rewards=new(){ new(){Material="EssenceOmbres", Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
+            new(){ Name="Grotte des Murmures Sombres",    Icon="🌑", Difficulty=DifficultyLevel.Easy,      RequiredRank=0, EnemyCount=6,  GoldReward=135,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
+            new(){ Name="Citadelle du Phénix Écarlate",   Icon="🔴", Difficulty=DifficultyLevel.Boss,      RequiredRank=5, EnemyCount=7,  GoldReward=680,  Rewards=new(){ new(){Material="EssenceOmbres", Min=3, Max=5}, new(){Material="LarmePhoenix",  Min=2, Max=3} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
