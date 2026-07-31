@@ -714,6 +714,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Fissure du Dernier Horizon", Icon="🌌",
                     Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=20, GoldReward=5000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=3,Max=5}, new(){Material="EclatFoudre",Min=2,Max=4}, new(){Material="GemmeLunaire",Min=2,Max=3}}}},
+            new(){
+                Act=5, ChapterNum=83, Title="L'Éveil de Mikoto Arashi", Tag="Grand Tour",
+                Summary="Une guerrière légendaire surgit des tempêtes dimensionnelles : Mikoto Arashi, maîtresse de la foudre incarnée.\n"+
+                        "Elle défie Kai non par hostilité, mais pour éprouver si le Monarque Dimensionnel est vraiment digne de protéger les mondes naissants.\n"+
+                        "L'équipage pénètre dans le Sanctuaire des Éclairs Éternels pour répondre à cet appel et forger une alliance inédite.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Éclairs Éternels", Icon="⚡",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=22, GoldReward=6000,
+                    Rewards=new List<MaterialReward>{ new(){Material="EclatFoudre",Min=4,Max=6}, new(){Material="AmeDechue",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=84, Title="La Convergence des Tempêtes", Tag="Grand Tour",
+                Summary="Mikoto Arashi révèle que les dimensions parcourues par le Grand Tour se rejoignent en un nexus de tempêtes — une force primordiale capable de déchirer le tissu du multivers.\n"+
+                        "Kai et Mikoto unissent leurs puissances pour sceller ce vortex avant qu'il n'aspire les mondes libérés dans un néant éternel.\n"+
+                        "Dans le Vortex des Convergences, l'équipage forge la dernière pierre de l'alliance des dimensions libres.",
+                Dungeon=new DungeonData{ Name="Vortex des Convergences", Icon="🌪️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=25, GoldReward=7000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="PierreCeleste",Min=3,Max=5}, new(){Material="EclatFoudre",Min=3,Max=5}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
