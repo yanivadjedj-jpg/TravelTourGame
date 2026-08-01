@@ -730,6 +730,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Vortex des Convergences", Icon="🌪️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=25, GoldReward=7000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="PierreCeleste",Min=3,Max=5}, new(){Material="EclatFoudre",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=85, Title="Le Réveil du Cristal Infini", Tag="Grand Tour",
+                Summary="Kai découvre au cœur d'une dimension inexplorée une source de chakra cristallisé vieille de milliards d'années.\n"+
+                        "Des entités formées de pur chakra gardent ce trésor contre toute intrusion, leurs formes changeant à chaque instant.\n"+
+                        "Pour percer ce sanctuaire, Kai doit synchroniser toute la puissance du Grand Tour en un seul instant parfait.",
+                Dungeon=new DungeonData{ Name="Sanctuaire du Cristal Infini", Icon="💠",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=27, GoldReward=12000,
+                    Rewards=new List<MaterialReward>{ new(){Material="CristalNoir",Min=4,Max=6}, new(){Material="AmeDechue",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=86, Title="L'Éclipse des Mondes Réunis", Tag="Grand Tour",
+                Summary="Une éclipse cosmique réunit toutes les dimensions traversées par le Grand Tour en un seul espace-temps.\n"+
+                        "Dans cette convergence unique, les gardiens de chaque monde fusionnent en une entité titanesque cherchant à effacer l'équipage.\n"+
+                        "Kai affronte l'écho de tout son passé et forge sa légende définitive dans un combat ultime hors du temps.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Éclipse Cosmique", Icon="🌒",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=32, GoldReward=14000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
