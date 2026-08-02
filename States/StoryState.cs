@@ -746,6 +746,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Éclipse Cosmique", Icon="🌒",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=32, GoldReward=14000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=87, Title="Le Sanctuaire des Flammes Perdues", Tag="Grand Tour",
+                Summary="Kai et son équipage découvrent un sanctuaire caché au cœur d'un volcan dimensionnel où brûlent les flammes des héros tombés.\n"+
+                        "Des gardiens de feu ancestraux surgissent des cendres pour tester leur détermination ultime.\n"+
+                        "La chaleur de ces flammes révèle à chacun sa vraie nature de guerrier éveillé.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Flammes Ancestrales", Icon="🔥",
+                    Difficulty=DifficultyLevel.Hard, RequiredRank=0, EnemyCount=15, GoldReward=2800,
+                    Rewards=new List<MaterialReward>{ new(){Material="LarmePhoenix",Min=3,Max=5}, new(){Material="CristalFeu",Min=2,Max=4}}}},
+            new(){
+                Act=5, ChapterNum=88, Title="L'Ombre du Cosmos Éternel", Tag="Grand Tour",
+                Summary="Une fracture dimensionnelle ouvre une brèche vers le vide entre les mondes, libérant une entité née du néant absolu.\n"+
+                        "Kai forge une alliance inattendue avec ses anciens rivaux pour sceller cette faille cosmique dévastatrice.\n"+
+                        "Dans ce combat au bord de l'inexistence, le vrai pouvoir du Monarque des Ombres se manifeste enfin.",
+                Dungeon=new DungeonData{ Name="Faille du Cosmos Éternel", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=28, GoldReward=12000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
