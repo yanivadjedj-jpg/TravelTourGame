@@ -762,6 +762,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Faille du Cosmos Éternel", Icon="🌌",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=28, GoldReward=12000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=89, Title="La Forge des Destins Entrelacés", Tag="Grand Tour",
+                Summary="Au cœur d'une dimension hors du temps, Kai découvre une forge cosmique où les destins de tous les guerriers du Grand Tour sont tissés ensemble.\n"+
+                        "Des gardiens forgés d'acier dimensionnel surgissent pour empêcher quiconque de briser ce lien sacré.\n"+
+                        "L'équipage doit triompher pour libérer leurs destins et forger leur propre légende sur l'enclume de l'éternité.",
+                Dungeon=new DungeonData{ Name="Forge des Destins Éternels", Icon="⚒️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=30, GoldReward=13000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=4,Max=7}, new(){Material="EclatFoudre",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=90, Title="L'Ultime Couronne du Monarque", Tag="Grand Tour",
+                Summary="Le Grand Tour révèle sa vérité ultime : Kai n'était pas destiné à conquérir les dimensions, mais à les unifier sous une couronne de lumière vivante.\n"+
+                        "Une entité primordiale, gardienne de la couronne depuis la naissance du multivers, dresse un dernier obstacle transcendant.\n"+
+                        "Dans un affrontement où chaque coup résonne à travers tous les mondes, Kai pose la couronne et scelle pour l'éternité la paix du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Trône de la Couronne Primordiale", Icon="👑",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=35, GoldReward=16000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
