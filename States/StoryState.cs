@@ -778,6 +778,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Trône de la Couronne Primordiale", Icon="👑",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=35, GoldReward=16000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=6}, new(){Material="CristalNoir",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=91, Title="L'Éveil des Abysses Dimensionnelles", Tag="Grand Tour",
+                Summary="Au cœur d'une dimension jamais cartographiée, Kai découvre des abysses cosmiques pulsant d'une énergie primordiale inconnue.\n"+
+                        "Des entités nées de ces profondeurs défient le Monarque Dimensionnel, refusant de reconnaître son titre sans une preuve de puissance absolue.\n"+
+                        "Dans le Sanctuaire des Abysses Éveillées, Kai maîtrise une forme de chakra ancestral pour sceller les failles et libérer les dimensions captives.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Abysses Éveillées", Icon="🌊",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=17000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=6,Max=9}, new(){Material="CristalNoir",Min=4,Max=6}, new(){Material="PierreCeleste",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=92, Title="Le Dernier Battement du Cosmos", Tag="Grand Tour",
+                Summary="L'univers retient son souffle tandis que Kai s'approche d'une anomalie cosmique née des guerres du Grand Tour.\n"+
+                        "Une entité titan surgit, tissée de la mémoire de chaque combat, réclamant son droit absolu sur le multivers.\n"+
+                        "Dans un affrontement transcendant tout ce que l'équipage a connu, Kai forge le battement de cœur éternel du cosmos.",
+                Dungeon=new DungeonData{ Name="Nexus du Battement Cosmique", Icon="💓",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=40, GoldReward=18000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=10}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=6}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
