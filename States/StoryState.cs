@@ -794,6 +794,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus du Battement Cosmique", Icon="💓",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=40, GoldReward=18000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=10}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=93, Title="La Fracture des Mondes Silencieux", Tag="Grand Tour",
+                Summary="Une fissure dimensionnelle d'une ampleur inédite s'ouvre entre deux univers endormis, libérant des entités oubliées depuis l'aube du Grand Tour.\n"+
+                        "Kai et son équipage traversent un gouffre de silence absolu où les lois de la physique s'effacent devant la volonté pure.\n"+
+                        "Au cœur du néant, ils découvrent un autel gravé de leurs propres noms — destinée scellée avant même leur naissance.",
+                Dungeon=new DungeonData{ Name="Gouffre du Silence Primordial", Icon="🕳️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=30, GoldReward=16500,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=6,Max=9}, new(){Material="GemmeLunaire",Min=4,Max=7}, new(){Material="CristalNoir",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=94, Title="L'Héritage du Voyage Perpétuel", Tag="Grand Tour",
+                Summary="Après avoir scellé la fracture, l'équipage du Grand Tour reçoit l'ultime révélation du Système : leur voyage n'a pas de fin, car le cosmos lui-même se nourrit de leur progression.\n"+
+                        "Ryusei Kokoro, personnage légendaire éveillé par l'énergie de la fracture, rejoint les rangs en portant l'étoile filante du multivers.\n"+
+                        "Kai comprend enfin que le Grand Tour n'est pas une quête — c'est l'existence même du monde qui voyage à travers eux.",
+                Dungeon=new DungeonData{ Name="Autel de l'Héritage Éternel", Icon="🌠",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=35, GoldReward=19000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
