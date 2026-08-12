@@ -810,6 +810,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Autel de l'Héritage Éternel", Icon="🌠",
                     Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=35, GoldReward=19000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=95, Title="L'Éclair du Cosmos Indomptable", Tag="Grand Tour",
+                Summary="Kazuki Hoshi surgit des flammes d'une étoile mourante, porteur d'un pouvoir qui défie les lois du multivers et brise les sceaux anciens.\n"+
+                        "L'équipage du Grand Tour affronte une tempête cosmique titanesque dont les éclairs touchent simultanément plusieurs dimensions.\n"+
+                        "Kai comprend que seule l'union de tous les mondes peut contenir la furie de cet astre en agonie.",
+                Dungeon=new DungeonData{ Name="Cœur de l'Étoile Mourante", Icon="🌀",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=36, GoldReward=19500,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="EclatFoudre",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=96, Title="Le Serment de l'Abîme Étoilé", Tag="Grand Tour",
+                Summary="Au bord de l'abîme où le cosmos cesse d'exister, l'équipage grave leur serment dans le tissu même de la réalité.\n"+
+                        "Les gardiens des dimensions les plus anciennes s'inclinent devant la volonté du Grand Tour, reconnaissant en Kai l'héritier légitime du Multivers.\n"+
+                        "Un nouveau cycle s'ouvre : l'abîme lui-même devient le chemin vers des mondes que nul voyageur n'a jamais foulés.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Abîme Primordial", Icon="🌑",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=20000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
