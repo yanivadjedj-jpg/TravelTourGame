@@ -826,6 +826,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Abîme Primordial", Icon="🌑",
                     Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=20000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="PierreCeleste",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=97, Title="Le Trône du Multivers Inversé", Tag="Grand Tour",
+                Summary="Kai et ses alliés découvrent un trône flottant au cœur du Multivers — siège d'un ancien Monarque dont la conscience survit sous forme de tempête dimensionnelle.\n"+
+                        "Pour progresser, l'équipage doit affronter des échos de leurs propres batailles passées, chaque ennemi portant une part de leur propre mémoire.\n"+
+                        "La victoire exige de briser le cycle : renoncer à ce qu'ils étaient pour devenir ce que le Multivers a besoin qu'ils soient.",
+                Dungeon=new DungeonData{ Name="Trône du Monarque Inversé", Icon="👑",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=40, GoldReward=21000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="CristalNoir",Min=5,Max=9}, new(){Material="GemmeLunaire",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=98, Title="L'Aube du Dernier Voyage", Tag="Grand Tour",
+                Summary="L'équipage du Grand Tour contemple l'horizon d'un monde que personne n'a encore nommé, à la lisière du Multivers connu.\n"+
+                        "Kai sent le Système vibrer différemment — non plus comme un guide, mais comme un compagnon qui reconnaît en lui l'égal des dieux oubliés.\n"+
+                        "Un portail d'une lumière jamais vue s'ouvre : au-delà commence le seul voyage que même les anciens gardiens n'ont jamais osé entreprendre.",
+                Dungeon=new DungeonData{ Name="Portail du Dernier Horizon", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=42, GoldReward=22000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
