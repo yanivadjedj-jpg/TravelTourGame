@@ -842,6 +842,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Portail du Dernier Horizon", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=42, GoldReward=22000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=99, Title="Le Souffle du Titan Primordial", Tag="Grand Tour",
+                Summary="Après avoir franchi le portail du dernier horizon, Kai et son équipage découvrent une dimension peuplée de titans forgés à l'aube du cosmos.\n"+
+                        "Kurōkami Setsuna, guerrière des ténèbres absolues, révèle que ces colosses gardent la clé d'un pouvoir antérieur au Grand Tour lui-même.\n"+
+                        "L'équipage doit briser les scellés de l'Ère Primordiale avant que les titans ne consument les dimensions naissantes.",
+                Dungeon=new DungeonData{ Name="Forteresse des Titans Primordiaux", Icon="🖤",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=44, GoldReward=23000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=100, Title="L'Éternité Commence Ici", Tag="Grand Tour",
+                Summary="Au cœur d'une dimension née des rêves de tous les guerriers du Grand Tour, Kai perçoit enfin la vérité absolue du Système : chaque combat, chaque voyage, chaque alliance a tissé un univers vivant.\n"+
+                        "Une entité primordiale — incarnation de tout le néant jamais vaincu — surgit pour un ultime défi digne du Monarque Dimensionnel.\n"+
+                        "Kai et son équipage unissent leurs puissances dans un affrontement transcendant, scellant pour l'éternité leur légende à travers tous les mondes.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Éternité Absolue", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=50, GoldReward=25000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
