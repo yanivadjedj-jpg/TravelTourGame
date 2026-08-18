@@ -874,6 +874,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Cœur du Cosmos Infini", Icon="♾️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=40, GoldReward=20000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="CristalNoir",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=103, Title="L'Aurore des Dimensions Oubliées", Tag="Grand Tour",
+                Summary="Au-delà du Cosmos Infini, Kai découvre des dimensions entières effacées de toute mémoire, peuplées d'entités qui refusent d'être oubliées.\n"+
+                        "Ces gardiens sans nom défendent les derniers fragments d'un multivers englouti par le vide primordial.\n"+
+                        "Pour préserver l'équilibre, Kai doit affronter l'oubli lui-même et graver ces mondes dans l'éternité.",
+                Dungeon=new DungeonData{ Name="Abîme des Dimensions Oubliées", Icon="🌫️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=35, GoldReward=18000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="EclatFoudre",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=104, Title="Le Dernier Serment du Grand Tour", Tag="Grand Tour",
+                Summary="Kai, porté par les âmes de tous les mondes traversés, prononce le serment ultime du Grand Tour : veiller sur l'équilibre du multivers jusqu'à la fin des temps.\n"+
+                        "Une entité ancestrale surgit pour tester la sincérité de cet engagement dans un combat où chaque coup résonne à travers toutes les dimensions.\n"+
+                        "La légende du Grand Tour s'inscrit à jamais dans le tissu du cosmos, et le voyage continue, infini.",
+                Dungeon=new DungeonData{ Name="Sanctuaire du Serment Cosmique", Icon="🌟",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=19000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=4,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
