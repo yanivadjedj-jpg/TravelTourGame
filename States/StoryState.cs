@@ -21,7 +21,7 @@ namespace TravelTour.States
         float _time;
 
         // 50 chapters completed flags (global index 0-49)
-        public static readonly bool[] ChaptersCompleted = new bool[76];
+        public static readonly bool[] ChaptersCompleted = new bool[78];
         public static void MarkChapterCompleted(int chapterIndex)
         {
             if (chapterIndex >= 0 && chapterIndex < ChaptersCompleted.Length)
@@ -890,11 +890,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Sanctuaire du Serment Cosmique", Icon="🌟",
                     Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=19000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=105, Title="Le Réveil de l'Ombre Primordiale", Tag="Grand Tour",
+                Summary="Alors que les dimensions se stabilisent sous l'effet du Serment Cosmique, une ancienne entité née avant la création du multivers s'éveille de son sommeil millénaire.\n"+
+                        "L'Ombre Primordiale, gardienne du vide d'avant les temps, conteste le droit de Kai à gouverner les dimensions libres.\n"+
+                        "L'équipage pénètre dans le Nexus de l'Ombre pour affronter ce qui ne devait jamais être réveillé.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Ombre Primordiale", Icon="🌒",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=40, GoldReward=21000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EssenceOmbres",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=106, Title="L'Aube du Monarque Éternel", Tag="Grand Tour",
+                Summary="Vainqueur de l'Ombre Primordiale, Kai contemple enfin l'horizon sans limite que le Grand Tour lui a ouvert.\n"+
+                        "Des fragments de chaque monde traversé convergent pour forger la Citadelle du Monarque Éternel, demeure de l'équipage pour les éons à venir.\n"+
+                        "Dans un ultime défi lancé par les gardiens du cosmos, Kai scelle son titre et ouvre l'ère des voyageurs dimensionnels sans fin.",
+                Dungeon=new DungeonData{ Name="Citadelle du Monarque Éternel", Icon="👑",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=42, GoldReward=22000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 40 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 42 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
