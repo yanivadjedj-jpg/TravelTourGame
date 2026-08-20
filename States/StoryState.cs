@@ -906,11 +906,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle du Monarque Éternel", Icon="👑",
                     Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=42, GoldReward=22000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=107, Title="Le Nexus des Cristaux Vivants", Tag="Grand Tour",
+                Summary="Au cœur d'une dimension cristalline inexplorée, Kai découvre une constellation de cristaux vivants qui pulsent d'une énergie primordiale oubliée depuis l'aube du cosmos.\n"+
+                        "Des gardiens formés de lumière cristallisée surgissent pour tester la valeur du Monarque Dimensionnel, chaque frappe résonnant à travers toutes les dimensions reliées.\n"+
+                        "Pour libérer l'énergie de ce nexus et en faire un phare pour les dimensions naissantes, Kai doit briser les sceaux anciens et affronter le Titan Cristallin.",
+                Dungeon=new DungeonData{ Name="Nexus des Cristaux Vivants", Icon="💎",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=38, GoldReward=20000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=108, Title="L'Horizon sans Frontières", Tag="Grand Tour",
+                Summary="Kai et son équipage franchissent la dernière frontière connue du multivers, là où même le Système n'a plus de cartes à afficher.\n"+
+                        "Une entité primordiale née avant la création de toutes les dimensions se dresse pour un ultime affrontement transcendant toute limite connue.\n"+
+                        "Dans un combat où chaque coup grave une nouvelle étoile dans le tissu du cosmos, le Grand Tour trace sa légende pour l'éternité et ouvre l'horizon sans frontières.",
+                Dungeon=new DungeonData{ Name="Portail de l'Horizon Absolu", Icon="🌠",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=24000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 42 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 44 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;

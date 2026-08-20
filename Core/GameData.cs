@@ -717,6 +717,7 @@ namespace TravelTour.Core
             new(){ Name="Shura Gekka",       Rarity=Rarity.Epic,      MaxHP=170, BaseAtk=31, BaseDef=12, BaseSpeed=11, MaxChakra=275, IsOwned=false, BuyPrice=11500, Icon="🌺" },
             new(){ Name="Tsukiyomi Kira",    Rarity=Rarity.Legendary, MaxHP=202, BaseAtk=41, BaseDef=16, BaseSpeed=13, MaxChakra=330, IsOwned=false, BuyPrice=23000, Icon="🌛" },
             new(){ Name="Raizen Kurenai",    Rarity=Rarity.Legendary, MaxHP=205, BaseAtk=42, BaseDef=16, BaseSpeed=14, MaxChakra=335, IsOwned=false, BuyPrice=20000, Icon="🌺" },
+            new(){ Name="Kurai Ryūko",       Rarity=Rarity.Legendary, MaxHP=202, BaseAtk=41, BaseDef=16, BaseSpeed=13, MaxChakra=330, IsOwned=false, BuyPrice=18000, Icon="🌘" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -810,6 +811,8 @@ namespace TravelTour.Core
             new(){ Name="Lame du Cosmos Éveillé",         Type=WeaponType.Sword,    BaseDamage=148, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🌌",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="PierreCeleste", Quantity=4} } },
             new(){ Name="Arc des Cendres Sacrées",        Type=WeaponType.Bow,      BaseDamage=68,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=9000,  Icon="🔥",  Costs=new(){ new(){Material="LarmePhoenix",  Quantity=3}, new(){Material="EclatFoudre",   Quantity=2} } },
             new(){ Name="Faux du Vide Éternel",           Type=WeaponType.Scythe,   BaseDamage=96,  Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=15500, Icon="🌑",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=6}, new(){Material="CristalNoir",   Quantity=4} } },
+            new(){ Name="Arc des Cristaux Brisés",        Type=WeaponType.Bow,      BaseDamage=66,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6200,  Icon="💎",  Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="GemmeLunaire",  Quantity=2} } },
+            new(){ Name="Poings du Titan Solaire",        Type=WeaponType.Gauntlet, BaseDamage=140, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=24500, Icon="☀️",  Costs=new(){ new(){Material="AmeDechue",     Quantity=4}, new(){Material="PierreCeleste", Quantity=4} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -878,6 +881,7 @@ namespace TravelTour.Core
             new(){ Name="Byakuya Runner",                  Icon="🌛", Speed=23, Acceleration=17, TrickBonus=1.65f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=19500 },
             new(){ Name="Stellar Phantom",                  Icon="💫", Speed=24, Acceleration=17, TrickBonus=1.72f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
             new(){ Name="Tempête Écarlate",                 Icon="🌹", Speed=23, Acceleration=16, TrickBonus=1.68f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=18000 },
+            new(){ Name="Oni Cyclone",                       Icon="👹", Speed=22, Acceleration=16, TrickBonus=1.55f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=12500 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -993,6 +997,8 @@ namespace TravelTour.Core
             new(){ Name="Tour des Tempêtes Célestes",         Icon="⛈️", Difficulty=DifficultyLevel.Hard,      RequiredRank=4, EnemyCount=12, GoldReward=410,  Rewards=new(){ new(){Material="EclatFoudre",   Min=2, Max=4}, new(){Material="PierreCeleste", Min=1, Max=2} } },
             new(){ Name="Gouffre du Phénix Oublié",           Icon="🔥", Difficulty=DifficultyLevel.Medium,    RequiredRank=2, EnemyCount=10, GoldReward=250,  Rewards=new(){ new(){Material="LarmePhoenix",  Min=1, Max=3}, new(){Material="CristalFeu",    Min=1, Max=2} } },
             new(){ Name="Forteresse des Âmes Déchues",        Icon="💀", Difficulty=DifficultyLevel.Legendary, RequiredRank=5, EnemyCount=20, GoldReward=1400, Rewards=new(){ new(){Material="AmeDechue",     Min=3, Max=5}, new(){Material="EssenceOmbres", Min=2, Max=4} } },
+            new(){ Name="Sanctuaire des Flammes Bleues",      Icon="💙", Difficulty=DifficultyLevel.Easy,      RequiredRank=0, EnemyCount=6,  GoldReward=130,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
+            new(){ Name="Trône des Gardiens Cosmiques",       Icon="👑", Difficulty=DifficultyLevel.Legendary, RequiredRank=6, EnemyCount=22, GoldReward=1450, Rewards=new(){ new(){Material="AmeDechue",     Min=3, Max=5}, new(){Material="CristalNoir",   Min=2, Max=4} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
