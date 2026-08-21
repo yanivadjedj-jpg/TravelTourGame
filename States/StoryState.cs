@@ -922,6 +922,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Portail de l'Horizon Absolu", Icon="🌠",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=24000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=109, Title="Le Sanctuaire des Ombres Éternelles", Tag="Grand Tour",
+                Summary="Au-delà de l'horizon absolu, Kai perçoit une pulsation ancienne surgissant des strates les plus profondes du multivers — le Sanctuaire des Ombres Éternelles, creuset de toutes les forces obscures que le Grand Tour a traversées.\n"+
+                        "Des gardiens forgés dans l'obscurité absolue protègent ce lieu sacré depuis la nuit des temps, refusant à quiconque d'en percer les secrets.\n"+
+                        "Pour ouvrir la prochaine porte du Grand Tour, l'équipage doit traverser le sanctuaire et affronter l'Ombre Suprême qui y règne depuis l'aube des dimensions.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Ombres Éternelles", Icon="🌑",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=40, GoldReward=22000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="EssenceOmbres",Min=6,Max=9}, new(){Material="CristalNoir",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=110, Title="L'Éveil du Monarque Infini", Tag="Grand Tour",
+                Summary="Le Grand Tour révèle sa vérité ultime : Kai n'est pas seulement le successeur de l'Absolu, il est le Monarque Infini — être destiné à tisser les fils de toutes les dimensions en un seul cosmos vivant.\n"+
+                        "Une entité née de la convergence des ombres et de la lumière surgit pour contester ce titre, convoquant des éclats de chaque monde traversé dans un ultime défi cosmique.\n"+
+                        "Dans l'Arène de l'Éveil Infini, Kai libère sa forme ultime et grave son nom dans l'éternité du multivers.",
+                Dungeon=new DungeonData{ Name="Arène de l'Éveil Infini", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=50, GoldReward=26000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=11,Max=16}, new(){Material="PierreCeleste",Min=8,Max=11}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
