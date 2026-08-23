@@ -954,6 +954,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Aube Cosmique", Icon="🌄",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=52, GoldReward=28000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=17}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="EclatFoudre",Min=7,Max=10}, new(){Material="GemmeLunaire",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=113, Title="La Fracture du Temps Oublié", Tag="Grand Tour",
+                Summary="Au cœur des dimensions apaisées, une fissure impossible s'ouvre : une déchirure dans le tissu même du temps, libérant des gardiens nés avant la création du multivers.\n"+
+                        "Ces sentinelles temporelles, figées depuis des éons, refusent de reconnaître Kai comme Monarque et cherchent à effacer son existence de toutes les lignes du temps.\n"+
+                        "L'équipage doit traverser le Labyrinthe des Temps Fracturés et vaincre le Gardien Primordial pour sceller la fissure avant que l'histoire entière ne soit réécrite.",
+                Dungeon=new DungeonData{ Name="Labyrinthe des Temps Fracturés", Icon="⌛",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=50, GoldReward=26000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=11,Max=16}, new(){Material="EclatFoudre",Min=8,Max=12}, new(){Material="CristalNoir",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=114, Title="L'Horizon Sans Fin", Tag="Grand Tour",
+                Summary="Après avoir scellé la fracture temporelle, Kai contemple un horizon que nul œil n'a jamais vu — un espace infini où toutes les dimensions convergent en un seul point de lumière pure.\n"+
+                        "Une entité née de cet infini, tissée des rêves de tous les voyageurs du Grand Tour, surgit pour offrir un dernier défi digne du Monarque Dimensionnel.\n"+
+                        "Dans un affrontement transcendant toute légende, l'équipage forge le dernier chapitre d'une épopée sans fin, sachant que chaque victoire est le début d'un nouveau départ.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Horizon Infini", Icon="🌠",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=30000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=13,Max=18}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="EclatFoudre",Min=8,Max=12}, new(){Material="GemmeLunaire",Min=7,Max=10}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
