@@ -970,6 +970,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Horizon Infini", Icon="🌠",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=30000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=13,Max=18}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="EclatFoudre",Min=8,Max=12}, new(){Material="GemmeLunaire",Min=7,Max=10}}}},
+            new(){
+                Act=5, ChapterNum=115, Title="La Tempête des Âmes Ancestrales", Tag="Grand Tour",
+                Summary="Au-delà de l'horizon infini, Raijin Arashi surgit des profondeurs d'une dimension de foudre primordiale, porteur d'une puissance ancestrale que le Grand Tour n'a jamais rencontrée.\n"+
+                        "Des tempêtes vivantes — nées de l'énergie accumulée par des millénaires de combats cosmiques — déferlent sur l'équipage sans répit.\n"+
+                        "Kai doit canaliser la foudre elle-même pour sceller le Sanctuaire des Âmes Ancestrales avant que sa furie n'embrase toutes les dimensions naissantes.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Âmes Ancestrales", Icon="⚡",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=52, GoldReward=28000,
+                    Rewards=new List<MaterialReward>{ new(){Material="EclatFoudre",Min=8,Max=12}, new(){Material="AmeDechue",Min=11,Max=16}, new(){Material="PierreCeleste",Min=7,Max=10}}}},
+            new(){
+                Act=5, ChapterNum=116, Title="Le Pacte du Vent Éternel", Tag="Grand Tour",
+                Summary="Après avoir traversé la tempête ancestrale, Kai perçoit un appel venu du Nexus du Vent Éternel — carrefour de tous les souffles qui ont jamais traversé les dimensions du Grand Tour.\n"+
+                        "Le Gardien du Vent, entité tissée de toutes les tempêtes vaincues, réclame un pacte de respect avant d'ouvrir la voie vers les horizons à venir.\n"+
+                        "Dans un duel où chaque rafale résonne à travers le cosmos, l'équipage forge le Pacte du Vent Éternel et ouvre une nouvelle page de la légende du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Nexus du Vent Éternel", Icon="🌬️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=58, GoldReward=32000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=14,Max=19}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="EclatFoudre",Min=9,Max=13}, new(){Material="GemmeLunaire",Min=7,Max=11}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
