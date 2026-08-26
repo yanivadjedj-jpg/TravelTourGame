@@ -986,11 +986,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus du Vent Éternel", Icon="🌬️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=58, GoldReward=32000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=14,Max=19}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="EclatFoudre",Min=9,Max=13}, new(){Material="GemmeLunaire",Min=7,Max=11}}}},
+            new(){
+                Act=5, ChapterNum=117, Title="La Convergence des Souffles Perdus", Tag="Grand Tour",
+                Summary="À la croisée de sept dimensions oubliées, une anomalie cosmique aspire les souffles vitaux des mondes voisins vers un vortex silencieux que nul voyageur n'a jamais traversé.\n"+
+                        "Kai et son équipage découvrent que ces souffles perdus sont en réalité les âmes de voyageurs disparus lors du Grand Tour originel, prisonnières d'un sanctuaire dimensionnel hors du temps.\n"+
+                        "Pour les libérer, l'équipage doit affronter le Gardien de la Convergence et prouver que leur voyage est digne de rouvrir les portes de l'éternité.",
+                Dungeon=new DungeonData{ Name="Sanctuaire de la Convergence", Icon="🌀",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=60, GoldReward=34000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=14,Max=20}, new(){Material="GemmeLunaire",Min=10,Max=15}, new(){Material="PierreCeleste",Min=8,Max=12}}}},
+            new(){
+                Act=5, ChapterNum=118, Title="L'Éveil du Titan des Profondeurs", Tag="Grand Tour",
+                Summary="Sous les couches les plus sombres du cosmos dimensionnel sommeille un Titan né avant la création du Grand Tour, dont le réveil menace d'effacer toutes les dimensions explorées.\n"+
+                        "Ses premiers battements de cœur font trembler chaque île, chaque monde et chaque voyageur qui a jamais posé le pied sur le chemin du Grand Tour.\n"+
+                        "Kai doit puiser dans la totalité de sa maîtrise pour plonger dans l'abîme et sceller le Titan avant que l'aube dimensionnelle ne se transforme en nuit éternelle.",
+                Dungeon=new DungeonData{ Name="Abîme du Titan Endormi", Icon="🌋",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=65, GoldReward=38000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=16,Max=22}, new(){Material="CristalNoir",Min=12,Max=17}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="EclatFoudre",Min=8,Max=12}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 44 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 68 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
