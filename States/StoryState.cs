@@ -1002,6 +1002,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Abîme du Titan Endormi", Icon="🌋",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=65, GoldReward=38000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=16,Max=22}, new(){Material="CristalNoir",Min=12,Max=17}, new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="EclatFoudre",Min=8,Max=12}}}},
+            new(){
+                Act=5, ChapterNum=119, Title="Le Crépuscule des Dimensions Perdues", Tag="Grand Tour",
+                Summary="Au-delà de l'abîme du Titan endormi, Kai perçoit la pulsation de dimensions entières condamnées à disparaître dans le néant cosmique.\n"+
+                        "Des entités nées de ces mondes mourants surgissent comme une ultime clameur, cherchant à emporter le Grand Tour avec elles dans leur chute.\n"+
+                        "L'équipage doit traverser le Crépuscule des Dimensions Perdues et forger un ancrage dimensionnel pour sauver ce qui peut encore l'être.",
+                Dungeon=new DungeonData{ Name="Nexus du Crépuscule Dimensionnel", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=60, GoldReward=40000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=15,Max=20}, new(){Material="CristalNoir",Min=11,Max=16}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="GemmeLunaire",Min=7,Max=11}}}},
+            new(){
+                Act=5, ChapterNum=120, Title="L'Éternité Forgée", Tag="Grand Tour",
+                Summary="Kai, Monarque Dimensionnel et gardien de l'infini, contemple l'horizon de tous les mondes qu'il a traversés et compris que chaque combat était une promesse gravée dans le tissu du cosmos.\n"+
+                        "Une entité primordiale — la Forge de l'Éternité — défie l'équipage une ultime fois pour tester si leur légende mérite d'être inscrite dans les chroniques du Grand Tour.\n"+
+                        "Dans un affrontement transcendant toutes les limites connues, Kai scelle le destin du multivers et grave le nom du Grand Tour pour l'éternité.",
+                Dungeon=new DungeonData{ Name="Citadelle de l'Éternité Forgée", Icon="⚒️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=70, GoldReward=45000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=18,Max=25}, new(){Material="PierreCeleste",Min=12,Max=17}, new(){Material="CristalNoir",Min=13,Max=18}, new(){Material="EclatFoudre",Min=10,Max=15}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
