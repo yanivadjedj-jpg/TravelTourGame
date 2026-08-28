@@ -1018,6 +1018,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle de l'Éternité Forgée", Icon="⚒️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=70, GoldReward=45000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=18,Max=25}, new(){Material="PierreCeleste",Min=12,Max=17}, new(){Material="CristalNoir",Min=13,Max=18}, new(){Material="EclatFoudre",Min=10,Max=15}}}},
+            new(){
+                Act=5, ChapterNum=121, Title="Le Réveil du Vide Ancestral", Tag="Grand Tour",
+                Summary="Alors que l'équipage du Grand Tour croyait avoir scellé chaque fragment du multivers, une fissure silencieuse s'ouvre au cœur des dimensions — le Vide Ancestral, une entité oubliée avant même la création des mondes, étend ses tentacules sur les réalités fragilisées.\n"+
+                        "Kai ressent l'appel d'une puissance qui dépasse toute maîtrise connue, et comprend que son voyage ne fait que commencer : chaque victoire n'était qu'une graine plantée pour affronter cet abîme sans fond.\n"+
+                        "L'équipage s'engage dans la Crypte du Vide pour repousser les avant-gardes du néant et protéger les âmes des voyageurs dimensionnels.",
+                Dungeon=new DungeonData{ Name="Crypte du Vide Ancestral", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=65, GoldReward=48000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=16,Max=22}, new(){Material="CristalNoir",Min=12,Max=17}, new(){Material="EssenceOmbres",Min=10,Max=15}, new(){Material="GemmeLunaire",Min=8,Max=12}}}},
+            new(){
+                Act=5, ChapterNum=122, Title="L'Aube du Cycle Infini", Tag="Grand Tour",
+                Summary="Le Vide Ancestral révèle sa véritable nature : non pas un ennemi, mais un gardien du cycle cosmique qui efface les mondes épuisés pour laisser naître de nouvelles étoiles.\n"+
+                        "Kai doit choisir entre affronter cette force primordiale ou chercher un pacte qui préserverait les mondes déjà traversés — une décision qui redéfinira le sens même du Grand Tour.\n"+
+                        "Au terme d'une bataille qui ébranle l'équilibre de l'infini, l'équipage forge un serment nouveau : voyager éternellement, non pour conquérir, mais pour témoigner de la beauté fragile de chaque dimension.",
+                Dungeon=new DungeonData{ Name="Sanctuaire du Cycle Infini", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=75, GoldReward=52000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=20,Max=28}, new(){Material="PierreCeleste",Min=14,Max=19}, new(){Material="CristalNoir",Min=14,Max=19}, new(){Material="EclatFoudre",Min=12,Max=16}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
