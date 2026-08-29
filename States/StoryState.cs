@@ -1034,11 +1034,27 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Sanctuaire du Cycle Infini", Icon="♾️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=75, GoldReward=52000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=20,Max=28}, new(){Material="PierreCeleste",Min=14,Max=19}, new(){Material="CristalNoir",Min=14,Max=19}, new(){Material="EclatFoudre",Min=12,Max=16}}}},
+            new(){
+                Act=5, ChapterNum=123, Title="Le Nexus des Origines Perdues", Tag="Grand Tour",
+                Summary="Kai découvre un nexus oublié à l'intersection de toutes les dimensions jamais traversées — un carrefour où les lois du temps et de l'espace s'effacent.\n"+
+                        "Des entités primordiales gardent jalousement les mémoires fondatrices du Grand Tour, cherchant à effacer le passé pour réécrire l'avenir selon leur propre volonté.\n"+
+                        "L'équipage doit percer les couches du nexus et affronter le Gardien des Origines avant que la mémoire collective du multivers ne soit corrompue à jamais.",
+                Dungeon=new DungeonData{ Name="Nexus des Origines Perdues", Icon="🌐",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=72, GoldReward=48000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=18,Max=26}, new(){Material="PierreCeleste",Min=13,Max=18}, new(){Material="CristalNoir",Min=12,Max=17}, new(){Material="GemmeLunaire",Min=10,Max=14}}}},
+            new(){
+                Act=5, ChapterNum=124, Title="L'Harmonie des Mondes Éveillés", Tag="Grand Tour",
+                Summary="À l'issue de toutes les épreuves du Grand Tour, Kai perçoit enfin la résonance profonde qui unit chaque dimension — une harmonie invisible que seul le Monarque Dimensionnel peut entendre.\n"+
+                        "Une dernière menace surgit des tréfonds du multivers : un être né du chaos résiduel, incarnant tout ce que le Grand Tour a détruit pour avancer.\n"+
+                        "Dans le Sanctuaire de l'Harmonie Éternelle, l'équipage affronte ce reflet sombre de leur propre voyage et forge la dernière pierre d'un univers réconcilié avec lui-même.",
+                Dungeon=new DungeonData{ Name="Sanctuaire de l'Harmonie Éternelle", Icon="🌟",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=78, GoldReward=55000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=22,Max=30}, new(){Material="PierreCeleste",Min=15,Max=20}, new(){Material="CristalNoir",Min=15,Max=20}, new(){Material="EclatFoudre",Min=13,Max=17}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
         static readonly int[] ActStartIndex = { 0, 10, 20, 30, 40 };
-        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 68 };
+        static readonly int[] ActChapterCount = { 10, 10, 10, 10, 70 };
 
         // Index de chapitre à ouvrir (positionné par TravelTourGame après une victoire)
         public static int RequestedChapterIdx = -1;
