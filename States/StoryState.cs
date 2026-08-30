@@ -1050,6 +1050,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Sanctuaire de l'Harmonie Éternelle", Icon="🌟",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=78, GoldReward=55000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=22,Max=30}, new(){Material="PierreCeleste",Min=15,Max=20}, new(){Material="CristalNoir",Min=15,Max=20}, new(){Material="EclatFoudre",Min=13,Max=17}}}},
+            new(){
+                Act=5, ChapterNum=125, Title="Le Crépuscule des Titans Éveillés", Tag="Grand Tour",
+                Summary="Au-delà de l'harmonie retrouvée, Kai perçoit des vibrations venues des couches les plus profondes du multivers — des titans oubliés depuis la nuit des éons s'éveillent au passage du Monarque Dimensionnel.\n"+
+                        "Ces colosses immortels, nés avant la première dimension, contestent le droit de Kai à gouverner un cosmos qu'ils ont connu vide et silencieux.\n"+
+                        "L'équipage pénètre dans la Citadelle des Titans Éveillés pour prouver que la lumière du Grand Tour peut coexister avec les ombres les plus anciennes du multivers.",
+                Dungeon=new DungeonData{ Name="Citadelle des Titans Éveillés", Icon="🌋",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=80, GoldReward=58000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=23,Max=31}, new(){Material="PierreCeleste",Min=16,Max=21}, new(){Material="CristalNoir",Min=15,Max=20}, new(){Material="EclatFoudre",Min=14,Max=18}}}},
+            new(){
+                Act=5, ChapterNum=126, Title="L'Aube du Multivers Réconcilié", Tag="Grand Tour",
+                Summary="Les titans apaisés ouvrent la voie vers un horizon que nul voyageur n'a jamais contemplé : le point de convergence de toutes les dimensions du Grand Tour, pulsant d'une énergie née de chaque combat et de chaque alliance.\n"+
+                        "Une entité primordiale, ultime expression du cosmos vivant, surgit pour sceller un pacte éternel avec le Monarque Dimensionnel dans un duel qui est aussi une célébration.\n"+
+                        "Kai et son équipage forgent le dernier chapitre d'une légende infinie, sachant que chaque horizon atteint n'est que le seuil du suivant.",
+                Dungeon=new DungeonData{ Name="Nexus du Multivers Réconcilié", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=82, GoldReward=60000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=24,Max=32}, new(){Material="PierreCeleste",Min=17,Max=22}, new(){Material="CristalNoir",Min=16,Max=21}, new(){Material="EclatFoudre",Min=14,Max=19}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)

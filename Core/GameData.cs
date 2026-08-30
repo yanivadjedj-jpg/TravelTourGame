@@ -726,6 +726,7 @@ namespace TravelTour.Core
             new(){ Name="Amaterasu Ryūki",   Rarity=Rarity.Legendary, MaxHP=210, BaseAtk=42, BaseDef=16, BaseSpeed=14, MaxChakra=340, IsOwned=false, BuyPrice=22000, Icon="☀️" },
             new(){ Name="Zanki Sougetsu",     Rarity=Rarity.Legendary, MaxHP=205, BaseAtk=41, BaseDef=16, BaseSpeed=14, MaxChakra=338, IsOwned=false, BuyPrice=19000, Icon="🌙" },
             new(){ Name="Murasaki Kōga",      Rarity=Rarity.Epic,      MaxHP=178, BaseAtk=35, BaseDef=13, BaseSpeed=13, MaxChakra=295, IsOwned=false, BuyPrice=14000, Icon="🟣" },
+            new(){ Name="Kuro Tenryu",        Rarity=Rarity.Legendary, MaxHP=203, BaseAtk=41, BaseDef=15, BaseSpeed=13, MaxChakra=328, IsOwned=false, BuyPrice=20000, Icon="🐲" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -837,6 +838,8 @@ namespace TravelTour.Core
             new(){ Name="Faux du Crépuscule Absolu",      Type=WeaponType.Scythe,   BaseDamage=150, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🌑",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="CristalNoir",   Quantity=5} } },
             new(){ Name="Arc du Phénix Céleste",           Type=WeaponType.Bow,      BaseDamage=72,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7200,  Icon="🏹",  Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="LarmePhoenix",  Quantity=2} } },
             new(){ Name="Faux de l'Apocalypse",            Type=WeaponType.Scythe,   BaseDamage=155, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="💀",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="CristalNoir",   Quantity=4} } },
+            new(){ Name="Gantelet du Soleil Noir",         Type=WeaponType.Gauntlet, BaseDamage=70,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6900,  Icon="🌑",  Costs=new(){ new(){Material="EssenceOmbres", Quantity=3}, new(){Material="LarmePhoenix",  Quantity=2} } },
+            new(){ Name="Arc du Dragon Éternel",            Type=WeaponType.Bow,      BaseDamage=153, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🐲",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="PierreCeleste", Quantity=4} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -914,6 +917,7 @@ namespace TravelTour.Core
             new(){ Name="Aurora Glider",                        Icon="🌈", Speed=24, Acceleration=17, TrickBonus=1.72f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
             new(){ Name="Oni Starbreaker",                       Icon="👹", Speed=25, Acceleration=18, TrickBonus=1.78f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
             new(){ Name="Kaiju Storm",                            Icon="🦖", Speed=25, Acceleration=18, TrickBonus=1.82f, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=14500 },
+            new(){ Name="Nexus Predator",                          Icon="🌑", Speed=25, Acceleration=18, TrickBonus=1.83f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -1047,6 +1051,8 @@ namespace TravelTour.Core
             new(){ Name="Forteresse des Abysses Ardentes",     Icon="🌋", Difficulty=DifficultyLevel.Legendary, RequiredRank=5, EnemyCount=20, GoldReward=1400, Rewards=new(){ new(){Material="AmeDechue",     Min=3, Max=5}, new(){Material="PierreCeleste", Min=2, Max=4}, new(){Material="LarmePhoenix", Min=2, Max=3} } },
             new(){ Name="Catacombes des Éclairs Sacrés",       Icon="⚡", Difficulty=DifficultyLevel.Medium,    RequiredRank=2, EnemyCount=9,  GoldReward=220,  Rewards=new(){ new(){Material="EclatFoudre",   Min=2, Max=4}, new(){Material="PierreCeleste", Min=1, Max=2} } },
             new(){ Name="Temple de l'Âme Déchue",              Icon="💀", Difficulty=DifficultyLevel.Legendary, RequiredRank=5, EnemyCount=18, GoldReward=1350, Rewards=new(){ new(){Material="AmeDechue",     Min=3, Max=5}, new(){Material="CristalNoir",   Min=2, Max=4} } },
+            new(){ Name="Alcôve des Gardiens Stellaires",    Icon="⭐", Difficulty=DifficultyLevel.Medium,    RequiredRank=2, EnemyCount=10, GoldReward=255,  Rewards=new(){ new(){Material="PierreCeleste", Min=1, Max=2}, new(){Material="EclatFoudre",   Min=1, Max=3} } },
+            new(){ Name="Sanctuaire du Dragon Primordial",   Icon="🐲", Difficulty=DifficultyLevel.Legendary, RequiredRank=6, EnemyCount=24, GoldReward=1800, Rewards=new(){ new(){Material="AmeDechue",     Min=4, Max=6}, new(){Material="CristalNoir",   Min=3, Max=5} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
