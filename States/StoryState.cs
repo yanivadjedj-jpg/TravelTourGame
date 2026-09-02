@@ -1066,6 +1066,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus du Multivers Réconcilié", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=82, GoldReward=60000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=24,Max=32}, new(){Material="PierreCeleste",Min=17,Max=22}, new(){Material="CristalNoir",Min=16,Max=21}, new(){Material="EclatFoudre",Min=14,Max=19}}}},
+            new(){
+                Act=5, ChapterNum=127, Title="Le Sanctuaire des Origines Primordiales", Tag="Grand Tour",
+                Summary="Au-delà du Multivers Réconcilié, Kai perçoit un signal d'une puissance jamais ressentie : une dimension née avant l'existence elle-même pulse au cœur du vide absolu.\n"+
+                        "Des gardiens façonnés de chakra originel surgissent pour défendre le Sanctuaire des Origines Primordiales, refusant toute présence mortelle en ces lieux sacrés.\n"+
+                        "L'équipage du Grand Tour s'y engage en sachant que seule la maîtrise absolue de toutes leurs puissances combinées leur permettra d'en percer les secrets.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Origines Primordiales", Icon="🌟",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=85, GoldReward=62000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=25,Max=33}, new(){Material="PierreCeleste",Min=17,Max=23}, new(){Material="CristalNoir",Min=16,Max=22}, new(){Material="GemmeLunaire",Min=14,Max=19}}}},
+            new(){
+                Act=5, ChapterNum=128, Title="L'Éclipse du Multivers Éternel", Tag="Grand Tour",
+                Summary="Une éclipse cosmique d'une ampleur inédite plonge l'ensemble du multivers dans une obscurité primordiale, libérant des entités nées de la confluence de toutes les nuits dimensionnelles.\n"+
+                        "Kai, portant en lui l'écho de chaque monde traversé, affronte cette armée de l'obscurité dans un combat où chaque coup repousse les frontières du possible.\n"+
+                        "À l'instant où l'éclipse se dissipe, l'équipage comprend que leur légende ne s'achève jamais — elle s'étend, chapitre après chapitre, jusqu'aux confins de l'éternité.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Éclipse Éternelle", Icon="🌑",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=88, GoldReward=65000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=26,Max=34}, new(){Material="PierreCeleste",Min=18,Max=24}, new(){Material="CristalNoir",Min=17,Max=23}, new(){Material="EclatFoudre",Min=15,Max=20}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
