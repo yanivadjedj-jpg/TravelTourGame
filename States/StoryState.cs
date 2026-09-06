@@ -1082,6 +1082,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Éclipse Éternelle", Icon="🌑",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=88, GoldReward=65000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=26,Max=34}, new(){Material="PierreCeleste",Min=18,Max=24}, new(){Material="CristalNoir",Min=17,Max=23}, new(){Material="EclatFoudre",Min=15,Max=20}}}},
+            new(){
+                Act=5, ChapterNum=129, Title="Le Sanctuaire des Étoiles Éternelles", Tag="Grand Tour",
+                Summary="Au-delà de l'éclipse du multivers, Kai perçoit une lueur persistante à l'horizon de toutes les dimensions : le Sanctuaire des Étoiles Éternelles, berceau des premières lumières du cosmos.\n"+
+                        "Des gardiens stellaires, forgés depuis la naissance du multivers, refusent de laisser quiconque approcher ce lieu sacré sans prouver sa valeur éternelle.\n"+
+                        "L'équipage traverse les constellations vivantes pour sceller un nouveau chapitre dans la légende du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Étoiles Éternelles", Icon="⭐",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=90, GoldReward=68000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=27,Max=35}, new(){Material="PierreCeleste",Min=19,Max=25}, new(){Material="EclatFoudre",Min=16,Max=21}}}},
+            new(){
+                Act=5, ChapterNum=130, Title="L'Aube du Voyage Infini", Tag="Grand Tour",
+                Summary="Kai et son équipage franchissent la dernière frontière connue du cosmos : une dimension de lumière pure où chaque pas forge une promesse pour l'avenir.\n"+
+                        "Un titan cosmique né de la convergence de toutes les victoires du Grand Tour se dresse pour un ultime défi transcendant toute limite connue.\n"+
+                        "Dans un affrontement où le passé et l'avenir se rejoignent, l'équipage scelle l'éternité de leur voyage et ouvre l'horizon d'un nouveau Grand Tour.",
+                Dungeon=new DungeonData{ Name="Nexus du Voyage Infini", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=92, GoldReward=70000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=28,Max=36}, new(){Material="PierreCeleste",Min=20,Max=26}, new(){Material="CristalNoir",Min=18,Max=24}, new(){Material="EclatFoudre",Min=16,Max=22}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
