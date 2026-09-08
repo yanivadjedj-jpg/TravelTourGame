@@ -1098,6 +1098,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus du Voyage Infini", Icon="♾️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=92, GoldReward=70000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=28,Max=36}, new(){Material="PierreCeleste",Min=20,Max=26}, new(){Material="CristalNoir",Min=18,Max=24}, new(){Material="EclatFoudre",Min=16,Max=22}}}},
+            new(){
+                Act=5, ChapterNum=131, Title="Le Cristal de l'Aurore Primordiale", Tag="Grand Tour",
+                Summary="Au-delà du Voyage Infini, Kai perçoit un éclat de lumière ancestrale — le Cristal de l'Aurore Primordiale, source originelle de toute énergie dimensionnelle.\n"+
+                        "Des gardiens forgés dans cette lumière pure défendent jalousement l'accès au cristal, redoutant que sa puissance ne tombe entre de mauvaises mains.\n"+
+                        "L'équipage du Grand Tour doit prouver sa valeur dans les flammes de l'aurore pour mériter d'approcher l'origine même du multivers.",
+                Dungeon=new DungeonData{ Name="Sanctuaire de l'Aurore Primordiale", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=40, GoldReward=18000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=6,Max=9}, new(){Material="PierreCeleste",Min=4,Max=7}, new(){Material="EclatFoudre",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=132, Title="La Porte des Dimensions Sans Nom", Tag="Grand Tour",
+                Summary="Kai, désormais porteur de la lumière primordiale, découvre une porte cosmique que nul n'a jamais franchie — l'entrée vers des dimensions sans nom, nées avant même le Grand Tour.\n"+
+                        "Un titan sans forme, tissé du silence entre les univers, émerge pour interdire le passage et tester si le Monarque Dimensionnel est digne d'explorer ce qui existe au-delà de l'existence.\n"+
+                        "Dans un combat qui dépasse toute mesure connue, l'équipage uni ouvre la porte et entrevoit pour la première fois l'infini véritable.",
+                Dungeon=new DungeonData{ Name="Porte des Dimensions Sans Nom", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=22000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=6}, new(){Material="EclatFoudre",Min=3,Max=5}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
