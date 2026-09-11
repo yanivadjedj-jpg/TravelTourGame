@@ -730,6 +730,7 @@ namespace TravelTour.Core
             new(){ Name="Yasha Kurōten",      Rarity=Rarity.Legendary, MaxHP=201, BaseAtk=41, BaseDef=16, BaseSpeed=13, MaxChakra=332, IsOwned=false, BuyPrice=21000, Icon="🌑" },
             new(){ Name="Tetsuya Ryūzaki",    Rarity=Rarity.Legendary, MaxHP=204, BaseAtk=42, BaseDef=16, BaseSpeed=13, MaxChakra=338, IsOwned=false, BuyPrice=21000, Icon="🗡️" },
             new(){ Name="Kōga Rinzetsu",      Rarity=Rarity.Legendary, MaxHP=207, BaseAtk=43, BaseDef=16, BaseSpeed=14, MaxChakra=342, IsOwned=false, BuyPrice=19000, Icon="🪸" },
+            new(){ Name="Kaguya Shinku",      Rarity=Rarity.Epic,      MaxHP=174, BaseAtk=33, BaseDef=13, BaseSpeed=12, MaxChakra=286, IsOwned=false, BuyPrice=13500, Icon="🌷" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -849,6 +850,8 @@ namespace TravelTour.Core
             new(){ Name="Gantelets de l'Abîme Primordial",  Type=WeaponType.Gauntlet, BaseDamage=100, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=16000, Icon="💪",  Costs=new(){ new(){Material="PierreCeleste", Quantity=5}, new(){Material="AmeDechue",     Quantity=3} } },
             new(){ Name="Faucille du Crépuscule Lunaire",   Type=WeaponType.Scythe,   BaseDamage=71,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=6900,  Icon="🌙",  Costs=new(){ new(){Material="GemmeLunaire",  Quantity=3}, new(){Material="EssenceOmbres", Quantity=2} } },
             new(){ Name="Bouclier de l'Éon Absolu",         Type=WeaponType.Shield,   BaseDamage=158, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🛡️",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="PierreCeleste", Quantity=4} } },
+            new(){ Name="Lame des Pierres Célestes",        Type=WeaponType.Sword,    BaseDamage=70,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7100,  Icon="⭐",   Costs=new(){ new(){Material="PierreCeleste", Quantity=2}, new(){Material="EclatFoudre",   Quantity=2} } },
+            new(){ Name="Gantelets du Titan Ardent",        Type=WeaponType.Gauntlet, BaseDamage=100, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=16000, Icon="🔥",   Costs=new(){ new(){Material="LarmePhoenix",  Quantity=5}, new(){Material="AmeDechue",     Quantity=2} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -930,6 +933,7 @@ namespace TravelTour.Core
             new(){ Name="Ryūjin Striker",                          Icon="🌊", Speed=26, Acceleration=19, TrickBonus=1.88f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=23000 },
             new(){ Name="Nexus Rider",                              Icon="🌐", Speed=25, Acceleration=18, TrickBonus=1.87f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000 },
             new(){ Name="Raijin Fantôme",                            Icon="⚡", Speed=24, Acceleration=18, TrickBonus=1.76f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
+            new(){ Name="Zanki Rider",                               Icon="🌩️", Speed=25, Acceleration=18, TrickBonus=1.82f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -1071,6 +1075,8 @@ namespace TravelTour.Core
             new(){ Name="Citadelle du Vide Absolu",           Icon="🌌", Difficulty=DifficultyLevel.Legendary, RequiredRank=6, EnemyCount=20, GoldReward=1500, Rewards=new(){ new(){Material="AmeDechue",     Min=3, Max=5}, new(){Material="CristalNoir",   Min=2, Max=4} } },
             new(){ Name="Caverne des Larmes du Phénix",       Icon="🔥", Difficulty=DifficultyLevel.Medium,    RequiredRank=2, EnemyCount=10, GoldReward=260,  Rewards=new(){ new(){Material="LarmePhoenix",  Min=2, Max=4}, new(){Material="CristalFeu",    Min=1, Max=3} } },
             new(){ Name="Nexus du Titan Cosmique Noir",       Icon="🌑", Difficulty=DifficultyLevel.Boss,      RequiredRank=5, EnemyCount=9,  GoldReward=780,  Rewards=new(){ new(){Material="EssenceOmbres", Min=3, Max=5}, new(){Material="GemmeLunaire",  Min=2, Max=4} } },
+            new(){ Name="Carrière des Gemmes Maudites",       Icon="💎", Difficulty=DifficultyLevel.Easy,      RequiredRank=0, EnemyCount=6,  GoldReward=140,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
+            new(){ Name="Palais du Dragon Noir",              Icon="🐲", Difficulty=DifficultyLevel.Hard,      RequiredRank=3, EnemyCount=12, GoldReward=340,  Rewards=new(){ new(){Material="LarmePhoenix",  Min=2, Max=4}, new(){Material="EssenceOmbres", Min=1, Max=3} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────

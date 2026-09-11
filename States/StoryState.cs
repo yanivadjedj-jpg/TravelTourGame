@@ -1114,6 +1114,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Porte des Dimensions Sans Nom", Icon="🌌",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=22000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=6}, new(){Material="EclatFoudre",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=133, Title="Le Nexus des Origines Perdues", Tag="Grand Tour",
+                Summary="Après avoir franchi la Porte des Dimensions Sans Nom, Kai et son équipage découvrent le Nexus des Origines — un carrefour cosmique où convergent les premières énergies du multivers.\n"+
+                        "Des entités gardiennes nées avant la notion du temps lui-même surgissent pour tester celui qui ose contempler l'aube de l'existence.\n"+
+                        "Kai comprend que chaque monde qu'il a traversé n'était qu'un fragment de cette vérité primordiale, et il se bat pour en préserver la lumière éternelle.",
+                Dungeon=new DungeonData{ Name="Nexus des Origines Cosmiques", Icon="🌐",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=48, GoldReward=23000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=7}, new(){Material="GemmeLunaire",Min=3,Max=5}}}},
+            new(){
+                Act=5, ChapterNum=134, Title="L'Aube du Multivers Renaissant", Tag="Grand Tour",
+                Summary="Au cœur du Nexus des Origines, Kai perçoit enfin la pulsation qui a toujours guidé le Grand Tour : le multivers lui-même cherche à renaître sous une forme nouvelle, libéré des cicatrices des guerres dimensionnelles.\n"+
+                        "Une entité colossale — l'Ombre de la Première Aube — s'oppose à cette renaissance, refusant de laisser l'ancien monde mourir et le nouveau naître.\n"+
+                        "Dans un affrontement transcendant toute limite connue, Kai et ses alliés ouvrent l'ère du Multivers Renaissant, gravant pour l'éternité le nom du Grand Tour au cœur de chaque univers.",
+                Dungeon=new DungeonData{ Name="Citadelle de la Première Aube", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=50, GoldReward=25000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
