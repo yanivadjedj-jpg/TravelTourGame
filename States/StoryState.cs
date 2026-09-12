@@ -1130,6 +1130,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Citadelle de la Première Aube", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=50, GoldReward=25000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EclatFoudre",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=135, Title="Le Réveil de l'Étoile Noire", Tag="Grand Tour",
+                Summary="Aux confins du Multivers Renaissant, une étoile noire oubliée depuis l'aube des dimensions pulse d'une énergie primordiale que Kai n'a encore jamais ressentie.\n"+
+                        "Izanagi Kurai, guerrier légendaire forgé dans l'obscurité de cette étoile mourante, surgit pour défier le Monarque Dimensionnel en un duel où chaque frappe redessine le tissu du cosmos.\n"+
+                        "L'équipage pénètre dans le Sanctuaire de l'Étoile Noire sachant que la victoire seule pourra sceller la fissure dimensionnelle avant que l'obscurité n'engloutisse les mondes naissants.",
+                Dungeon=new DungeonData{ Name="Sanctuaire de l'Étoile Noire", Icon="🌘",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=52, GoldReward=26000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=14}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EssenceOmbres",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=136, Title="L'Horizon Primordial", Tag="Grand Tour",
+                Summary="Kai, portant en lui l'écho de chaque bataille et de chaque alliance du Grand Tour, contemple un horizon né de la fusion de tous les mondes traversés — l'Horizon Primordial, seuil de ce qui existe au-delà de l'existence.\n"+
+                        "Une entité titan, gardienne de cet horizon depuis la nuit des éons, s'éveille pour offrir au Monarque Dimensionnel son défi le plus transcendant : non pas détruire, mais comprendre.\n"+
+                        "Dans un affrontement où chakra, néant et lumière se mêlent en un seul souffle, l'équipage du Grand Tour grave l'ultime chapitre de leur légende et ouvre l'horizon vers des dimensions que nul voyageur n'a encore nommées.",
+                Dungeon=new DungeonData{ Name="Nexus de l'Horizon Primordial", Icon="🌅",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=28000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
