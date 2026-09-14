@@ -732,6 +732,7 @@ namespace TravelTour.Core
             new(){ Name="Kōga Rinzetsu",      Rarity=Rarity.Legendary, MaxHP=207, BaseAtk=43, BaseDef=16, BaseSpeed=14, MaxChakra=342, IsOwned=false, BuyPrice=19000, Icon="🪸" },
             new(){ Name="Kaguya Shinku",      Rarity=Rarity.Epic,      MaxHP=174, BaseAtk=33, BaseDef=13, BaseSpeed=12, MaxChakra=286, IsOwned=false, BuyPrice=13500, Icon="🌷" },
             new(){ Name="Izanagi Kurai",      Rarity=Rarity.Legendary, MaxHP=212, BaseAtk=43, BaseDef=17, BaseSpeed=14, MaxChakra=345, IsOwned=false, BuyPrice=23000, Icon="🌘" },
+            new(){ Name="Kuronagi Tensho",    Rarity=Rarity.Legendary, MaxHP=215, BaseAtk=44, BaseDef=17, BaseSpeed=14, MaxChakra=350, IsOwned=false, BuyPrice=22000, Icon="🖤" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -855,6 +856,8 @@ namespace TravelTour.Core
             new(){ Name="Gantelets du Titan Ardent",        Type=WeaponType.Gauntlet, BaseDamage=100, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=16000, Icon="🔥",   Costs=new(){ new(){Material="LarmePhoenix",  Quantity=5}, new(){Material="AmeDechue",     Quantity=2} } },
             new(){ Name="Lame du Croissant Lunaire",        Type=WeaponType.Sword,    BaseDamage=73,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7500,  Icon="🌙",   Costs=new(){ new(){Material="GemmeLunaire",   Quantity=3}, new(){Material="EclatFoudre",   Quantity=2} } },
             new(){ Name="Faux de l'Étoile Noire",           Type=WeaponType.Scythe,   BaseDamage=165, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🌑",   Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="CristalNoir",   Quantity=5} } },
+            new(){ Name="Arc des Ombres Stellaires",         Type=WeaponType.Bow,      BaseDamage=71,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7100,  Icon="🌌",  Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="GemmeLunaire",  Quantity=2} } },
+            new(){ Name="Faux de l'Horizon Primordial",      Type=WeaponType.Scythe,   BaseDamage=168, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🌅",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="CristalNoir",   Quantity=5} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -938,6 +941,7 @@ namespace TravelTour.Core
             new(){ Name="Raijin Fantôme",                            Icon="⚡", Speed=24, Acceleration=18, TrickBonus=1.76f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
             new(){ Name="Zanki Rider",                               Icon="🌩️", Speed=25, Acceleration=18, TrickBonus=1.82f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
             new(){ Name="Shiryū Stellar",                            Icon="🌠", Speed=25, Acceleration=18, TrickBonus=1.82f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=22000 },
+            new(){ Name="Tenrai Fulgur",                              Icon="🌩️", Speed=26, Acceleration=19, TrickBonus=1.92f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -1083,6 +1087,8 @@ namespace TravelTour.Core
             new(){ Name="Palais du Dragon Noir",              Icon="🐲", Difficulty=DifficultyLevel.Hard,      RequiredRank=3, EnemyCount=12, GoldReward=340,  Rewards=new(){ new(){Material="LarmePhoenix",  Min=2, Max=4}, new(){Material="EssenceOmbres", Min=1, Max=3} } },
             new(){ Name="Crypte des Esprits Oubliés",         Icon="👁️", Difficulty=DifficultyLevel.Medium,    RequiredRank=1, EnemyCount=9,  GoldReward=230,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=3}, new(){Material="GemmeLunaire",  Min=1, Max=2} } },
             new(){ Name="Abîme des Titans Cosmiques",          Icon="🌌", Difficulty=DifficultyLevel.Legendary, RequiredRank=5, EnemyCount=20, GoldReward=1600, Rewards=new(){ new(){Material="AmeDechue",     Min=4, Max=6}, new(){Material="CristalNoir",   Min=3, Max=5} } },
+            new(){ Name="Gouffre des Vents Perdus",             Icon="🌀", Difficulty=DifficultyLevel.Hard,      RequiredRank=3, EnemyCount=13, GoldReward=370,  Rewards=new(){ new(){Material="EclatFoudre",   Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
+            new(){ Name="Nexus du Dragon Noir",                 Icon="🐲", Difficulty=DifficultyLevel.Legendary, RequiredRank=6, EnemyCount=23, GoldReward=1850, Rewards=new(){ new(){Material="AmeDechue",     Min=4, Max=6}, new(){Material="CristalNoir",   Min=3, Max=5}, new(){Material="PierreCeleste", Min=2, Max=4} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────

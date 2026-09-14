@@ -1146,6 +1146,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus de l'Horizon Primordial", Icon="🌅",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=28000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=137, Title="Le Sanctuaire des Âmes Perdues", Tag="Grand Tour",
+                Summary="Au-delà de l'Horizon Primordial, Kai perçoit une résonance venue des âmes de tous les guerriers tombés lors du Grand Tour — des esprits qui refusent le repos tant que la menace du Néant subsiste.\n"+
+                        "Le Sanctuaire des Âmes Perdues s'érige comme un dernier bastion entre les dimensions vivantes et le vide absolu, gardé par des entités forgées de mémoires et de regrets.\n"+
+                        "Kai doit les libérer de leur souffrance éternelle et sceller le Sanctuaire pour que la paix règne enfin entre tous les mondes traversés.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Âmes Perdues", Icon="💫",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=57, GoldReward=29000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="GemmeLunaire",Min=7,Max=10}, new(){Material="CristalNoir",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=138, Title="L'Aube Éternelle du Monarque", Tag="Grand Tour",
+                Summary="Kai, Monarque Dimensionnel confirmé par chaque épreuve du Grand Tour, contemple la convergence finale de tous les mondes — une aube née de l'union de la lumière, du chakra et du néant transcendé.\n"+
+                        "Une ultime entité cosmique surgit, incarnant la résistance de toutes les dimensions qui n'ont pas encore accepté la paix du Multivers renaissant.\n"+
+                        "Dans un affrontement où chaque frappe est un serment pour l'éternité, l'équipage du Grand Tour trace la lumière qui guidera les voyageurs de demain.",
+                Dungeon=new DungeonData{ Name="Trône de l'Aube Éternelle", Icon="🌟",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=60, GoldReward=32000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=11,Max=16}, new(){Material="PierreCeleste",Min=8,Max=12}, new(){Material="CristalNoir",Min=7,Max=10}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
