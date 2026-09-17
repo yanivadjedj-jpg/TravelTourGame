@@ -1162,6 +1162,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Trône de l'Aube Éternelle", Icon="🌟",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=60, GoldReward=32000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=11,Max=16}, new(){Material="PierreCeleste",Min=8,Max=12}, new(){Material="CristalNoir",Min=7,Max=10}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=139, Title="Le Dernier Seuil du Voyage", Tag="Grand Tour",
+                Summary="Au-delà de l'Aube Éternelle, Kai perçoit une nouvelle fracture dimensionnelle — une faille entre l'origine de tous les mondes et le vide qui cherche encore à tout dévorer.\n"+
+                        "Le Dernier Seuil du Voyage s'ouvre devant l'équipage du Grand Tour comme un portail gravé de symboles issus de chaque dimension traversée, gardé par les ombres des anciens Monarques vaincus.\n"+
+                        "Kai doit franchir ce seuil ultime pour sceller définitivement la frontière entre l'existence et le néant, et prouver qu'aucune force dans le multivers ne peut briser la volonté des voyageurs.",
+                Dungeon=new DungeonData{ Name="Nexus du Dernier Seuil", Icon="🔮",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=58, GoldReward=31000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=15}, new(){Material="PierreCeleste",Min=8,Max=12}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="GemmeLunaire",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=140, Title="L'Éternité Retrouvée", Tag="Grand Tour",
+                Summary="Le Grand Tour touche enfin à sa conclusion : Kai et ses compagnons, debout au cœur du Nexus Primordial, voient les fragments de toutes les dimensions se recomposer en un cosmos apaisé et unifié.\n"+
+                        "Une entité née de l'union de toutes les forces du multivers se manifeste pour mettre Kai à l'épreuve une dernière fois, lui demandant si sa résolution est assez forte pour porter éternellement le titre de Monarque Dimensionnel.\n"+
+                        "Dans un affrontement où chaque coup porte le poids de tous les voyages accomplis, Kai forge l'éternité de ses propres mains et inscrit à jamais le nom du Grand Tour dans la mémoire du multivers.",
+                Dungeon=new DungeonData{ Name="Trône de l'Éternité Forgée", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=62, GoldReward=33000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=18}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="CristalNoir",Min=8,Max=11}, new(){Material="EclatFoudre",Min=7,Max=10}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
