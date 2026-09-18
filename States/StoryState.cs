@@ -1178,6 +1178,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Trône de l'Éternité Forgée", Icon="♾️",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=62, GoldReward=33000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=18}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="CristalNoir",Min=8,Max=11}, new(){Material="EclatFoudre",Min=7,Max=10}}}},
+            new(){
+                Act=5, ChapterNum=141, Title="Le Murmure des Dimensions Silencieuses", Tag="Grand Tour",
+                Summary="Kai perçoit un murmure venu des dimensions les plus anciennes — des réalités qui existent dans le silence absolu, hors du temps et de l'espace connus.\n"+
+                        "Des entités formées de silence pur émergent pour barrer la route, cherchant à dissoudre dans leur paix éternelle tout ce qui touche à la vie.\n"+
+                        "L'équipage doit traverser le Sanctuaire des Murmures pour prouver que la volonté de vivre surpasse même le silence de l'éternité.",
+                Dungeon=new DungeonData{ Name="Sanctuaire des Murmures Éternels", Icon="🌬️",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=60, GoldReward=33000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=11,Max=16}, new(){Material="EclatFoudre",Min=7,Max=10}, new(){Material="GemmeLunaire",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=142, Title="L'Aube des Voyageurs Infinis", Tag="Grand Tour",
+                Summary="Kai, désormais gardien de l'équilibre entre tous les mondes, contemple l'horizon d'une nouvelle ère : celle des Voyageurs Infinis, héritiers du Grand Tour.\n"+
+                        "Une entité primordiale surgit pour sceller ce nouveau pacte dans un duel cosmique — non pas pour détruire, mais pour reconnaître en Kai le gardien légitime de l'infini.\n"+
+                        "Dans un affrontement qui transcende toute limite, l'équipage grave son héritage dans l'éternité et ouvre la voie aux voyageurs qui suivront.",
+                Dungeon=new DungeonData{ Name="Nexus des Voyageurs Infinis", Icon="🌠",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=65, GoldReward=35000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=18}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="EclatFoudre",Min=8,Max=11}, new(){Material="CristalNoir",Min=7,Max=10}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
