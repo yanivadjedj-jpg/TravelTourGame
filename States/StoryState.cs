@@ -1194,6 +1194,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Nexus des Voyageurs Infinis", Icon="🌠",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=65, GoldReward=35000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=12,Max=18}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="EclatFoudre",Min=8,Max=11}, new(){Material="CristalNoir",Min=7,Max=10}}}},
+            new(){
+                Act=5, ChapterNum=143, Title="L'Éveil de l'Horizon Chromatique", Tag="Grand Tour",
+                Summary="Kai et son équipage franchissent une fissure dimensionnelle vers un horizon baigné de lumières aux sept couleurs du multivers.\n"+
+                        "Les Tisserands du Prisme, gardiens ancestraux de ces spectres lumineux, défient l'équipage pour tester la pureté de leurs intentions.\n"+
+                        "Pour traverser le Nexus Chromatique, Kai doit harmoniser toutes les énergies du Grand Tour en une seule vibration parfaite.",
+                Dungeon=new DungeonData{ Name="Nexus Chromatique", Icon="🌈",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=40, GoldReward=18000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=7,Max=11}, new(){Material="PierreCeleste",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=4,Max=6}}}},
+            new(){
+                Act=5, ChapterNum=144, Title="Le Serment des Étoiles Renaissantes", Tag="Grand Tour",
+                Summary="Au cœur du Nexus Chromatique, Kai comprend que chaque étoile du multivers est une âme de guerrier tombé, attendant d'être libérée.\n"+
+                        "Une entité primordiale née de la fusion de toutes ces âmes réclame son droit à l'existence dans un ultime défi transcendant.\n"+
+                        "Kai forge un serment éternel avec ces étoiles renaissantes, ouvrant la voie à un nouveau cycle du Grand Tour sans fin.",
+                Dungeon=new DungeonData{ Name="Arène des Étoiles Renaissantes", Icon="✨",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=22000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=7}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)

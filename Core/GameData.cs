@@ -735,6 +735,7 @@ namespace TravelTour.Core
             new(){ Name="Kuronagi Tensho",    Rarity=Rarity.Legendary, MaxHP=215, BaseAtk=44, BaseDef=17, BaseSpeed=14, MaxChakra=350, IsOwned=false, BuyPrice=22000, Icon="🖤" },
             new(){ Name="Setsuna Raiken",     Rarity=Rarity.Legendary, MaxHP=203, BaseAtk=41, BaseDef=16, BaseSpeed=13, MaxChakra=335, IsOwned=false, BuyPrice=18000, Icon="🎭" },
             new(){ Name="Suisei Kurai",       Rarity=Rarity.Legendary, MaxHP=211, BaseAtk=42, BaseDef=16, BaseSpeed=15, MaxChakra=338, IsOwned=false, BuyPrice=20000, Icon="🦩" },
+            new(){ Name="Raikō Fujimaru",     Rarity=Rarity.Legendary, MaxHP=201, BaseAtk=41, BaseDef=16, BaseSpeed=14, MaxChakra=330, IsOwned=false, BuyPrice=12000, Icon="🐆" },
         };
 
         public static List<WeaponData> Weapons = new()
@@ -864,6 +865,8 @@ namespace TravelTour.Core
             new(){ Name="Faux du Néant Primordial",           Type=WeaponType.Scythe,   BaseDamage=155, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🕳️",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="CristalNoir",   Quantity=4} } },
             new(){ Name="Arc du Tonnerre Ancestral",          Type=WeaponType.Bow,      BaseDamage=71,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7100,  Icon="🌩️", Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="GemmeLunaire",  Quantity=2} } },
             new(){ Name="Sceptre du Cosmos Vivant",           Type=WeaponType.Staff,    BaseDamage=100, Rarity=Rarity.Epic,      IsOwned=false, BuyPrice=16000, Icon="🌐",  Costs=new(){ new(){Material="PierreCeleste", Quantity=5}, new(){Material="AmeDechue",     Quantity=3} } },
+            new(){ Name="Gantelets du Spectre d'Argent",    Type=WeaponType.Gauntlet, BaseDamage=70,  Rarity=Rarity.Rare,      IsOwned=false, BuyPrice=7000,  Icon="🌫️", Costs=new(){ new(){Material="EclatFoudre",   Quantity=3}, new(){Material="GemmeLunaire",  Quantity=2} } },
+            new(){ Name="Faux du Démon Ancestral",           Type=WeaponType.Scythe,   BaseDamage=162, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=25000, Icon="🔴",  Costs=new(){ new(){Material="AmeDechue",     Quantity=5}, new(){Material="CristalNoir",   Quantity=5} } },
         };
 
         public static List<AbilityData> Abilities = new()
@@ -950,6 +953,7 @@ namespace TravelTour.Core
             new(){ Name="Tenrai Fulgur",                              Icon="🌩️", Speed=26, Acceleration=19, TrickBonus=1.92f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=21000 },
             new(){ Name="Shinobi Racer",                               Icon="🥷",  Speed=24, Acceleration=17, TrickBonus=1.73f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=19000 },
             new(){ Name="Oni Raider",                                  Icon="👺",  Speed=24, Acceleration=17, TrickBonus=1.75f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
+            new(){ Name="Tempête Rubis",                              Icon="🔴",  Speed=23, Acceleration=17, TrickBonus=1.67f, Rarity=Rarity.Legendary, IsOwned=false, BuyPrice=20000 },
         };
 
         public static List<DungeonData> Dungeons = new()
@@ -1101,6 +1105,8 @@ namespace TravelTour.Core
             new(){ Name="Forteresse du Titan Brisé",            Icon="🏔️", Difficulty=DifficultyLevel.Hard,      RequiredRank=4, EnemyCount=13, GoldReward=430,  Rewards=new(){ new(){Material="EclatFoudre",   Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
             new(){ Name="Antre des Cristaux Célestes",          Icon="💎", Difficulty=DifficultyLevel.Easy,      RequiredRank=0, EnemyCount=7,  GoldReward=145,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
             new(){ Name="Forteresse des Flammes Perdues",       Icon="🔥", Difficulty=DifficultyLevel.Boss,      RequiredRank=5, EnemyCount=9,  GoldReward=760,  Rewards=new(){ new(){Material="LarmePhoenix",  Min=2, Max=4}, new(){Material="AmeDechue",     Min=1, Max=3} } },
+            new(){ Name="Grotte des Ventres de Cristal",        Icon="🔷", Difficulty=DifficultyLevel.Easy,      RequiredRank=0, EnemyCount=7,  GoldReward=140,  Rewards=new(){ new(){Material="CristalFeu",    Min=2, Max=4}, new(){Material="EclatFoudre",   Min=1, Max=2} } },
+            new(){ Name="Sanctuaire des Âmes Spectrales",       Icon="💀", Difficulty=DifficultyLevel.Boss,      RequiredRank=4, EnemyCount=9,  GoldReward=750,  Rewards=new(){ new(){Material="AmeDechue",     Min=2, Max=4}, new(){Material="GemmeLunaire",  Min=1, Max=3} } },
         };
 
         // ── CLASSES DU JOUEUR ──────────────────────────────────────
