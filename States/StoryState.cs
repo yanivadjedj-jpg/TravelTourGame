@@ -1210,6 +1210,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Arène des Étoiles Renaissantes", Icon="✨",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=45, GoldReward=22000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="PierreCeleste",Min=6,Max=9}, new(){Material="EclatFoudre",Min=5,Max=8}, new(){Material="CristalNoir",Min=4,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=145, Title="L'Éveil du Nexus Arcanique", Tag="Grand Tour",
+                Summary="Au cœur des dimensions fusionnées, Kai perçoit un signal provenant d'un nexus oublié depuis l'aube du multivers — le Nexus Arcanique, source secrète de tout chakra dimensionnel.\n"+
+                        "Des gardiens d'énergie pure, forgés par la volonté du Nexus lui-même, surgissent pour repousser tout être qui oserait en approcher le cœur.\n"+
+                        "Kai doit maîtriser une résonance arcanique inédite pour ouvrir la voie et empêcher que cette source ne soit corrompue à jamais.",
+                Dungeon=new DungeonData{ Name="Cœur du Nexus Arcanique", Icon="💠",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=42, GoldReward=21000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=8,Max=12}, new(){Material="EclatFoudre",Min=5,Max=8}, new(){Material="GemmeLunaire",Min=5,Max=7}}}},
+            new(){
+                Act=5, ChapterNum=146, Title="Le Dernier Horizon du Grand Tour", Tag="Grand Tour",
+                Summary="Kai, Monarque Dimensionnel au faîte de sa puissance, contemple l'horizon ultime du Grand Tour — une frontière au-delà de laquelle aucune carte, aucun système, aucune légende ne s'aventure.\n"+
+                        "Une entité colossale née du silence entre les dimensions se dresse comme ultime gardien de ce territoire vierge, refusant que l'humanité franchisse ce seuil sans en payer le prix.\n"+
+                        "L'équipage s'unit une dernière fois : chaque puissance acquise, chaque lien forgé, chaque monde sauvé converge dans ce combat pour ouvrir la prochaine page du Grand Tour.",
+                Dungeon=new DungeonData{ Name="Frontière du Grand Tour Infini", Icon="🌌",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=50, GoldReward=25000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
