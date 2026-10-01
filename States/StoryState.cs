@@ -1226,6 +1226,22 @@ namespace TravelTour.States
                 Dungeon=new DungeonData{ Name="Frontière du Grand Tour Infini", Icon="🌌",
                     Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=50, GoldReward=25000,
                     Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=10,Max=14}, new(){Material="PierreCeleste",Min=7,Max=10}, new(){Material="CristalNoir",Min=5,Max=8}, new(){Material="EclatFoudre",Min=5,Max=8}}}},
+            new(){
+                Act=5, ChapterNum=147, Title="Le Cristal du Commencement", Tag="Grand Tour",
+                Summary="Au-delà de la Frontière Infinie, Kai perçoit une résonance venue de l'origine même du multivers.\n"+
+                        "Le Cristal du Commencement — éclat de la première lumière jamais créée — est menacé par des entités nées du vide absolu cherchant à éteindre toute existence.\n"+
+                        "L'équipage s'élance dans la Chambre Primordiale pour défendre cette lueur fondatrice avant qu'elle ne s'éteigne à jamais.",
+                Dungeon=new DungeonData{ Name="Chambre Primordiale du Cristal", Icon="💎",
+                    Difficulty=DifficultyLevel.Legendary, RequiredRank=0, EnemyCount=52, GoldReward=26000,
+                    Rewards=new List<MaterialReward>{ new(){Material="PierreCeleste",Min=10,Max=14}, new(){Material="AmeDechue",Min=9,Max=13}, new(){Material="GemmeLunaire",Min=6,Max=9}}}},
+            new(){
+                Act=5, ChapterNum=148, Title="L'Éternité Réécrite", Tag="Grand Tour",
+                Summary="Fort de la lueur du Cristal du Commencement, Kai comprend que son voyage n'est pas une fin — c'est le prologue d'une ère nouvelle pour tous les mondes.\n"+
+                        "Une dernière entité, gardienne du destin lui-même, s'oppose à ce changement et convoque les ombres de chaque combat passé.\n"+
+                        "Dans la Salle de l'Éternité Réécrite, le Monarque Dimensionnel trace de ses propres mains le premier chapitre d'un univers sans limites.",
+                Dungeon=new DungeonData{ Name="Salle de l'Éternité Réécrite", Icon="♾️",
+                    Difficulty=DifficultyLevel.Legendary, BossGauntlet=true, RequiredRank=0, EnemyCount=55, GoldReward=28000,
+                    Rewards=new List<MaterialReward>{ new(){Material="AmeDechue",Min=11,Max=15}, new(){Material="PierreCeleste",Min=9,Max=13}, new(){Material="CristalNoir",Min=6,Max=9}, new(){Material="EclatFoudre",Min=6,Max=9}}}},
         };
 
         // Chapters grouped by act (act index 0-4 → chapters 0-9, 10-19, 20-29, 30-39, 40-49)
